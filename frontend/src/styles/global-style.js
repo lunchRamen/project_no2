@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
-    font-family: "NotoSansSerif";
+    font-family: "NotoSerif";
     font-weight: normal;
     font-style: normal;
     src: url("/fonts/NotoSerifKR-Regular.otf") format("opentype");
@@ -26,7 +26,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     background-color: ${theme("colors.mainBlack")};
     color: ${theme("colors.mainWhite")};
-    font-family: RobotoSlab;
+    font-family: NotoSerif;
   }
 
   a {
