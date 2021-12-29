@@ -12,8 +12,6 @@ export default function Landing() {
       <ButtonWrapper>
         <LandingButton>로그인</LandingButton>
         <LandingButton>회원가입</LandingButton>
-        {/* <Button isMini={true}>로그인</Button>
-        <Button isMini={true}>회원가입</Button> */}
       </ButtonWrapper>
     </Wrap>
   );
