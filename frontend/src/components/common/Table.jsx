@@ -45,11 +45,9 @@ const StWrapper = styled.table`
   }
 
   & > tbody {
-    border: 0.1rem solid ${theme("colors.mainWhite")};
     border-radius: 1.5rem;
 
     &:hover {
-      border-color: ${theme("colors.mainPoint")};
       ${theme("neons.boxNeonGold")};
     }
   }
