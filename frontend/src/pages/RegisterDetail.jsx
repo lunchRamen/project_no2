@@ -1,3 +1,9 @@
+import { PosterList } from "../components";
+
 export default function RegisterDetail() {
-  return <div>RegisterDetail</div>;
+  return (
+    <div>
+      <PosterList />
+    </div>
+  );
 }
