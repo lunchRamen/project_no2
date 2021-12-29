@@ -1,1 +1,1 @@
-// export { default as Header } from "./common/Header";
+export { ReactComponent as LogoMini } from "./logoMini.svg";
