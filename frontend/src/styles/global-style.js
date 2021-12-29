@@ -10,23 +10,23 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
-    font-family: "RobotoSlab";
-    font-weight: normal;
-    font-style: normal;
-    src: url("/fonts/NotoSansKR-Regular.otf") format("opentype");
-  }
-
-  @font-face {
     font-family: "NotoSansSerif";
     font-weight: normal;
     font-style: normal;
-    src: url("/fonts/NotoSansKR-Light.otf") format("opentype");
+    src: url("/fonts/NotoSerifKR-Regular.otf") format("opentype");
+  }
+
+  @font-face {
+    font-family: "RobotoSlab";
+    font-weight: normal;
+    font-style: normal;
+    src: url("/fonts/RobotoSlab-Regular.ttf") format("truetype");
   }
 
   html {
     background-color: ${theme("colors.mainBlack")};
     color: ${theme("colors.mainWhite")};
-    font-family: NotoSansKR;
+    font-family: RobotoSlab;
   }
 
   a {
