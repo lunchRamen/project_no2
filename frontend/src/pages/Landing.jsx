@@ -1,43 +1,69 @@
-import React from "react";
 import styled from "styled-components";
-import { logo, footer } from "../assets/images";
 import { theme } from "styled-tools";
-import { Button } from "../components";
+import { logo, footer } from "../assets/images";
 
 export default function Landing() {
   return (
-    <>
-      <Wrap>
-        <LandingPage>
-          <img src={logo} />
-          <p>코로나로 지친 당신을 위한 비대면 극장 식스맨입니다.</p>
-        </LandingPage>
-
-        <LandingButton>
-          <Button isMini={true}>로그인</Button>
-          <Button isMini={true}>회원가입</Button>
-        </LandingButton>
-      </Wrap>
-      <img src={footer} />
-    </>
+    <Wrap>
+      <LandingPage>
+        <img src={logo} />
+        <p>코로나로 지친 당신을 위한 비대면 극장 식스맨입니다.</p>
+      </LandingPage>
+      <ButtonWrapper>
+        <LandingButton>로그인</LandingButton>
+        <LandingButton>회원가입</LandingButton>
+        {/* <Button isMini={true}>로그인</Button>
+        <Button isMini={true}>회원가입</Button> */}
+      </ButtonWrapper>
+    </Wrap>
   );
 }
-const Wrap = styled.div`
-  text-align: center;
-  margin-top: 25px;
-  margin-right: 15%;
-  margin-bottom: 20px;
-  margin-left: 15%;
+const Wrap = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url(${footer});
+  background-repeat: no-repeat;
+  background-position: bottom;
+  width: 100vw;
+  height: 100vh;
+  ${theme("fonts.textH2")}
+  ${theme("neons.textNeonGold")};
+
+  & > img {
+    width: 38rem;
+    height: 19rem;
+  }
 `;
+
 const LandingPage = styled.div`
-  margin: 10rem, 10rem, 10rem, 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+  height: 33rem;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rem;
+  width: 87rem;
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};
 `;
 
-const LandingButton = styled.div`
-  margin: 10rem 50rem 10rem 50rem;
-  display: flex;
-  ${theme("fonts.textH2")}
-  ${theme("neons.textNeonGold")};
+const LandingButton = styled.span`
+  cursor: pointer;
+  border-bottom: 0.1rem solid ${theme("colors.mainBlack")};
+  padding: 2rem 3.5rem;
+  color: ${theme("colors.mainWhite")};
+  ${theme("neons.textNeonGold")}
+
+  &:hover {
+    color: ${theme("colors.mainPoint")};
+    border-color: ${theme("colors.mainPoint")};
+  }
 `;
