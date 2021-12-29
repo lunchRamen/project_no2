@@ -32,10 +32,10 @@ const Router = () => {
         <Route path="/Main" element={<Main />} />
         <Route path="/Contents" element={<Contents />} />
         <Route path="/TheaterList" element={<TheaterList />} />
-        <Route path="/Theater" element={<Theater />} />
+        <Route path="/Theater/:id" element={<Theater />} />
         <Route path="/CreateTheater" element={<CreateTheater />} />
         <Route path="/CreateDone" element={<CreateDone />} />
-        <Route path="/Comments" element={<Comments />} />
+        <Route path="/Comments/:id" element={<Comments />} />
         <Route path="/CreateArticle" element={<CreateArticle />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
