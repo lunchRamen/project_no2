@@ -47,6 +47,11 @@ export const GlobalStyle = createGlobalStyle`
     align-items: center;
     background-color: transparent;
   }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 2rem;
+  }
 `;
 
 export default GlobalStyle;
