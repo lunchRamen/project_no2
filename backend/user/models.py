@@ -9,11 +9,11 @@ class User(models.Model):
     nickname=models.CharField(max_length=50)
     user_id=models.CharField(max_length=50)
     pw=models.TextField(max_length=500)
-    #birthday=models.DateField()
-    gender=models.CharField(max_length=2,default='')
-    #watch_time=models.TimeField()
-    job=models.CharField(max_length=50,default='')
-    region=models.CharField(max_length=50,default='')
+    birthday=models.DateField(nullable=True, blank=True)
+    gender=models.CharField(max_length=2,nullable=True, blank=True)
+    watch_time=models.TimeField(nullable=True, blank=True)
+    job=models.CharField(max_length=50,nullable=True, blank=True)
+    region=models.CharField(max_length=50,nullable=True, blank=True)
     #small_theater_group=models.CharField(max_length=50)
 
 
