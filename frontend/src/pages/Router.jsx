@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
-  Comments,
   Contents,
-  CreateArticle,
   CreateDone,
   CreateTheater,
   Landing,
@@ -35,8 +33,6 @@ const Router = () => {
         <Route path="/Theater/:id" element={<Theater />} />
         <Route path="/CreateTheater" element={<CreateTheater />} />
         <Route path="/CreateDone" element={<CreateDone />} />
-        <Route path="/Comments/:id" element={<Comments />} />
-        <Route path="/CreateArticle" element={<CreateArticle />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

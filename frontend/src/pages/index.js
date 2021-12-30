@@ -1,7 +1,7 @@
 export { default as NotFound } from "./NotFound";
-export { default as Comments } from "./Comments";
+
 export { default as Contents } from "./Contents";
-export { default as CreateArticle } from "./CreateArticle";
+
 export { default as CreateDone } from "./CreateDone";
 export { default as CreateTheater } from "./CreateTheater";
 export { default as Landing } from "./Landing";
