@@ -10,6 +10,7 @@ Django = "3.2.6"
 flake8 = "^4.0.1"
 isort = "^5.10.1"
 djangorestframework = "^3.13.1"
+mysqlclient = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 
