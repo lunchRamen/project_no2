@@ -1,160 +1,153 @@
-import { PosterList } from "../components";
+import { Button, PosterList } from "../components";
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+const TEMP_SELECTION_DATA = [
+  {
+    id: "job",
+    label: "님이 어떤 일을 하시는 분인지 궁금해요!",
+    option_list: [
+      { id: 0, value: "직업 1" },
+      { id: 1, value: "직업 2" },
+      { id: 2, value: "직업 3" },
+      { id: 3, value: "직업 3" },
+      { id: 4, value: "직업 4" },
+    ],
+  },
+  {
+    id: "location",
+    label: "어디에 거주하시나요?",
+    option_list: [
+      { id: 0, value: "주거 1" },
+      { id: 1, value: "주거 2" },
+      { id: 2, value: "주거 3" },
+      { id: 3, value: "주거 3" },
+      { id: 4, value: "주거 4" },
+    ],
+  },
+  {
+    id: "time",
+    label: "주로 어떤 시간대에 영상을 시청하시나요??",
+    option_list: [
+      { id: 0, value: "시간대 1" },
+      { id: 1, value: "시간대 2" },
+      { id: 2, value: "시간대 3" },
+      { id: 3, value: "시간대 3" },
+      { id: 4, value: "시간대 4" },
+    ],
+  },
+];
+
 export default function RegisterDetail() {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <Intro>
-        <p>님에게 꼭 맞는 비대면 극장을 추천해드릴게요!</p>
-        <p>기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.</p>
-      </Intro>
-      <Wrap>
-        <Age>
-          나이&nbsp;&nbsp;<Input type="text"></Input>&nbsp;&nbsp;&nbsp;&nbsp; 성별&nbsp;&nbsp;
-          <SelectG name="gender" form="Gender" placeholder="성별">
+    <StWrapper>
+      <StIntro>
+        님에게 꼭 맞는 비대면 극장을 추천해드릴게요!
+        <br />
+        기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
+      </StIntro>
+      <StInputsWrapper>
+        <StInputWrapper>
+          <StLabel>생년월일</StLabel>
+          <Input type="text" placeholder="ex) 0000-00-00" />
+        </StInputWrapper>
+        <StInputWrapper>
+          <StLabel>성별</StLabel>
+          <Select selectWidth="17.4rem" name="gender" form="Gender" placeholder="성별">
             <option value="1">남자</option>
             <option value="0">여자</option>
-          </SelectG>
-        </Age>
-        <IdWrap>
-          님이 어떤 일을 하시는 분인지 궁금해요!
-          <Select name="job" form="Job" style={{ width: "50rem" }}>
-            <option value="0">1</option>
-            <option value="1">2</option>
-            <option value="2">3</option>
-            <option value="3">4</option>
-            <option value="4">5</option>
-            <option value="5">6</option>
           </Select>
-          어디에 거주하시나요?
-          <Select name="living" form="Living" style={{ width: "50rem" }}>
-            <option value="0">1</option>
-            <option value="1">2</option>
-            <option value="2">3</option>
-            <option value="3">4</option>
-            <option value="4">5</option>
-            <option value="5">6</option>
-          </Select>
-          주로 어떤 시간대에 영상을 시청하시나요?
-          <Select name="time" form="Time" style={{ width: "50rem" }}>
-            <option value="0">1</option>
-            <option value="1">2</option>
-            <option value="2">3</option>
-            <option value="3">4</option>
-            <option value="4">5</option>
-            <option value="5">6</option>
-          </Select>
-        </IdWrap>
-        <p>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</p>
-
-        <Link to="/register/done">
-          <LandingButton isMini={true}>로그인</LandingButton>
-        </Link>
-      </Wrap>
-      <footer>
-        <PosterList />
-      </footer>
-    </>
+        </StInputWrapper>
+      </StInputsWrapper>
+      <IdWrap>
+        {TEMP_SELECTION_DATA.map((datum) => (
+          <StSelectWrapper key={datum.id}>
+            <label>{datum.label}</label>
+            <Select selectWidth="100%" name={datum.id} form={datum.id}>
+              {datum.option_list.map((option) => (
+                <option key={option.id} value={option.value}>
+                  {option.value}
+                </option>
+              ))}
+            </Select>
+          </StSelectWrapper>
+        ))}
+      </IdWrap>
+      <StIntro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</StIntro>
+      <PosterList />
+      <Button isMini={false} onClick={() => navigate("/register/done")}>
+        식스맨 입장을 위한 준비가 완료되었어요!
+      </Button>
+    </StWrapper>
   );
 }
-const Intro = styled.main`
+
+const StWrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 40vh;
-  ${theme("fonts.textH2")}
-  ${theme("neons.textNeonGold")};
+  gap: 10rem;
+  padding-top: 12rem;
+  padding-bottom: 50rem;
 `;
 
-const Wrap = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 30vh;
-  ${theme("fonts.textH2")} ${theme("neons.textNeonGold")};
+const StIntro = styled.span`
+  text-align: center;
+  ${theme("fonts.textH2")}
+  ${theme("neons.textNeonGold")}
 `;
+
+const StInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StInputsWrapper = styled(StInputWrapper)`
+  justify-content: space-between;
+  width: 63.4rem;
+`;
+
+const StLabel = styled.label`
+  margin-right: 1.8rem;
+  ${theme("fonts.textH2")}
+  ${theme("neons.textNeonGold")}
+`;
+
 const IdWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-bottom: 5rem;
+  width: 63.4rem;
   ${theme("fonts.textH3")}
   ${theme("neons.textNeonGold")};
 `;
 
-// const PassWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   margin-bottom: 5rem;
-//   ${theme("fonts.textH3")}
-//   ${theme("neons.textNeonGold")};
-// `;
-
-// const PassconWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   margin-bottom: 3rem;
-//   ${theme("fonts.textH3")}
-//   ${theme("neons.textNeonGold")};
-// `;
-
 const Input = styled.input`
-  width: 20rem;
-  border-radius: 2rem;
+  border: 0.1rem solid ${theme("colors.mainWhite")};
+  width: 22rem;
   color: white;
-  ${theme("fonts.textH2")} ${theme("neons.boxNeonGold")};
+  font-family: NotoSerif;
+  ${theme("fonts.textP")}
+  ${theme("neons.boxNeonGold")}
 `;
 
-const SelectG = styled.select`
-  width: 10rem;
-  height: 4rem;
-  background-color: black;
-  color: white;
-  font-size: 2rem;
-  text-align: center;
-  border-radius: 2rem;
-
-  ${theme("fonts.textH2")} ${theme("neons.boxNeonGold")};
-`;
 const Select = styled.select`
-  width: 10rem;
-  height: 4rem;
+  border: 0.1rem solid ${theme("colors.mainWhite")};
   background-color: black;
+  width: ${({ selectWidth }) => selectWidth};
+  height: 4rem;
   color: white;
-  font-size: 2rem;
-  text-align: center;
-  border-radius: 2rem;
-  margin-bottom: 5rem;
-  ${theme("fonts.textH2")} ${theme("neons.boxNeonGold")};
+  font-family: NotoSerif;
+  ${theme("fonts.textP")}
+  ${theme("neons.boxNeonGold")}
 `;
-const Age = styled.div`
+
+const StSelectWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 30vh;
-  margin-bottom: 5rem;
-  ${theme("fonts.textH2")} ${theme("neons.textNeonGold")};
-`;
-
-const LandingButton = styled.span`
-  cursor: pointer;
-  border-bottom: 0.1rem solid ${theme("colors.mainBlack")};
-  padding: 2rem 3.5rem;
-  color: ${theme("colors.mainWhite")};
-  ${theme("neons.textNeonGold")}
-  ${theme("fonts.textH3")}
-
-  &:hover {
-    color: ${theme("colors.mainPoint")};
-    border-color: ${theme("colors.mainPoint")};
-  }
+  flex-direction: column;
+  margin-top: 7.5rem;
 `;

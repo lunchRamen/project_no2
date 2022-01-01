@@ -1,20 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Link } from "react-router-dom";
+import { Button } from "../components";
+
 export default function RegisterDone() {
+  const navigate = useNavigate();
   return (
-    <>
-      <Wrap>
-        <p>식스맨 비대면 극장에 오신것을 환영합니다!</p>
-        <p>코로나19로 지친 님에게 좋은 위로가 될 수 있기를 바랍니다.</p>
+    <Wrap>
+      <StIntro>
+        식스맨 비대면 극장에 오신것을 환영합니다!
         <br />
-        <br />
-        <br />
-        <Link to="/login">
-          <Button isMini={true}>로그인</Button>
-        </Link>
-      </Wrap>
-    </>
+        코로나19로 지친 님에게 좋은 위로가 될 수 있기를 바랍니다.
+      </StIntro>
+      <Button isMini={false} onClick={() => navigate("/login")}>
+        로그인 하고 식스맨 비대면 극장 둘러보기
+      </Button>
+    </Wrap>
   );
 }
 
@@ -24,65 +25,12 @@ const Wrap = styled.main`
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 30vh;
-  ${theme("fonts.textH2")} ${theme("neons.textNeonGold")};
+  height: calc(100vh - 8rem);
 `;
-// const IdWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   margin-bottom: 5rem;
-//   ${theme("fonts.textH3")}
-//   ${theme("neons.textNeonGold")};
-// `;
 
-// const PassWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   margin-bottom: 5rem;
-//   ${theme("fonts.textH3")}
-//   ${theme("neons.textNeonGold")};
-// `;
-
-// const PassconWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   margin-bottom: 3rem;
-//   ${theme("fonts.textH3")}
-//   ${theme("neons.textNeonGold")};
-// `;
-
-// const Input = styled.input`
-//   width: 20rem;
-//   border-radius: 2rem;
-//   color: white;
-//   ${theme("fonts.textH2")} ${theme("neons.boxNeonGold")};
-// `;
-
-// const Select = styled.select`
-//   width: 10rem;
-//   height: 4rem;
-//   background-color: black;
-//   color: white;
-//   font-size: 2rem;
-//   text-align: center;
-//   border-radius: 2rem;
-//   margin-bottom: 5rem;
-//   ${theme("fonts.textH2")} ${theme("neons.boxNeonGold")};
-// `;
-
-const Button = styled.span`
-  cursor: pointer;
-  border-bottom: 0.1rem solid ${theme("colors.mainBlack")};
-  padding: 2rem 3.5rem;
-  color: ${theme("colors.mainWhite")};
+const StIntro = styled.p`
+  margin-bottom: 6rem;
+  text-align: center;
+  ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")}
-  ${theme("fonts.textH3")}
-
-  &:hover {
-    color: ${theme("colors.mainPoint")};
-    border-color: ${theme("colors.mainPoint")};
-  }
 `;
