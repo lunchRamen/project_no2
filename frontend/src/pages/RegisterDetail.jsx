@@ -1,4 +1,4 @@
-import { Button, PosterList } from "../components";
+import { Button, PosterList, SelectList } from "../components";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { useNavigate } from "react-router-dom";
@@ -49,33 +49,7 @@ export default function RegisterDetail() {
         <br />
         기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
       </StIntro>
-      <StInputsWrapper>
-        <StInputWrapper>
-          <StLabel>생년월일</StLabel>
-          <Input type="text" placeholder="ex) 0000-00-00" />
-        </StInputWrapper>
-        <StInputWrapper>
-          <StLabel>성별</StLabel>
-          <Select selectWidth="17.4rem" name="gender" form="Gender" placeholder="성별">
-            <option value="1">남자</option>
-            <option value="0">여자</option>
-          </Select>
-        </StInputWrapper>
-      </StInputsWrapper>
-      <IdWrap>
-        {TEMP_SELECTION_DATA.map((datum) => (
-          <StSelectWrapper key={datum.id}>
-            <label>{datum.label}</label>
-            <Select selectWidth="100%" name={datum.id} form={datum.id}>
-              {datum.option_list.map((option) => (
-                <option key={option.id} value={option.value}>
-                  {option.value}
-                </option>
-              ))}
-            </Select>
-          </StSelectWrapper>
-        ))}
-      </IdWrap>
+      <SelectList data={TEMP_SELECTION_DATA} />
       <StIntro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</StIntro>
       <PosterList />
       <Button isMini={false} onClick={() => navigate("/register/done")}>
@@ -100,42 +74,7 @@ const StIntro = styled.span`
   ${theme("neons.textNeonGold")}
 `;
 
-const StInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StInputsWrapper = styled(StInputWrapper)`
-  justify-content: space-between;
-  width: 63.4rem;
-`;
-
-const StLabel = styled.label`
-  margin-right: 1.8rem;
-  ${theme("fonts.textH2")}
-  ${theme("neons.textNeonGold")}
-`;
-
-const IdWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 5rem;
-  width: 63.4rem;
-  ${theme("fonts.textH3")}
-  ${theme("neons.textNeonGold")};
-`;
-
-const Input = styled.input`
-  border: 0.1rem solid ${theme("colors.mainWhite")};
-  width: 22rem;
-  color: white;
-  font-family: NotoSerif;
-  ${theme("fonts.textP")}
-  ${theme("neons.boxNeonGold")}
-`;
-
-const Select = styled.select`
+export const Select = styled.select`
   border: 0.1rem solid ${theme("colors.mainWhite")};
   background-color: black;
   width: ${({ selectWidth }) => selectWidth};
@@ -144,10 +83,4 @@ const Select = styled.select`
   font-family: NotoSerif;
   ${theme("fonts.textP")}
   ${theme("neons.boxNeonGold")}
-`;
-
-const StSelectWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 7.5rem;
 `;
