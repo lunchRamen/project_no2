@@ -28,7 +28,7 @@ SECRET_KEY = env.get("DJANGO_SECRET_KEY", default="secret key here")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 APPEND_SLASH=False
 #react의 경우 SPA라 /가 필요 없는데, 원래 True로 자동 설정이라
