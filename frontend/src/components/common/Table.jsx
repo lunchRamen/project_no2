@@ -27,6 +27,7 @@ export default function Table({ tHeadList, tBodyList }) {
 }
 
 const StWrapper = styled.table`
+  margin-top: 2rem;
   border: 0.1rem solid ${theme("colors.textNeonStructure")};
   width: 144rem;
   ${theme("fonts.textP")}
