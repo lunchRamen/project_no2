@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Select } from "../../pages/RegisterDetail";
+import { Select } from "./SelectList";
 
 export default function BasicSelect() {
   return (

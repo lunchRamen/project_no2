@@ -3,16 +3,19 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 import { useNavigate } from "react-router-dom";
 import Fade from "react-reveal/Fade";
+
 const TEMP_SELECTION_DATA = [
   {
     id: "job",
     label: "님이 어떤 일을 하시는 분인지 궁금해요!",
     option_list: [
-      { id: 0, value: "직업 1" },
-      { id: 1, value: "직업 2" },
-      { id: 2, value: "직업 3" },
-      { id: 3, value: "직업 3" },
-      { id: 4, value: "직업 4" },
+      { id: 0, value: "학생" },
+      { id: 1, value: "서비스/판매직" },
+      { id: 2, value: "주부" },
+      { id: 3, value: "사무직" },
+      { id: 4, value: "무직" },
+      { id: 5, value: "생산직" },
+      { id: 6, value: "기타" },
     ],
   },
   {
@@ -75,15 +78,4 @@ const StIntro = styled.span`
   text-align: center;
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")}
-`;
-
-export const Select = styled.select`
-  border: 0.1rem solid ${theme("colors.mainWhite")};
-  background-color: black;
-  width: ${({ selectWidth }) => selectWidth};
-  height: 4rem;
-  color: white;
-  font-family: NotoSerif;
-  ${theme("fonts.textP")}
-  ${theme("neons.boxNeonGold")}
 `;

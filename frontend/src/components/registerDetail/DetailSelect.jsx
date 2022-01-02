@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Select } from "../../pages/RegisterDetail";
+import { Select } from "./SelectList";
 
 export default function DetailSelect({ data }) {
   return (
@@ -32,4 +32,8 @@ const StSelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 7.5rem;
+
+  & > label {
+    margin-bottom: 2rem;
+  }
 `;
