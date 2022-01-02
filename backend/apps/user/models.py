@@ -24,6 +24,13 @@ unique는 nickname과 user_id 두개를 지정.
 그리고 UserManager를 오버라이딩해서 내가 원하는 속성들로 create_user,기타 함수들을 구현하고 싶은데
 내가 하는게 맞는건지 잘 모르겠다...
 
+질문1
+UserManager를 이렇게 오버라이딩 해도 괜찮은건지..
+User의 경우도 오버라이딩을 잘 한게 맞는건지...
+
+
+
+
 """
 class Prefer_ott_content_genre(models.Model):
     prefer_genre_1=models.CharField(max_length=50)
