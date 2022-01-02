@@ -28,7 +28,9 @@ const Header = () => {
     <StWrapper isLanding={!pathname} isCommon={isCommon}>
       <LogoMini onClick={() => navigate(mainPath)} />
       {isCommon ? <CommonNav navList={COMMONNAVS} /> : <StListWrapper>{NAVS[pathname]}</StListWrapper>}
-      <span id="logout">로그아웃</span>
+      <span id="logout" onClick={() => navigate("/")}>
+        로그아웃
+      </span>
     </StWrapper>
   );
 };
