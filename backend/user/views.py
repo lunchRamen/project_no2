@@ -22,8 +22,8 @@ def index(request):
 
 @api_view(['GET'])
 def get(request):
-    return Response(request)
+    return Response(request.data)
 
 @api_view(['POST'])
 def post(request):
-    return Response(request)
+    return Response(request.data)

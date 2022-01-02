@@ -33,8 +33,8 @@ schema_view = get_schema_view(
     ),
     # validators=['flex'],
     public=True,
-    permission_classes=(AllowAny,)
-    # patterns = schema_url_patterns, 오류 떠서 주석처리 해놓음 
+    permission_classes=(AllowAny,),
+    patterns = schema_url_patterns, # 오류 떠서 주석처리 해놓음 
 )
 
 app_name = 'user'
@@ -51,13 +51,11 @@ urlpatterns = [ # swagger를 보기 위한 엔드포인트를 정의합니다.
 
     #django앱
     path('admin/', admin.site.urls), 
-    path('user/', include('user.urls')),
-    path('user/get_url', include('user.urls')),
-    path('user/post_url', include('user.urls')),
+    path('user', include('user.urls')),
     # 첫번째 파라미터인 'route'에는 URL route에서 사용된 경로를 지정하고, 두번째 파라미터인 'view' 는 해당 URL에 매핑되는 View를 지정합니다.
     
     #swagger
-    path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path(r'swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path(r'redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc-v1'),
+    url(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    url(r'swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url(r'redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc-v1'),
 ]
