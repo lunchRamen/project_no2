@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import datetime
 
 env = os.environ
 
@@ -23,25 +24,53 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret! 
 SECRET_KEY = env.get("DJANGO_SECRET_KEY", default="secret key here") 
-# print(SECRET_KEY) 
+#print(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [] # ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있도록 설정
-# ( * 은 모든 호스트가 접근 가능합니다)
+ALLOWED_HOSTS = []
 
 APPEND_SLASH=False
-# react는 SPA라 /가 필요 없다. 원래 True로 자동설정이라
-# 이렇게 주소 접근하면 페이지를 찾을 수 없어서 False로 준다.
+#react의 경우 SPA라 /가 필요 없는데, 원래 True로 자동 설정이라
+#이렇게 주소 접근하면 페이지를 찾을 수 없기 때문에.
+
+CORS_ORIGIN_WHITELIST=['http://localhost:3000']
+#corsheaders로 django와 react(3000번포트) 연결.
+
 
 # Application definition
 
-# 1. 웹 브라우저의 http://localhost/ (127.0.0.1:8000)를 실행하면 내 앱(user)의 함수들을 호출할 수 있게 위해 settings.py와 urls.py에 앱을 추가해주어야 합니다.
+REST_FRAMEWORK={
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+        #첫번째는 인증된 회원만, 두번째는 모든 사람 접근 허용.
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    #api가 실행 됐을때 인증할 클래스를 정의.
+    #jwt로 인증을 할거니까 api가 실행되면 jwt로 인증을 실행.
+    ),
+}
+
+JWT_AUTH={
+    'JWT_SECRET_KEY':SECRET_KEY,#비밀키 설정
+    'JWT_ALGORITHM':'HS256',#암호화 알고리즘
+    'JWT_VERIFY_EXPIRATION':True,#토큰 검증
+    'JWT_ALLOW_REFRESH':True,#유효기간에 딸느 새로운 토큰 반환
+    'JWT_EXPIRATION_DELTA':datetime.timedelta(minutes=30),#access토큰 만료시간
+    'JWT_REFRESH_EXPIRATION_DELTA':datetime.timedelta(days=3),#refresh토큰 만료시간.
+    'JWT_RESPONSE_PAYLOAD_HANDLER':'api.custom_responses.my_jwt_response_handler'
+    #?
+}
+
+
 
 INSTALLED_APPS = [
     'user',
-    'rest_framework', # 추가
-    'drf_yasg', # 추가
+    'rest_framework',
+    'rest_framework_jwt',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +80,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -93,14 +124,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default' : {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'ott_service_database',  # DB이름                
-        'USER': 'seoyoon1', # DB로그인 유저명                          
-        'PASSWORD': 'seoyoon1234',  #DB로그인 비밀번호    
-        'HOST': '172.27.202.145',  # 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
+        'ENGINE': 'django.db.backends.mysql',    
+        'NAME': 'ott_service_database',                  
+        'USER': 'root',                          
+        'PASSWORD': '2140',                  
+        'HOST': '172.25.99.8',                     
         'PORT': '3306',                          
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,15 +157,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'ko-kr'
+#영어에서 바꿈
 
 TIME_ZONE = 'Asia/Seoul'
+#시간 기준을 서울로 맞춤.
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = False
-# 이걸 False로 해야 우리나라 시간을 가져온다
+#이걸 False로 해야 우리나라 시간을 가져온다고 함.
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
