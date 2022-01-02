@@ -6,13 +6,14 @@ import styled from "styled-components";
 import LoginInput from "../components/Login/LoginInput";
 import LoginButton from "../components/Login/LoginButton";
 import StyledContainer from "../components/Style/styledContainer";
+import { theme } from "styled-tools";
 
 const StyledDiv = styled.div`
-  color: #c62917;
   text-align: center;
   margin-top: 20px;
   font-weight: 500;
   font-size: 16px;
+  ${theme("neons.textNeonGold")};
 `;
 const StyledSpan = styled.span`
   color: #909090;
@@ -36,6 +37,7 @@ function Login() {
       ...inputs,
       [name]: value,
     });
+    console.log(name, value);
   };
   const onSubmit = (e) => {
     e.preventDefault();
@@ -60,7 +62,7 @@ function Login() {
   return (
     <StyledContainer>
       <div>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} style={{ textAlign: "center" }}>
           <LoginInput
             type="text"
             name="userId"
@@ -75,7 +77,9 @@ function Login() {
             onChange={onChange}
             value={userPw}
           />
-          <LoginButton type="submit">로그인</LoginButton>
+          <LoginButton type="submit" isMini={true}>
+            로그인
+          </LoginButton>
         </form>
         <StyledDiv>
           <Link to="/register/name">

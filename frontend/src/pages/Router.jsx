@@ -9,7 +9,7 @@ import {
   NotFound,
   RegisterDetail,
   RegisterDone,
-  RegisterId,
+  // RegisterId,
   RegisterName,
   TheaterList,
   Theater,
@@ -23,7 +23,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/register/name" element={<RegisterName />} />
-        <Route path="/register/id" element={<RegisterId />} />
+        {/* <Route path="/register/id" element={<RegisterId />} /> */}
         <Route path="/register/detail" element={<RegisterDetail />} />
         <Route path="/register/done" element={<RegisterDone />} />
         <Route path="/login" element={<Login />} />

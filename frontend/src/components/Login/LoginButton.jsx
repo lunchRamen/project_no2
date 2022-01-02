@@ -1,26 +1,26 @@
-import React from "react";
 import styled from "styled-components";
+import { ifProp, theme } from "styled-tools";
 
-const StyledButton = styled.button`
-  /* 공통 스타일 */
-  width: 100%;
-  color: white;
-  cursor: pointer;
-  text-align: center;
+export default function Button({ isMini, onClick, children }) {
+  return (
+    <StWrapper isMini={isMini} onClick={onClick}>
+      {children}
+    </StWrapper>
+  );
+}
 
-  /* 크기 */
-  height: 40px;
-  font-size: 16px;
-  font-weight: 200;
+const StWrapper = styled.button`
+  border: 0.1rem solid ${theme("colors.mainWhite")};
+  border-radius: 1.5rem;
+  padding: ${ifProp({ isMini: true }, "0.8rem 2rem", "2.5rem 4rem")};
+  background-color: ${theme("colors.textNeonStructure")};
+  font-family: NotoSerif;
+  ${theme("fonts.textP")}
+  color: ${theme("colors.mainWhite")};
 
-  /* 색상 */
-  background: #c62917;
-
-  margin-top: 6px;
+  &:hover {
+    background-color: ${theme("colors.mainPoint")};
+    color: ${theme("colors.mainBlack")};
+    ${theme("neons.boxNeonGold")};
+  }
 `;
-
-const LoginButton = function ({ type, children }) {
-  return <StyledButton type={type}>{children}</StyledButton>;
-};
-
-export default LoginButton;
