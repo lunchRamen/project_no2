@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include,re_path
-#from rest_framework_jwt.views import obtain_jwt_token, verity_jwt_token,refresh_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token,verify_jwt_token,refresh_jwt_token
 from django.conf import settings
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -43,9 +43,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('user.urls')),
-    path('small_theater/',include('small_theater.urls')),
-    path('contents_analysis/',include('contents_analysis.urls')),
+    path('api/token/', obtain_jwt_token),
+    path('api/token/verify/', verify_jwt_token),
+    path('api/token/refresh/', refresh_jwt_token),
+    path('api/user/',include('apps.user.urls')),
+    path('api/small_theater/',include('apps.small_theater.urls')),
+    path('api/contents_analysis/',include('apps.contents_analysis.urls')),
     # path('api/',include('apps_urls')),
     path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path(r'swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

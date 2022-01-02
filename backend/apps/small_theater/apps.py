@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ContentsAnalysisConfig(AppConfig):
+class SmallTheaterConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'contents_analysis'
+    name = 'apps.small_theater'
