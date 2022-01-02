@@ -7,7 +7,7 @@ export default function BasicSelect() {
     <StInputsWrapper>
       <StInputWrapper>
         <StLabel>생년월일</StLabel>
-        <Input type="text" placeholder="ex) 0000-00-00" />
+        <StInput type="text" placeholder="ex) 0000-00-00" />
       </StInputWrapper>
       <StInputWrapper>
         <StLabel>성별</StLabel>
@@ -36,7 +36,7 @@ const StLabel = styled.label`
   ${theme("neons.textNeonGold")}
 `;
 
-const Input = styled.input`
+export const StInput = styled.input`
   border: 0.1rem solid ${theme("colors.mainWhite")};
   width: 22rem;
   color: white;
