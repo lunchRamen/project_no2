@@ -1,26 +1,33 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ifProp, theme } from "styled-tools";
 import { CommonNav } from "..";
 import { LogoMini } from "../../assets/icons";
-import { Link } from "react-router-dom";
+
 const NAVS = {
   register: "회원가입",
   login: "로그인",
 };
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const pathname = location.pathname.split("/")[1];
 
   const isCommon = pathname === "register" ? false : pathname === "login" ? false : true;
+  const mainPath = isCommon ? "/main" : "/";
+
+  const COMMONNAVS = [
+    { id: 0, navText: "나의 콘텐츠 유형 분석 결과", navigate: () => navigate("contents") },
+    { id: 1, navText: "소극장 들어가기", navigate: () => navigate("theater_list") },
+    { id: 2, navText: "팀 소개", navigate: () => navigate("/team") },
+  ];
 
   return (
     <StWrapper isLanding={!pathname} isCommon={isCommon}>
-      <Link to={"/main"}>
-        <LogoMini />
-      </Link>
-      {isCommon ? <CommonNav /> : <StListWrapper>{NAVS[pathname]}</StListWrapper>}
+      <LogoMini onClick={() => navigate(mainPath)} />
+      {isCommon ? <CommonNav navList={COMMONNAVS} /> : <StListWrapper>{NAVS[pathname]}</StListWrapper>}
       <span id="logout">로그아웃</span>
     </StWrapper>
   );
@@ -49,6 +56,11 @@ const StWrapper = styled.header`
       }
     `,
   )};
+
+  & > span,
+  svg {
+    cursor: pointer;
+  }
 `;
 
 export const StListWrapper = styled.nav`
