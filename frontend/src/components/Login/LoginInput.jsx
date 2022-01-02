@@ -3,21 +3,22 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 const StyledInput = styled.input`
   /* 공통 스타일 */
-  width: 100%;
+  width: 95%;
   outline: none;
   border: 0.1rem solid #ededed;
+  border-radius: 1.2rem;
   box-sizing: border-box;
   color: #333;
-  padding-left: 1rem;
-  padding-right: 1rem;
-
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
   /* 색상 */
-  // background: black;
+  background: black;
   color: white;
   /* 크기 */
   height: 4rem;
-  margin-top: 0.5rem;
-  border-radius: 1.2rem;
+  margin-top: 0.4rem 1rem 0rem 1rem;
+
   ${theme("fonts.textH4")} ${theme("neons.boxNeonGold")};
 `;
 

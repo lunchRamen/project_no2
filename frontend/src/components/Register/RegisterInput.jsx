@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 const StyledLabel = styled.label`
   color: white;
-  padding-left: 5px;
+  padding-left: 0.5rem;
 `;
 const StyledInput = styled.input`
   /* 공통 스타일 */

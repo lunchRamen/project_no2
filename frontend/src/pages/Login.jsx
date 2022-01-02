@@ -10,15 +10,15 @@ import { theme } from "styled-tools";
 
 const StyledDiv = styled.div`
   text-align: center;
-  margin-top: 20px;
+  margin-top: 2rem;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1.6rem;
   ${theme("neons.textNeonGold")};
 `;
 const StyledSpan = styled.span`
-  color: #909090;
+  color: white;
   font-weight: 300;
-  margin-right: 10px;
+  margin-right: 1rem;
   letter-spacing: -0.05rem;
 `;
 

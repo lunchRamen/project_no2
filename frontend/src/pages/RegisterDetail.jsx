@@ -2,7 +2,7 @@ import { Button, PosterList, SelectList } from "../components";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { useNavigate } from "react-router-dom";
-
+import Fade from "react-reveal/Fade";
 const TEMP_SELECTION_DATA = [
   {
     id: "job",
@@ -44,17 +44,20 @@ export default function RegisterDetail() {
 
   return (
     <StWrapper>
-      <StIntro>
-        님에게 꼭 맞는 비대면 극장을 추천해드릴게요!
-        <br />
-        기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
-      </StIntro>
-      <SelectList data={TEMP_SELECTION_DATA} />
-      <StIntro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</StIntro>
-      <PosterList />
-      <Button isMini={false} onClick={() => navigate("/register/done")}>
-        식스맨 입장을 위한 준비가 완료되었어요!
-      </Button>
+      <Fade>
+        <StIntro>
+          님에게 꼭 맞는 비대면 극장을 추천해드릴게요!
+          <br />
+          기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
+        </StIntro>
+
+        <SelectList data={TEMP_SELECTION_DATA} />
+        <StIntro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</StIntro>
+        <PosterList />
+        <Button isMini={false} onClick={() => navigate("/register/done")}>
+          식스맨 입장을 위한 준비가 완료되었어요!
+        </Button>
+      </Fade>
     </StWrapper>
   );
 }

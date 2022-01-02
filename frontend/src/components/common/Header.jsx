@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { ifProp, theme } from "styled-tools";
 import { CommonNav } from "..";
 import { LogoMini } from "../../assets/icons";
-
+import { Link } from "react-router-dom";
 const NAVS = {
   register: "회원가입",
   login: "로그인",
@@ -17,7 +17,9 @@ const Header = () => {
 
   return (
     <StWrapper isLanding={!pathname} isCommon={isCommon}>
-      <LogoMini />
+      <Link to={"/main"}>
+        <LogoMini />
+      </Link>
       {isCommon ? <CommonNav /> : <StListWrapper>{NAVS[pathname]}</StListWrapper>}
       <span id="logout">로그아웃</span>
     </StWrapper>
