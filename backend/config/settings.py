@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'user',
     'rest_framework', # 추가
     'drf_yasg', # 추가
+    'corsheaders', # CORS 리엑트3000번 장고8000번
+    # Port 번호 다르면 다른 서버로 인식하기때문에 Cross Domain 에러가 발생한다.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,6 +62,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# CORS
+# 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
+# 2. 개발일 경우
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'config.urls'
 
