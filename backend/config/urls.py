@@ -34,24 +34,40 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny], 
 )
 
-app_name='user'
-
-schema_url_patterns=[
-    path('user/',include('user.urls'))
-]
+# apps_urls=[
+#     path('',include('apps.user.urls')),
+#     path('small_theater/',include('small_theater.urls')),
+#     path('contents_analysis',include('contents_analysis.urls')),
+# ]
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include('user.urls')),
+    path('',include('user.urls')),
+    path('small_theater/',include('small_theater.urls')),
+    path('contents_analysis/',include('contents_analysis.urls')),
+    # path('api/',include('apps_urls')),
     path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path(r'swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path(r'redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc-v1'), 
 ]
 
 # 이건 디버그일때만 swagger 문서가 보이도록 해주는 설정이라는 듯. urlpath도 이 안에 설정 가능해서, debug일때만 작동시킬 api도 설정할 수 있음.
-#if settings.DEBUG:
-#    urlpatterns += [
-#        re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name="schema-json"),
-#        re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-#        re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),    ]
+# if settings.DEBUG:
+#     urlpatterns += [
+#         re_path(
+#             r"^swagger(?P<format>\.json|\.yaml)$",
+#             schema_view.without_ui(cache_timeout=0),
+#             name="schema-json",
+#         ),
+#         re_path(
+#             r"^swagger/$",
+#             schema_view.with_ui("swagger", cache_timeout=0),
+#             name="schema-swagger-ui",
+#         ),
+#         re_path(
+#             r"^redoc/$",
+#             schema_view.with_ui("redoc", cache_timeout=0),
+#             name="schema-redoc",
+#         ),
+#     ]
