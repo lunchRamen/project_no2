@@ -67,10 +67,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-
-
-
-
 class User(AbstractBaseUser,PermissionsMixin):
     username_validator =UserNameValidator()
     nickname=models.CharField(

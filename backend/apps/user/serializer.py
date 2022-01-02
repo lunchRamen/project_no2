@@ -5,14 +5,17 @@ from django.contrib.auth import authenticate
 #회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
-        mode='User'
-        fields =('id','username','password')
+        model='User'
+        fields =('id','user_id','nickname','password')
         extra_kwargs={'password':{'write_only':True}}
     
     def create(self,validated_data):
         user=User.objects.create_user(
-            validated_data['username'],None,validated_data['password']
+            **validated_data
         )
+        user.set_password(validated_data['password'])
+        user.save()
+        
         return user
 
 #접속 유지 확인용
