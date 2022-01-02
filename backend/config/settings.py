@@ -40,6 +40,8 @@ APPEND_SLASH=False
 
 INSTALLED_APPS = [
     'user',
+    'small_theater', # 추가
+    'contents_analysis', # 추가
     'rest_framework', # 추가
     'drf_yasg', # 추가
     'corsheaders', # CORS 리엑트3000번 장고8000번
@@ -94,13 +96,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql', 
@@ -130,6 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AUTH_USER_MODEL = 'user.User' # 속성은 User가 가지고 있는게 아니라 User가 상속받는 AbstractUser가 다 가지고 있다. 즉, User는 기능이 없는 깡통 수준이고, 장고 내부에 세팅된 값이라 변경도 불가능하다.
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
