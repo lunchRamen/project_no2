@@ -17,6 +17,13 @@ class UserSerializer(serializers.Serializer):
     watch_time=serializers.TimeField() # 시간대만
     job=serializers.CharField()
     region=serializers.CharField()
+    def create(self, validated_data) :
+        return models.User.objects.create(**validated_data)
+    
+    def update(self,instance,validated_data):
+        instance.nickname = validated_data.get('nickname', instance.nickname)
+        instance.user_id = validated_data.get('user_id', instance.user_id)
+        ....
 
 # serializer
 serializer = UserSerializer(models.User)
