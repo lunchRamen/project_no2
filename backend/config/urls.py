@@ -24,9 +24,9 @@ schema_url_patterns = [ # swagger에서 API 문서로 보고싶은 URL들을 정
 
 schema_view = get_schema_view(  
     openapi.Info(
-        title="sixman-user", # 프로젝트 이름
-        default_version='v1', # 프로젝트 버전 ex) 1.1.1
-        description="식스맨 유저 Open API", # 설명
+        title="Sixmen API 문서", # 프로젝트 이름
+        default_version='1.0.0', # 프로젝트 버전 ex) 1.1.1
+        description="Sixmen프로젝트 FE-BE 간 호출 응답을 위한 Open API", # 설명
         terms_of_service="https://www.google.com/policies/terms/",
         # contact=openapi.Contact(email="이메일"),
         # license=openapi.License(name=""),
@@ -52,6 +52,8 @@ urlpatterns = [ # swagger를 보기 위한 엔드포인트를 정의합니다.
     #django앱
     path('admin/', admin.site.urls), 
     path('user/', include('user.urls')),
+    path('user/get_url', include('user.urls')),
+    path('user/post_url', include('user.urls')),
     # 첫번째 파라미터인 'route'에는 URL route에서 사용된 경로를 지정하고, 두번째 파라미터인 'view' 는 해당 URL에 매핑되는 View를 지정합니다.
     
     #swagger
