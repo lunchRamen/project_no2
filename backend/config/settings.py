@@ -28,7 +28,7 @@ SECRET_KEY = env.get("DJANGO_SECRET_KEY", default="secret key here")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 APPEND_SLASH=False
 #react의 경우 SPA라 /가 필요 없는데, 원래 True로 자동 설정이라
@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
     'corsheaders',
+    'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,7 +129,7 @@ DATABASES = {
         'NAME': 'ott_service_database',                  
         'USER': 'root',                          
         'PASSWORD': '2140',                  
-        'HOST': '172.25.99.8',                     
+        'HOST': '172.28.92.34',                     
         'PORT': '3306',                          
     }
 }
