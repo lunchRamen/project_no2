@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 
 //
 
 export default function Table({ tHeadList, tBodyList }) {
+  const navigate = useNavigate();
+
   return (
     <StWrapper>
       <thead>
@@ -14,7 +17,7 @@ export default function Table({ tHeadList, tBodyList }) {
         </tr>
       </thead>
       {tBodyList.map((body) => (
-        <tbody key={`tbody-${body.id}`}>
+        <tbody key={`tbody-${body.id}`} onClick={() => navigate(`/theater/${body.id}`)}>
           <tr>
             {body.contents.map((b, i) => (
               <td key={`td-${i}`}>{b}</td>
