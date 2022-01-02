@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework.decorators import api_view #api
+from rest_framework.response import Response #api
 # 장고는 return HttpResponse 등의 표현을 쉽게 쓸 수 있도록 render 함수를 제공하는데요.
 # 일일히 HttpResponse 를 정의하지 않고도 쉽게 HttpResponse 에 응답할 수 있습니다.
 
@@ -10,6 +12,18 @@ from django.http import HttpResponse
 # 또한, django 는 MVT(Model-View-Template) 패턴에 기반하여 동작하는데요.
 # View는 유명한 패턴 중의 하나인 MVC 패턴의 Controller 역할을 수행한다고 보시면 됩니다 :)
 
+# 3. FBV(Function Based View) 이기 때문에, API 데코레이터인 @api_view(['GET'])으로 선언해 주어야 swagger에서 인식합니다.  저와 같은 FBV 기반 프로젝트는 @api_view 데코레이터를 사용하여 API 뷰를 짜야 하며, CBV 기반 프로젝트는 APIView 클래스를 사용하여  API 뷰를 짜야 합니다 :D 
+
 # Create your views here.
+
+# Response : JsonResponse, HttpResponse 객체가 모두 Response로 대체되었고, 각 Response 객체에 넘기는 status 인자에 단순 숫자 상태 코드가 아닌 status 객체의 식별자로 대체된 것이다.
 def index(request):
-    return HttpResponse("Hello, This is Seoyoon User index")
+    return HttpResponse("Hi This is Seoyoon's User page")
+
+@api_view(['GET'])
+def get(request):
+    return Response(request)
+
+@api_view(['POST'])
+def post(request):
+    return Response(request)
