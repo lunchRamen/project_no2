@@ -4,7 +4,8 @@ The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls import url
 from drf_yasg.views import get_schema_view 
@@ -51,8 +52,11 @@ urlpatterns = [ # swagger를 보기 위한 엔드포인트를 정의합니다.
 
     #django앱
     path('admin/', admin.site.urls), 
-    path('user', include('user.urls')),
+    # path('user', include('user.urls')),
     # 첫번째 파라미터인 'route'에는 URL route에서 사용된 경로를 지정하고, 두번째 파라미터인 'view' 는 해당 URL에 매핑되는 View를 지정합니다.
+
+    #react 
+    re_path('.*', TemplateView.as_view(template_name='index.html')),
     
     #swagger
     url(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),

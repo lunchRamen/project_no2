@@ -33,6 +33,6 @@ class Prefer_ott_content_genre(models.Model):
 #     title = models.CharField(max_length=50)
 #     genre_1 = models.CharField(max_length=50)
 #     genre_2 = models.CharField(max_length=50)
-#     # introduce = 소극장 세부보기는 안 보여주기로 했었음, 피그마 회색부분
+#     introduce = 
 #     published_date = models.DateField(null=True, blank=True)
-#     # notice = 소극장 공지사항도 안 보여주기로 했었음, 피그마 회색부분
+#     notice = 

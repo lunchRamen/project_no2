@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # 추가
+    'corsheaders.middleware.CorsMiddleware', # CORS 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,7 +67,7 @@ MIDDLEWARE = [
 
 # CORS
 # 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:8000']
 # 2. 개발일 경우
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -77,7 +77,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS' : [
+            os.path.join(BASE_DIR, 'frontend','build'), #장고템플릿X 리엑트템플릿O 경로변경
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,6 +92,12 @@ TEMPLATES = [
         },
     },
 ]
+
+#리엑트템플릿 경로추가
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -102,7 +111,7 @@ DATABASES = {
         'NAME': 'ott_service_database',  # DB이름                
         'USER': 'seoyoon1', # DB로그인 유저명                          
         'PASSWORD': 'seoyoon1234',  #DB로그인 비밀번호    
-        'HOST': '172.27.202.145',  # 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
+        'HOST': '172.27.194.68',  # 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
         'PORT': '3306',                          
     }
 }
