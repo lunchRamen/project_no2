@@ -5,18 +5,18 @@ from django.utils import timezone
 # 상속 구조 : models.Model -> AbstractBaseUser -> AbstractUser -> User
 
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, User
+# from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, User
 
 
-class Prefer_ott_content_genre(models.Model):
-    prefer_genre_1=models.CharField(max_length=50)
-    prefer_genre_2=models.CharField(max_length=50)
-    prefer_genre_3=models.CharField(max_length=50)
-    prefer_genre_4=models.CharField(max_length=50)
-    prefer_genre_5=models.CharField(max_length=50)
-    prefer_genre_6=models.CharField(max_length=50)
-    prefer_genre_7=models.CharField(max_length=50)
-    prefer_genre_8=models.CharField(max_length=50)
+# class Prefer_ott_content_genre(models.Model):
+#     prefer_genre_1=models.CharField(max_length=50)
+#     prefer_genre_2=models.CharField(max_length=50)
+#     prefer_genre_3=models.CharField(max_length=50)
+#     prefer_genre_4=models.CharField(max_length=50)
+#     prefer_genre_5=models.CharField(max_length=50)
+#     prefer_genre_6=models.CharField(max_length=50)
+#     prefer_genre_7=models.CharField(max_length=50)
+#     prefer_genre_8=models.CharField(max_length=50)
 
 # __str__: 이 인스턴스를 조회할 때 보여지는 이름을 정의합니다. 정의하지 않으면 '<Queryset1>' 처럼 안이쁘게 보여지므로 보통 설정하는 편입니다.
 # class Meta: 데이터베이스에 담길 시 저장되는 이름을 정의합니다. 정의하지 않으면 '앱이름.클래스이름(user.User)'으로 저장됩니다.

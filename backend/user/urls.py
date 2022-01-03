@@ -2,6 +2,7 @@
 from django.urls import path
 from . import views
 # FBV로 만들면 @api_view로 GET인지 POST인지 선언해줘야 swagger에서 인식한다.
+app_name = 'user'
 urlpatterns = [
     path('/', views.index, name='index'),# path(경로, View 함수)
     path('/get_url', views.get, name='get'), 
