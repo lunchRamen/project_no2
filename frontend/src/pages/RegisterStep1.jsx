@@ -10,11 +10,12 @@ import LimitOnLength from "../components/Register/LimitOnLength";
 import RegisterButton from "../components/Register/RegisterButton";
 // import { useDispatch } from "react-redux";
 // import { registerUser } from "../_actions/user_actions";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 
-function Register() {
+function Register({ location }) {
   // const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [inputs, setInput] = useState({
     userId: "",
     userPw: "",
@@ -26,11 +27,16 @@ function Register() {
     userTime: "",
     usableId: true,
   });
-
+  console.log(location);
   const { userId, userPw, userNickName, usableId } = inputs;
 
-  const [overIdLength, setOverIdLength] = useState(false);
-  const [overPwLength, setOverPwLength] = useState(false);
+  const [checkIdLength, setOverIdLength] = useState(false);
+  const [checkPwLength, setOverPwLength] = useState(false);
+  const isOverLength = (inputValueLength, maxLength) => {
+    if (inputValueLength > maxLength) {
+      return true;
+    }
+  };
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -39,20 +45,23 @@ function Register() {
       [name]: value,
       usableId: usableId,
     });
-    if (inputs.userId.length > 8) {
+    const isUserIdOverLength = isOverLength(inputs.userId.length, 8);
+    if (isUserIdOverLength) {
       setOverIdLength(true);
-    } else {
+    }
+    if (!isUserIdOverLength) {
       setOverIdLength(false);
     }
-    if (inputs.userPw.length > 12) {
+    if (isOverLength(inputs.userPw.length, 12)) {
       setOverPwLength(true);
-    } else {
+    }
+    if (!isOverLength(inputs.userPw.length, 12)) {
       setOverPwLength(false);
     }
   };
   const checkId = (e) => {
     e.preventDefault();
-    if (overIdLength) {
+    if (checkIdLength) {
       return;
     }
     // axios
@@ -75,49 +84,50 @@ function Register() {
   const SignUp = (e) => {
     // const navigate = useNavigate();
     e.preventDefault();
-    if (overIdLength || overPwLength) {
+    if (checkIdLength || checkPwLength) {
       return;
     } else if (!userId || !userPw || !userNickName) {
-      console.log(userId, userPw, userNickName);
       alert("필수 항목을 작성해주세요");
       return;
     } else if (usableId === false) {
       alert("아이디 중복 확인을 해주세요");
       return;
     } else {
-      // navigate("/register/detail");
-      console.log("22");
+      navigate("/register/step2", { replace: true, state: {} });
     }
   };
 
   // const SignUp = (e) => {
   //   const navigate = useNavigate();
   //   e.preventDefault();
-  //   let body = {
+  //   const body = {
   //     id: userId,
   //     password: userPw,
   //     nickname: userNickName,
   //   };
-  //   if (overIdLength || overPwLength) {
+  //   if (checkIdLength || checkPwLength) {
   //     return;
-  //   } else if (!userId || !userPw || !userNickName) {
+  //   }
+  //   if (!userId || !userPw || !userNickName) {
   //     alert("필수 항목을 작성해주세요");
   //     return;
-  //   } else if (usableId === false) {
+  //   }
+  //   if (usableId === false) {
   //     alert("아이디 중복 확인을 해주세요");
   //     return;
-  //   } else {
-  //     dispatch(registerUser(body))
-  //       .then((response) => {
-  //         if (response.payload.success) {
-  //           alert("다음 항목으로 이동하겠습니다.");
-  //           navigate("./register/detail");
-  //         } else {
-  //           alert("회원가입에 실패했습니다.");
-  //         }
-  //       })
-  //       .catch((error) => console.log(error));
   //   }
+  //   dispatch(registerUser(body))
+  //     .then(({ data }) => {
+  //       const isSuccess = data.payload.success;
+  //       if (isSuccess) {
+  //         alert("다음 항목으로 이동하겠습니다.");
+  //         navigate("./register/detail");
+  //       }
+  //       if (!isSuccess) {
+  //         alert("회원가입에 실패했습니다.");
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
   // };
 
   return (
@@ -140,7 +150,7 @@ function Register() {
                   onChange={onChange}
                   value={userId}
                 />
-                {overIdLength && <LimitOnLength>아이디를 8자 이내로 입력해주세요</LimitOnLength>}
+                {checkIdLength && <LimitOnLength>아이디를 8자 이내로 입력해주세요</LimitOnLength>}
                 <CheckIdButton onClick={checkId}>중복체크</CheckIdButton>
               </form>
               <form onSubmit={SignUp}>
@@ -152,7 +162,7 @@ function Register() {
                   onChange={onChange}
                   value={userPw}
                 />
-                {overPwLength && <LimitOnLength>비밀번호를 12자 이내로 입력해주세요</LimitOnLength>}
+                {checkPwLength && <LimitOnLength>비밀번호를 12자 이내로 입력해주세요</LimitOnLength>}
                 <RegisterInput
                   labelName="닉네임"
                   name="userNickName"

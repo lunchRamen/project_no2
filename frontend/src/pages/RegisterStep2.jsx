@@ -42,30 +42,31 @@ const TEMP_SELECTION_DATA = [
   },
 ];
 
-export default function RegisterDetail() {
+export default function RegisterDetail(props) {
   const navigate = useNavigate();
-
+  const a = props;
+  console.log(a);
   return (
-    <StWrapper>
+    <Wrapper>
       <Fade>
-        <StIntro>
+        <Intro>
           님에게 꼭 맞는 비대면 극장을 추천해드릴게요!
           <br />
           기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
-        </StIntro>
+        </Intro>
 
         <SelectList data={TEMP_SELECTION_DATA} />
-        <StIntro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</StIntro>
+        <Intro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</Intro>
         <PosterList />
         <Button isMini={false} onClick={() => navigate("/register/done")}>
           식스맨 입장을 위한 준비가 완료되었어요!
         </Button>
       </Fade>
-    </StWrapper>
+    </Wrapper>
   );
 }
 
-const StWrapper = styled.main`
+const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,7 +75,7 @@ const StWrapper = styled.main`
   padding-bottom: 50rem;
 `;
 
-const StIntro = styled.span`
+const Intro = styled.span`
   text-align: center;
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")}

@@ -15,27 +15,27 @@ const tBodyList = [
 
 export default function TheaterList() {
   return (
-    <StWrapper>
-      <StInputWrapper>
+    <Wrapper>
+      <InputWrapper>
         <label>님과 비슷한 취향을 가진 사람들을 찾아볼까요?</label>
-        <StSearchInput type="text" placeholder="영화 제목 또는 장르를 입력해보세요!" />
-      </StInputWrapper>
-      <StTableWrapper>
+        <SearchInput type="text" placeholder="영화 제목 또는 장르를 입력해보세요!" />
+      </InputWrapper>
+      <TableWrapper>
         <span>전체 소극장 목록</span>
         <Table tHeadList={tHeadList} tBodyList={tBodyList} />
-      </StTableWrapper>
-    </StWrapper>
+      </TableWrapper>
+    </Wrapper>
   );
 }
 
-const StWrapper = styled.main`
+const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 10rem;
 `;
 
-const StInputWrapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,13 +46,13 @@ const StInputWrapper = styled.div`
   ${theme("fonts.textH2")}
 `;
 
-const StSearchInput = styled(StInput)`
+const SearchInput = styled(StInput)`
   padding: 1.5rem 2rem;
   width: 69.5rem;
   height: 6rem;
 `;
 
-const StTableWrapper = styled.section`
+const TableWrapper = styled.section`
   ${theme("neons.textNeonGold")}
   ${theme("fonts.textH2")}
 `;

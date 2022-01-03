@@ -8,20 +8,6 @@ import LoginButton from "../components/Login/LoginButton";
 import StyledContainer from "../components/Style/styledContainer";
 import { theme } from "styled-tools";
 
-const StyledDiv = styled.div`
-  text-align: center;
-  margin-top: 2rem;
-  font-weight: 500;
-  font-size: 1.6rem;
-  ${theme("neons.textNeonGold")};
-`;
-const StyledSpan = styled.span`
-  color: white;
-  font-weight: 300;
-  margin-right: 1rem;
-  letter-spacing: -0.05rem;
-`;
-
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,12 +34,13 @@ function Login() {
     if (!userId || !userPw) {
       alert("필수 항목을 작성하세요");
     } else {
-      dispatch(loginUser(body)).then((response) => {
-        if (response.payload.loginSuccess) {
-          window.localStorage.setItem("userId", response.payload.userId);
+      dispatch(loginUser(body)).then((data) => {
+        if (data.payload.loginSuccess) {
+          window.localStorage.setItem("userId", data.payload.userId);
           navigate("/main");
-        } else {
-          alert(response.payload.message);
+        }
+        if (!data.payload.loginSuccess) {
+          alert(data.payload.message);
         }
       });
     }
@@ -90,4 +77,18 @@ function Login() {
     </StyledContainer>
   );
 }
+const StyledDiv = styled.div`
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: 500;
+  font-size: 1.6rem;
+  ${theme("neons.textNeonGold")};
+`;
+const StyledSpan = styled.span`
+  color: white;
+  font-weight: 300;
+  margin-right: 1rem;
+  letter-spacing: -0.05rem;
+`;
+
 export default Login;
