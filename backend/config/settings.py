@@ -77,10 +77,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [],
-        'DIRS' : [
-            os.path.join(BASE_DIR, 'frontend','build'), #장고템플릿X 리엑트템플릿O 경로변경
-        ],
+        'DIRS': [],
+        # 'DIRS' : [
+        #     os.path.join(BASE_DIR, 'frontend','build'), #장고템플릿X 리엑트템플릿O 경로변경
+        # ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,9 +94,9 @@ TEMPLATES = [
 ]
 
 #리엑트템플릿 경로추가
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+# ]
 
 
 WSGI_APPLICATION = 'config.wsgi.application'
