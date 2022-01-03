@@ -6,7 +6,7 @@ from django.utils import timezone
 
 # Create your models here.
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, User
-from .validators import UserNameValidator
+
 
 class Prefer_ott_content_genre(models.Model):
     prefer_genre_1=models.CharField(max_length=50)

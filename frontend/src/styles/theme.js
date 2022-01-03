@@ -15,7 +15,7 @@ const fonts = {
   `,
   textH2: `
     letter-spacing: 0.05em;
-    line-height: 1;
+    line-height: 1.5;
     font-size: ${fontSizes.textH2};
   `,
   textH3: `
@@ -25,7 +25,7 @@ const fonts = {
   `,
   textP: `
     letter-spacing: 0.05em;
-    line-height: 1;
+    line-height: 1.5;
     font-size: ${fontSizes.textP};
   `,
   engTextP: `
