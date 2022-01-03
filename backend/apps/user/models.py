@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils import timezone
 
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager,User
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from .validators import UserNameValidator
 
 """
@@ -41,12 +41,14 @@ class Prefer_ott_content_genre(models.Model):
     prefer_genre_6=models.CharField(max_length=50)
     prefer_genre_7=models.CharField(max_length=50)
     prefer_genre_8=models.CharField(max_length=50)
+    #user=models.OneToOneField(User,on_delete-)
 
 class UserManager(BaseUserManager):
-    def create_user(self, user_id, password,**extra_fields):
+    def create_user(self, username,email, password,**extra_fields):
         user=self.model(
-            user_id=user_id,
-            password=password,
+            username=username,
+            email=self.normalize_email(email),#superuser형식 맞춰주기위해 넣은거라
+            **extra_fields
         )
         extra_fields.setdefault('is_staff',False)
         extra_fields.setdefault('is_superuser',False)
@@ -54,12 +56,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, user_id,password,**extra_fields):
-        user=self.model(
-            user_id=user_id,
-            password=password,
-            **extra_fields
-        )
+    def create_superuser(self, username,email,password,**extra_fields):
+        user=self.create_user(username,email,password)
         user.is_admin=True
         user.is_staff=True
         user.is_superuser=True
@@ -68,15 +66,19 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser,PermissionsMixin):
+    class Meta:
+        db_table='user'
+    
     username_validator =UserNameValidator()
     nickname=models.CharField(
         verbose_name='닉네임',
         max_length=50,
-        unique=True,
-        validators=[username_validator]
+        validators=[username_validator],
+        null=True, blank=True
     )
-    user_id=models.CharField(max_length=50,unique=True)
+    username=models.CharField(max_length=50,unique=True)#파라미터 맞춰주기위해 user_id를 username으로 일단..
     # pw=models.TextField(max_length=500) AbstractBaseUser에 이미 있는 컬럼.
+    email=models.EmailField(max_length=100,null=True, blank=True)#superuser를 위한 컬럼.
     birthday=models.DateField(null=True, blank=True)
     gender=models.CharField(max_length=2,null=True, blank=True)
     watch_time=models.IntegerField(null=True, blank=True)#time을 그냥 시간대말고 우리끼리 정의한
@@ -84,7 +86,9 @@ class User(AbstractBaseUser,PermissionsMixin):
     job=models.CharField(max_length=50,null=True, blank=True)
     region=models.CharField(max_length=50,null=True, blank=True)
     #small_theater_group=models.CharField(max_length=50) 일단 보류.
-    prefer_ott_content_genre=models.OneToOneField(Prefer_ott_content_genre,on_delete=models.CASCADE)
+    prefer_ott_content_genre=models.OneToOneField(
+        Prefer_ott_content_genre,on_delete=models.CASCADE,blank=True,null=True
+        )
 
     #AbstractBaseUser상속으로 만들어줘야하는 필드.
     is_staff=models.BooleanField(default=False)
@@ -92,11 +96,8 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     objects=UserManager()
 
-    USERNAME_FIELD='user_id'
+    USERNAME_FIELD='username'
     REQUIRED_FIELDS=[]
-
-    class Meta:
-        db_table='user'
 
     def __str__(self):
         return self.nickname
