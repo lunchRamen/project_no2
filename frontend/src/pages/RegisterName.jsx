@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import StyledBox from "../components/Style/styledBox";
@@ -8,23 +8,23 @@ import CheckIdButton from "../components/Register/CheckIdButton";
 import RegisterInput from "../components/Register/RegisterInput";
 import LimitOnLength from "../components/Register/LimitOnLength";
 import RegisterButton from "../components/Register/RegisterButton";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../_actions/user_actions";
-import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+// import { registerUser } from "../_actions/user_actions";
+// import { useNavigate } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 
 function Register() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [inputs, setInput] = useState({
     userId: "",
     userPw: "",
-    userNickname: "",
+    userNickName: "",
     userBirth: "",
     userGender: "",
     userJob: "",
     userLive: "",
     userTime: "",
-    usableId: false,
+    usableId: true,
   });
 
   const { userId, userPw, userNickName, usableId } = inputs;
@@ -39,7 +39,6 @@ function Register() {
       [name]: value,
       usableId: usableId,
     });
-    console.log(name);
     if (inputs.userId.length > 8) {
       setOverIdLength(true);
     } else {
@@ -56,52 +55,70 @@ function Register() {
     if (overIdLength) {
       return;
     }
-    axios
-      .post(`/regiser/checkId/${userId}`, { id: userId })
-      .then((response) => {
-        if (response.status === 200) {
-          setInput({
-            ...inputs,
-            usableId: true,
-          });
-          alert("사용가능한 아이디입니다.");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("이미 사용중인 아이디입니다.");
-      });
+    // axios
+    //   .post(`/regiser/checkId/${userId}`, { id: userId })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       setInput({
+    //         ...inputs,
+    //         usableId: true,
+    //       });
+    //       alert("사용가능한 아이디입니다.");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     alert("이미 사용중인 아이디입니다.");
+    //   });
   };
 
   const SignUp = (e) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     e.preventDefault();
-    let body = {
-      id: userId,
-      password: userPw,
-      nickname: userNickName,
-    };
     if (overIdLength || overPwLength) {
       return;
     } else if (!userId || !userPw || !userNickName) {
+      console.log(userId, userPw, userNickName);
       alert("필수 항목을 작성해주세요");
       return;
     } else if (usableId === false) {
       alert("아이디 중복 확인을 해주세요");
       return;
     } else {
-      dispatch(registerUser(body))
-        .then((response) => {
-          if (response.payload.success) {
-            alert("다음 항목으로 이동하겠습니다.");
-            navigate("./register/detail");
-          } else {
-            alert("회원가입에 실패했습니다.");
-          }
-        })
-        .catch((error) => console.log(error));
+      // navigate("/register/detail");
+      console.log("22");
     }
   };
+
+  // const SignUp = (e) => {
+  //   const navigate = useNavigate();
+  //   e.preventDefault();
+  //   let body = {
+  //     id: userId,
+  //     password: userPw,
+  //     nickname: userNickName,
+  //   };
+  //   if (overIdLength || overPwLength) {
+  //     return;
+  //   } else if (!userId || !userPw || !userNickName) {
+  //     alert("필수 항목을 작성해주세요");
+  //     return;
+  //   } else if (usableId === false) {
+  //     alert("아이디 중복 확인을 해주세요");
+  //     return;
+  //   } else {
+  //     dispatch(registerUser(body))
+  //       .then((response) => {
+  //         if (response.payload.success) {
+  //           alert("다음 항목으로 이동하겠습니다.");
+  //           navigate("./register/detail");
+  //         } else {
+  //           alert("회원가입에 실패했습니다.");
+  //         }
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  // };
 
   return (
     <>
@@ -138,7 +155,7 @@ function Register() {
                 {overPwLength && <LimitOnLength>비밀번호를 12자 이내로 입력해주세요</LimitOnLength>}
                 <RegisterInput
                   labelName="닉네임"
-                  name="userNickname"
+                  name="userNickName"
                   type="text"
                   placeholder="닉네임"
                   onChange={onChange}

@@ -37,7 +37,7 @@ function Login() {
       ...inputs,
       [name]: value,
     });
-    console.log(name, value);
+    //name에는 userId, userPw value에는 사용자가 입력한 값
   };
   const onSubmit = (e) => {
     e.preventDefault();

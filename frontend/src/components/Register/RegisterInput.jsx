@@ -22,7 +22,7 @@ const StyledInput = styled.input`
 
   /* 크기 */
   height: 4rem;
-  margin: 0.4rem 1rem 0rem 1rem;
+  margin: 0.4rem 1rem 1.5rem 1rem;
   ${theme("fonts.textH4")} ${theme("neons.boxNeonGold")};
 `;
 
