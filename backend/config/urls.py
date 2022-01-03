@@ -54,7 +54,7 @@ urlpatterns = [ # swagger를 보기 위한 엔드포인트를 정의합니다.
     path('admin/', admin.site.urls), 
     path('user', include('user.urls')),
     # 첫번째 파라미터인 'route'에는 URL route에서 사용된 경로를 지정하고, 두번째 파라미터인 'view' 는 해당 URL에 매핑되는 View를 지정합니다.
-    path('small_theater', include('small_theater.urls')),
+    path('small-theater', include('small_theater.urls')),
     #swagger
     url(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

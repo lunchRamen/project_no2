@@ -77,7 +77,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR / 'templates'),
+        ], #templates안에 app에 관한 html들
         # 'DIRS' : [
         #     os.path.join(BASE_DIR, 'frontend','build'), #장고템플릿X 리엑트템플릿O 경로변경
         # ],

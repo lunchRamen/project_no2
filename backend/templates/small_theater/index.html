@@ -7,6 +7,14 @@
     <title>Sixman Theater Page</title>
   </head>
   <body>
-    {{ result }}
+    {{ result }} <br />
+    {% for theater in small_theater_list %}
+    <li>
+      소극장 제목: {{ theater.title }}
+      <br />
+      소극장 개관일: {{ theater.published_date }} <br />
+      소극장 주인: {{ theater.theater_owner }}
+    </li>
+    {% endfor%}
   </body>
 </html>
