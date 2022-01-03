@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from rest_framework.decorators import api_view #api
-from rest_framework.response import Response #api
+
+# Create your views here.
 # 장고는 return HttpResponse 등의 표현을 쉽게 쓸 수 있도록 render 함수를 제공하는데요.
 # 일일히 HttpResponse 를 정의하지 않고도 쉽게 HttpResponse 에 응답할 수 있습니다.
 
