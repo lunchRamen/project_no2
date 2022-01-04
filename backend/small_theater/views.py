@@ -1,9 +1,10 @@
-from django.http import response #안씀
+from django.http import response, JsonResponse, HttpResponse #안씀
 from django.shortcuts import render #안씀
 from django.views import generic #안씀
 from rest_framework.views import APIView #CBV
 from rest_framework import status #200 404 등
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter
 # from rest_framework.decorators import api_view # @api_view FBV
 from .models import SmallTheater
 from .serializers import SmallTheaterSerializer
@@ -17,21 +18,29 @@ from .serializers import SmallTheaterSerializer
 # https://toughbear.tistory.com/60
 # **kwargs https://d-yong.tistory.com/61
 # 공식문서 https://www.django-rest-framework.org/tutorial/3-class-based-views/
+# 쿼리셋 <-> JSON https://www.delftstack.com/ko/howto/django/django-queryset-to-json/
 
 # static, 템플릿 등 참고사이트 https://iamiet.tistory.com/10?category=928115
 # api 요청 이용해 drf <-> 리엑트 연동 https://this-programmer.tistory.com/135
 # 쿼리셋 검색방법 https://velog.io/@swhybein/django-queryset
 # Create your views here.
 
+
+# 1.
 class SmallTheaterList(APIView): # 소극장 전체 또는 일부 보기
     def get(self,request,**kwargs): # http://localhost/small-theater?theater_genre1=romance&theater_genre2=romance&theater_genre1=drama&theater_genre2=drama&title=마블
         small_theater_list = SmallTheater.objects.all() #쿼리에 따라 DB에 있는 소극장 목록 가져오기
-        small_theater_serializer = SmallTheaterSerializer(small_theater_list)
+        small_theater_serializer = SmallTheaterSerializer(small_theater_list,many=True)
         return Response(small_theater_serializer.data,status=status.HTTP_200_OK)
+
+# 2.
+# class SmallTheaterList(generics.ListAPIView):
+#     queryset = SmallTheater.objects.all()
+#     serializer = 
 
 class SmallTheaterDetail(APIView): # 소극장 상세보기
     def get(self,request,**kwargs): #http://localhost:8000/small-theater{small_theater.id}
         target_theater_id = kwargs.get('id') 
         queryset = SmallTheater.objects.get(id=target_theater_id)
-        target_theater_serializer = SmallTheaterSerializer(queryset)
+        target_theater_serializer = SmallTheaterSerializer(queryset, many=True)
         return Response(target_theater_serializer.data, status=status.HTTP_200_OK)
