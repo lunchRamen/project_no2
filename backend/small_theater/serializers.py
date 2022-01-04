@@ -5,7 +5,7 @@
 from .models import SmallTheater
 from rest_framework import serializers
 
-class SmallTheaterSerializer(serializers.HyperlinkedModelSerializer):
+class SmallTheaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = SmallTheater # models.py속 모델
         fields = ('no','published_date','title','theater_owner','theater_genre1','theater_genre2','introduce','notice') # 통신할 데이터필드

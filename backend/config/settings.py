@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+# drf <-> 리엑트 연동 https://this-programmer.tistory.com/135
 env = os.environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -54,6 +54,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# REST_FRAMEWORK ={ # 블로그 보고 추가한 부분
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.AllowAny',
+#     ]
+# }
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # CORS 추가
     'django.middleware.security.SecurityMiddleware',
@@ -77,9 +83,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR / 'templates'),
-        ], #templates안에 app에 관한 html들
+        'DIRS' : [],
+        # 'DIRS': [
+        #     os.path.join(BASE_DIR / 'templates'),
+        # ], #templates안에 app에 관한 html들
         # 'DIRS' : [
         #     os.path.join(BASE_DIR, 'frontend','build'), #장고템플릿X 리엑트템플릿O 경로변경
         # ],

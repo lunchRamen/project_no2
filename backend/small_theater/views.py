@@ -2,7 +2,7 @@ from django.http import response
 from django.shortcuts import render
 from django.views import generic
 from rest_framework.decorators import api_view # @api_view
-from rest_framework import Response
+from rest_framework.response import Response
 from .models import SmallTheater
 # FBV와 Generic View가 있음
 # FBV는 세세하게 코딩/ Generic view는 간편 -> 섞어도 됨
@@ -13,7 +13,7 @@ from .models import SmallTheater
 # https://coshin.tistory.com/13
 
 # static, 템플릿 등 참고사이트 https://iamiet.tistory.com/10?category=928115
-
+# api 요청 이용해 drf <-> 리엑트 연동 https://this-programmer.tistory.com/135
 # Create your views here.
 
 class SmallTheaterList(generic.View): #제너릭뷰 사용중
