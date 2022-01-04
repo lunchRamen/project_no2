@@ -1,6 +1,8 @@
+from django.http import response
 from django.shortcuts import render
 from django.views import generic
 from rest_framework.decorators import api_view # @api_view
+from rest_framework import Response
 from .models import SmallTheater
 # FBV와 Generic View가 있음
 # FBV는 세세하게 코딩/ Generic view는 간편 -> 섞어도 됨
@@ -14,7 +16,7 @@ from .models import SmallTheater
 
 # Create your views here.
 
-class Index(generic.View): #제너릭뷰 사용중
+class SmallTheaterList(generic.View): #제너릭뷰 사용중
     def get(self,request): #클래스형은 GET,POST등 할 때 함수이름을 꼭 GET으로 해야되나봄
         result = request # WSGIRequst(클래스형get) object는 data속성이 없다
         template_name = 'small_theater/index.html'
@@ -22,8 +24,14 @@ class Index(generic.View): #제너릭뷰 사용중
         contents = {
             'small_theater_list':small_theater_list,
         } #딕셔너리로 만들기
+        response
         return render(result,template_name, contents)
         # render의 3번쨰 인자는 딕셔너리여야한다.
+
+class SmallTheaterDetail(generic.DetailView):
+    model = SmallTheater
+    template_name = 'small_theater/detail.html'
+    context_object_name = 'small_theater'
 
 @api_view(['GET'])
 def index(request):

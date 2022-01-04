@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 class SmallTheater(models.Model):
-    no = models.AutoField(primary_key=True)
+    # no = models.AutoField(primary_key=True)
     published_date = models.DateField()
     title = models.CharField(max_length=200, default='')
     theater_owner = models.CharField(max_length=10, null=True) # 우리는 소극장생성은 안하고 가상의 유저들이 있다치고 보여줄 거니까 아마 user랑 연결될 필요 없다고 생각! 단순 Char로 가상의 유저1,유저2,유저3들의 닉네임만 넣어주자
