@@ -3,8 +3,8 @@ from datetime import datetime
 from django.utils import timezone
 
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from .validators import UserNameValidator
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
+from .validators import NickNameValidator
 
 """
 이미 장고에서 잘 구현한 User를 OneToOneField(FK와 유사하게 테이블 사용)하고, 내가 필요한 컬럼을 추가로
@@ -28,79 +28,107 @@ unique는 nickname과 user_id 두개를 지정.
 UserManager를 이렇게 오버라이딩 해도 괜찮은건지..
 User의 경우도 오버라이딩을 잘 한게 맞는건지...
 
-
-
-
 """
-class Prefer_ott_content_genre(models.Model):
-    prefer_genre_1=models.CharField(max_length=50)
-    prefer_genre_2=models.CharField(max_length=50)
-    prefer_genre_3=models.CharField(max_length=50)
-    prefer_genre_4=models.CharField(max_length=50)
-    prefer_genre_5=models.CharField(max_length=50)
-    prefer_genre_6=models.CharField(max_length=50)
-    prefer_genre_7=models.CharField(max_length=50)
-    prefer_genre_8=models.CharField(max_length=50)
-    #user=models.OneToOneField(User,on_delete-)
+
+
+#django의 기본 그룹, 허가권 관리를 해줘야하는지 잘 모르겠지만,
+#일단 해봄.
+#,null=True, blank=True
+
+#버전1에서 배열을 db에 어떤 형태로 집어넣어 줘야할지,생각이 안나고
+#만약에 풀어 쓴다고해도 다시 genre_list테이블을 만들어서
+#거기에 집어넣어준 다음에 OneToOneField를 해줘야 할거같다 버전2채택.
+class PreferOttContentGenre(models.Model):
+    #id=models.AutoField(primary_key=True)
+
+    title=models.CharField(max_length=100,null=True, blank=True)
+
+    drama=models.IntegerField(null=True, blank=True)
+    comedy=models.IntegerField(null=True, blank=True)
+    action=models.IntegerField(null=True, blank=True)
+    thriller=models.IntegerField(null=True, blank=True)
+    romance=models.IntegerField(null=True, blank=True)
+    crime=models.IntegerField(null=True,blank=True)
+    adventure=models.IntegerField(null=True, blank=True)
+    animation=models.IntegerField(null=True, blank=True)
+    fantasy=models.IntegerField(null=True, blank=True)
+    family=models.IntegerField(null=True, blank=True)
+    sci_fi=models.IntegerField(null=True, blank=True)
+    mystery=models.IntegerField(null=True, blank=True)
+    horror=models.IntegerField(null=True, blank=True)
+    document=models.IntegerField(null=True, blank=True)
+    biography=models.IntegerField(null=True, blank=True)
+    history=models.IntegerField(null=True, blank=True)
+    music=models.IntegerField(null=True,blank=True)
+    short=models.IntegerField(null=True, blank=True)
+    sport=models.IntegerField(null=True, blank=True)
+    war=models.IntegerField(null=True, blank=True)
+    musical=models.IntegerField(null=True, blank=True)
+    reality_tv=models.IntegerField(null=True, blank=True)
+    western=models.IntegerField(null=True, blank=True)
+    game_show=models.IntegerField(null=True, blank=True)
+    talk_show=models.IntegerField(null=True, blank=True)
+
+    img_link=models.CharField(max_length=256,null=True, blank=True)
+
 
 class UserManager(BaseUserManager):
-    def create_user(self, username,email, password,**extra_fields):
-        user=self.model(
+    def create_user(self,username,password,**extra_kwargs):
+        if not username:
+            raise ValueError('id를 입력하지 않았습니다.')
+        user= self.model(
             username=username,
-            email=self.normalize_email(email),#superuser형식 맞춰주기위해 넣은거라
-            **extra_fields
+            **extra_kwargs
         )
-        extra_fields.setdefault('is_staff',False)
-        extra_fields.setdefault('is_superuser',False)
         user.set_password(password)
-        user.save(using=self._db)
+        user.save(self._db)
         return user
-
-    def create_superuser(self, username,email,password,**extra_fields):
-        user=self.create_user(username,email,password)
-        user.is_admin=True
-        user.is_staff=True
-        user.is_superuser=True
-        user.save(using=self._db)
+        
+    def create_superuser(self, username,password,**extra_kwargs):
+        extra_kwargs.setdefault('is_admin',True)
+        extra_kwargs.setdefault('is_superuser',True)
+        extra_kwargs.setdefault('is_staff',True)
+        user= self.create_user(username,password,**extra_kwargs)
+        #user.is_admin=True
+        #user.is_superuser=True
+        user.save(self._db)
         return user
+        
 
 
 class User(AbstractBaseUser,PermissionsMixin):
     class Meta:
         db_table='user'
+
+    #id=models.AutoField(primary_key=True)
+    username=models.CharField(max_length=50,unique=True)
     
-    username_validator =UserNameValidator()
+    nickname_validator=NickNameValidator()
     nickname=models.CharField(
-        verbose_name='닉네임',
         max_length=50,
-        validators=[username_validator],
-        null=True, blank=True
+        validators=[nickname_validator]
     )
-    username=models.CharField(max_length=50,unique=True)#파라미터 맞춰주기위해 user_id를 username으로 일단..
-    # pw=models.TextField(max_length=500) AbstractBaseUser에 이미 있는 컬럼.
-    email=models.EmailField(max_length=100,null=True, blank=True)#superuser를 위한 컬럼.
+
     birthday=models.DateField(null=True, blank=True)
-    gender=models.CharField(max_length=2,null=True, blank=True)
-    watch_time=models.IntegerField(null=True, blank=True)#time을 그냥 시간대말고 우리끼리 정의한
-    #value 0이면 00:00~03:00 1이면 03:00~06:00 ... 이렇게 정의하는걸로 하자.
+    gender=models.CharField(max_length=50,null=True, blank=True)
     job=models.CharField(max_length=50,null=True, blank=True)
     region=models.CharField(max_length=50,null=True, blank=True)
-    #small_theater_group=models.CharField(max_length=50) 일단 보류.
-    prefer_ott_content_genre=models.OneToOneField(
-        Prefer_ott_content_genre,on_delete=models.CASCADE,blank=True,null=True
-        )
+    watch_time=models.IntegerField(null=True, blank=True)
 
-    #AbstractBaseUser상속으로 만들어줘야하는 필드.
-    is_staff=models.BooleanField(default=False)
     is_active=models.BooleanField(default=True)
+    is_admin=models.BooleanField(default=False)
+    is_staff=models.BooleanField(default=False)
 
-    objects=UserManager()
+    prefer_ott_content_genre=models.OneToOneField(PreferOttContentGenre,on_delete=models.CASCADE,null=True, blank=True)
+
+    object=UserManager()
 
     USERNAME_FIELD='username'
     REQUIRED_FIELDS=[]
 
     def __str__(self):
         return self.nickname
+
 
 
 

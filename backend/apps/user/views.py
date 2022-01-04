@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 # Create your views here.
-from .models import User,Prefer_ott_content_genre
+from .models import User,PreferOttContentGenre
 
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
@@ -24,10 +24,11 @@ class CreateUserView(CreateAPIView):
     serializer_class=CreateUserSerializer
     permission_classes=(AllowAny,)
 
+    #유효성 검사 수행.
     def post(self,request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save()#이게 db에 저장하는 코드가 맞는지?
         status_code=status.HTTP_201_CREATED
         response={
             'success':'true',
