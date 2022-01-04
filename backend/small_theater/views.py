@@ -1,49 +1,37 @@
-from django.http import response
-from django.shortcuts import render
-from django.views import generic
-from rest_framework.decorators import api_view # @api_view
+from django.http import response #안씀
+from django.shortcuts import render #안씀
+from django.views import generic #안씀
+from rest_framework.views import APIView #CBV
+from rest_framework import status #200 404 등
 from rest_framework.response import Response
+# from rest_framework.decorators import api_view # @api_view FBV
 from .models import SmallTheater
+from .serializers import SmallTheaterSerializer
 # FBV와 Generic View가 있음
 # FBV는 세세하게 코딩/ Generic view는 간편 -> 섞어도 됨
 
-# 3. FBV(Function Based View) 이기 때문에, API 데코레이터인 @api_view(['GET'])으로 선언해 주어야 swagger에서 인식합니다.  저와 같은 FBV 기반 프로젝트는 @api_view 데코레이터를 사용하여 API 뷰를 짜야 하며, CBV 기반 프로젝트는 APIView 클래스를 사용하여  API 뷰를 짜야 합니다 :D 
+# POST,GET 둘다 요청 
+# POST은 뭔가 sideeffect가 있을 때(바뀌거나 넣어줘야 할 때) GET은 응답(데이터)만 주면 될 때
 
-# 클래스형 뷰 참고사이트
-# https://coshin.tistory.com/13
+# CBV POST,GET,DELETE,UPDATE 참고사이트 
+# https://toughbear.tistory.com/60
+# **kwargs https://d-yong.tistory.com/61
+# 공식문서 https://www.django-rest-framework.org/tutorial/3-class-based-views/
 
 # static, 템플릿 등 참고사이트 https://iamiet.tistory.com/10?category=928115
 # api 요청 이용해 drf <-> 리엑트 연동 https://this-programmer.tistory.com/135
+# 쿼리셋 검색방법 https://velog.io/@swhybein/django-queryset
 # Create your views here.
 
-class SmallTheaterList(generic.View): #제너릭뷰 사용중
-    def get(self,request): #클래스형은 GET,POST등 할 때 함수이름을 꼭 GET으로 해야되나봄
-        result = request # WSGIRequst(클래스형get) object는 data속성이 없다
-        template_name = 'small_theater/index.html'
-        small_theater_list = SmallTheater.objects.all() #ORM 통해 쿼리셋 가져오기 
-        contents = {
-            'small_theater_list':small_theater_list,
-        } #딕셔너리로 만들기
-        response
-        return render(result,template_name, contents)
-        # render의 3번쨰 인자는 딕셔너리여야한다.
+class SmallTheaterList(APIView): # 소극장 전체 또는 일부 보기
+    def get(self,request,**kwargs): # http://localhost/small-theater?theater_genre1=romance&theater_genre2=romance&theater_genre1=drama&theater_genre2=drama&title=마블
+        small_theater_list = SmallTheater.objects.all() #쿼리에 따라 DB에 있는 소극장 목록 가져오기
+        small_theater_serializer = SmallTheaterSerializer(small_theater_list)
+        return Response(small_theater_serializer.data,status=status.HTTP_200_OK)
 
-class SmallTheaterDetail(generic.DetailView):
-    model = SmallTheater
-    template_name = 'small_theater/detail.html'
-    context_object_name = 'small_theater'
-
-@api_view(['GET'])
-def index(request):
-    return HttpResponse("Sixmen's Small Theater page")
-
-# def index(request):
-#     return render(request,'small_theater/index.html')
-
-@api_view(['GET'])
-def get(request):
-    return Response(request.data)
-
-@api_view(['POST'])
-def post(request):
-    return Response(request.data)
+class SmallTheaterDetail(APIView): # 소극장 상세보기
+    def get(self,request,**kwargs): #http://localhost:8000/small-theater{small_theater.id}
+        target_theater_id = kwargs.get('id') 
+        queryset = SmallTheater.objects.get(id=target_theater_id)
+        target_theater_serializer = SmallTheaterSerializer(queryset)
+        return Response(target_theater_serializer.data, status=status.HTTP_200_OK)

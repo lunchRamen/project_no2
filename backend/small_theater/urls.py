@@ -9,5 +9,6 @@ app_name = 'small_theater'
 
 urlpatterns =[
     # url(r'^$', views.Index.as_view(), name='Index'),
-    path('/', views.SmallTheaterList.as_view())
+    path('', views.SmallTheaterList.as_view()),
+    path('<int:id>',views.SmallTheaterDetail.as_view())
 ]

@@ -5,7 +5,7 @@
 from .models import SmallTheater
 from rest_framework import serializers
 
-class SmallTheaterSerializer(serializers.ModelSerializer):
+class SmallTheaterSerializer(serializers.Serializer):
     class Meta:
         model = SmallTheater # models.py속 모델
-        fields = ('no','published_date','title','theater_owner','theater_genre1','theater_genre2','introduce','notice') # 통신할 데이터필드
+        fields = ('id','published_date','title','theater_owner','theater_genre1','theater_genre2','introduce','notice') # 통신할 데이터필드 -> 위처럼 모든 필드 하려면 '__all__'해도 됨
