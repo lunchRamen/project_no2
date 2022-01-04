@@ -3,14 +3,14 @@ import { theme } from "styled-tools";
 
 export default function Poster({ imgSrc }) {
   return (
-    <StWrapper>
-      <StTitle>PosterList</StTitle>
+    <Wrapper>
+      <Title>PosterList</Title>
       <StPoster src={imgSrc} alt="poster01" />
-    </StWrapper>
+    </Wrapper>
   );
 }
 
-const StWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +29,7 @@ const StWrapper = styled.div`
   }
 `;
 
-const StTitle = styled.span`
+const Title = styled.span`
   margin-bottom: 1.5rem;
   width: 100%;
   text-align: center;

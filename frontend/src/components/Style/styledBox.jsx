@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 const MenuBox = styled.ul`
-  width: 100%;
+  width: 50rem;
   margin: 0.8rem 0rem;
   margin-bottom: 1.2rem;
   border-radius: 1rem;

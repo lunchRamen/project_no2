@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import styled from "styled-components";
 import { theme } from "styled-tools";
@@ -7,7 +8,7 @@ const StyledLabel = styled.label`
 `;
 const StyledInput = styled.input`
   /* 공통 스타일 */
-  width: 95%;
+  width: 100%;
   outline: none;
   border: 0.1rem solid #ededed;
   border-radius: 1.2rem;
@@ -30,7 +31,12 @@ const RegisterInput = function ({ labelName, name, type, placeholder, onChange, 
   return (
     <StyledLabel>
       {labelName}
-      <StyledInput name={name} type={type} placeholder={placeholder} onChange={onChange} value={value} />
+      <StyledInput 
+      name={name} 
+      type={type} 
+      placeholder={placeholder} 
+      onChange={onChange} 
+      value={value} />
     </StyledLabel>
   );
 };

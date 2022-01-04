@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Table } from "../components";
-import { StInput } from "../components/registerDetail/BasicSelect";
+import { Input } from "../components/registerDetail/BasicSelect";
 
 const tHeadList = ["극장 개관일", "극장이름", "극장주인", "관객 수", "주요 관심 장르"];
 const tBodyList = [
@@ -46,7 +46,7 @@ const InputWrapper = styled.div`
   ${theme("fonts.textH2")}
 `;
 
-const SearchInput = styled(StInput)`
+const SearchInput = styled(Input)`
   padding: 1.5rem 2rem;
   width: 69.5rem;
   height: 6rem;

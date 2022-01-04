@@ -19,16 +19,18 @@ function Register({ location }) {
   const [inputs, setInput] = useState({
     userId: "",
     userPw: "",
+    userPwCheck: "",
     userNickName: "",
     userBirth: "",
     userGender: "",
     userJob: "",
-    userLive: "",
+    userRegion: "",
     userTime: "",
     usableId: true,
+    userGenre: [],
   });
   console.log(location);
-  const { userId, userPw, userNickName, usableId } = inputs;
+  const { userId, userPw, userPwCheck, userNickName, usableId } = inputs;
 
   const [checkIdLength, setOverIdLength] = useState(false);
   const [checkPwLength, setOverPwLength] = useState(false);
@@ -93,7 +95,7 @@ function Register({ location }) {
       alert("아이디 중복 확인을 해주세요");
       return;
     } else {
-      navigate("/register/step2", { replace: true, state: {} });
+      navigate("/register/step2", { state: { inputs: inputs } });
     }
   };
 
@@ -107,6 +109,10 @@ function Register({ location }) {
   //   };
   //   if (checkIdLength || checkPwLength) {
   //     return;
+  //   }
+  //   if (userPw !== userPwCheck){
+  //      alert("비밀번호를 다시 확인해주세요.");
+  //      return;
   //   }
   //   if (!userId || !userPw || !userNickName) {
   //     alert("필수 항목을 작성해주세요");
@@ -163,6 +169,14 @@ function Register({ location }) {
                   value={userPw}
                 />
                 {checkPwLength && <LimitOnLength>비밀번호를 12자 이내로 입력해주세요</LimitOnLength>}
+                <RegisterInput
+                  labelName="비밀번호 확인"
+                  name="userPwCheck"
+                  type="password"
+                  placeholder="비밀번호 확인"
+                  onChange={onChange}
+                  value={userPwCheck}
+                />
                 <RegisterInput
                   labelName="닉네임"
                   name="userNickName"
