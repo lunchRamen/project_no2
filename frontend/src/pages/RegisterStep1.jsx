@@ -129,7 +129,7 @@ function Register({ location }) {
         const isSuccess = data.payload.success;
         if (isSuccess) {
           alert("다음 항목으로 이동하겠습니다.");
-          navigate("./register/detail");
+          navigate("./register/step2");
         }
         if (!isSuccess) {
           alert("회원가입에 실패했습니다.");
