@@ -1,20 +1,26 @@
 from rest_framework import serializers
-from .models import User
+from .models import User,PreferOttContentGenre
 from django.contrib.auth import authenticate
 
 #회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
-        fields =('id','username','nickname','password')
+        exclude=[
+            'last_login',
+            'is_active',
+            'is_admin',
+            'is_staff',
+            ]
         extra_kwargs={'password':{'write_only':True}}
     
     def create(self,validated_data):
+        #username=validated_data['username']
+        #password=validated_data['password']
         user=User.objects.create_user(
+            #username=username,
             **validated_data
         )
-        user.set_password(validated_data['password'])
-        user.save()
         
         return user
 

@@ -32,8 +32,9 @@ class CreateUserView(CreateAPIView):
         status_code=status.HTTP_201_CREATED
         response={
             'success':'true',
-            'status_code':status_code,
-            'message':'유저 생성 완료'
+            'error':'null',
+            'message':'회원가입 성공',
+            'status_code':status_code
         }
         return Response(response,status=status_code)
 
