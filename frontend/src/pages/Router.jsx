@@ -7,10 +7,9 @@ import {
   Login,
   Main,
   NotFound,
-  RegisterDetail,
+  RegisterStep2,
   RegisterDone,
-  // RegisterId,
-  RegisterName,
+  RegisterStep1,
   TheaterList,
   Theater,
 } from ".";
@@ -22,9 +21,8 @@ const Router = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/register/name" element={<RegisterName />} />
-        {/* <Route path="/register/id" element={<RegisterId />} /> */}
-        <Route path="/register/detail" element={<RegisterDetail />} />
+        <Route path="/register/step1" element={<RegisterStep1 />} />
+        <Route path="/register/step2" element={<RegisterStep2 />} />
         <Route path="/register/done" element={<RegisterDone />} />
         <Route path="/login" element={<Login />} />
         <Route path="/main" element={<Main />} />

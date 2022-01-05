@@ -27,7 +27,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${theme("colors.mainBlack")};
     color: ${theme("colors.mainWhite")};
     font-family: NotoSerif;
-    font-size: 10px;
+    font-size: 7px;
   }
 
   a {

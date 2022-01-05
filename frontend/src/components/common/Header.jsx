@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import { ifProp, theme } from "styled-tools";
 import { CommonNav } from "..";
 import { LogoMini } from "../../assets/icons";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../_actions/user_actions";
 
 const NAVS = {
   register: "회원가입",
@@ -11,7 +13,7 @@ const NAVS = {
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname.split("/")[1];
 
@@ -24,11 +26,22 @@ const Header = () => {
     { id: 2, navText: "팀 소개", navigate: () => navigate("/team") },
   ];
 
+  const handleLogout = () => {
+    dispatch(logoutUser()).then((response) => {
+      if (response.payload.logoutSuccess) {
+        window.localStorage.removeItem("user_id");
+        navigate("/");
+      }
+      if (!response.payload.logoutSuccess) {
+        alert("로그아웃에 실패했습니다.");
+      }
+    });
+  };
   return (
     <StWrapper isLanding={!pathname} isCommon={isCommon}>
       <LogoMini onClick={() => navigate(mainPath)} />
       {isCommon ? <CommonNav navList={COMMONNAVS} /> : <StListWrapper>{NAVS[pathname]}</StListWrapper>}
-      <span id="logout" onClick={() => navigate("/")}>
+      <span id="logout" onClick={handleLogout}>
         로그아웃
       </span>
     </StWrapper>

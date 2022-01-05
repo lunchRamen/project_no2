@@ -2,13 +2,21 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Select } from "./SelectList";
 
-export default function DetailSelect({ data }) {
+export default function DetailSelect(props) {
+  const onChangeHandler = (e) => {
+    const { value, name } = e.target;
+    props.setInputs({
+      ...props.inputs,
+      [name]: value,
+    });
+  };
+  console.log(props.inputs);
   return (
     <IdWrap>
-      {data.map((datum) => (
+      {props.data.map((datum) => (
         <StSelectWrapper key={datum.id}>
           <label>{datum.label}</label>
-          <Select selectWidth="100%" name={datum.id} form={datum.id}>
+          <Select selectWidth="100%" name={datum.id} form={datum.id} onChange={onChangeHandler}>
             {datum.option_list.map((option) => (
               <option key={option.id} value={option.value}>
                 {option.value}

@@ -9,7 +9,7 @@ import Reducer from "./_reducers";
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Provider
       store={createStoreWithMiddleware(
         Reducer,
@@ -17,6 +17,6 @@ ReactDOM.render(
       )}>
       <App />
     </Provider>
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById("root"),
 );

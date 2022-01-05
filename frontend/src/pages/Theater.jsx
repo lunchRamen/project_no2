@@ -23,24 +23,24 @@ export default function Theater() {
   };
 
   return (
-    <StWrapper>
+    <Wrapper>
       <span>
-        식스맨 비대면 소극장 <StTitle>마블 덕후들</StTitle>입니다.
+        식스맨 비대면 소극장 <Title>마블 덕후들</Title>입니다.
         <br />
         아래 티켓을 누르면 오픈 카톡 링크로 이동합니다!
       </span>
       <a href={theaterInfo.linkPath}>
-        <StImage src={ticket01} alt="ticket image" />
+        <Image src={ticket01} alt="ticket image" />
       </a>
       <NoticeSection introData={theaterInfo.intro} noticeData={theaterInfo.notice} />
       <Button isMini={true} onClick={() => navigate(-1)}>
         소극장 더 둘러보기
       </Button>
-    </StWrapper>
+    </Wrapper>
   );
 }
 
-const StWrapper = styled.main`
+const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,7 +54,7 @@ const StWrapper = styled.main`
   }
 `;
 
-const StImage = styled.img`
+const Image = styled.img`
   margin: 3rem 0;
   border: 0.1rem solid ${theme("colors.mainBlack")};
   border-radius: 2rem;
@@ -67,7 +67,7 @@ const StImage = styled.img`
   }
 `;
 
-const StTitle = styled.span`
+const Title = styled.span`
   position: relative;
   color: ${theme("colors.mainPoint")};
   margin: 0 0.8em;
