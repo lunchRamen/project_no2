@@ -13,7 +13,7 @@ export default function Landing() {
         <Link to="/login">
           <LandingButton>로그인</LandingButton>
         </Link>
-        <Link to="/register/name">
+        <Link to="/register/step1">
           <LandingButton>회원가입</LandingButton>
         </Link>
       </ButtonWrapper>

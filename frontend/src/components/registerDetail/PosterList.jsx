@@ -40,15 +40,15 @@ const TEMPPOSTERS = [
 
 export default function PosterList() {
   return (
-    <StWrapper>
+    <Wrapper>
       {TEMPPOSTERS.map((poster, idx) => (
         <Poster key={`poster-${idx}`} imgSrc={poster} />
       ))}
-    </StWrapper>
+    </Wrapper>
   );
 }
 
-const StWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 95rem;

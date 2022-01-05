@@ -1,12 +1,15 @@
+/* eslint-disable no-unused-vars */
+import React from "react";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { BasicSelect, DetailSelect } from "..";
 
-export default function SelectList({ data }) {
+export default function SelectList(props) {
+  console.log(props.inputs);
   return (
     <StWrapper>
-      <BasicSelect />
-      <DetailSelect data={data} />
+      <BasicSelect inputs={props.inputs} setInputs={props.setInputs} />
+      <DetailSelect data={props.data} inputs={props.inputs} setInputs={props.setInputs} />
     </StWrapper>
   );
 }
