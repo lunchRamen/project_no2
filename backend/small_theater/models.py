@@ -18,4 +18,3 @@ class SmallTheater(models.Model):
     class Meta:
         # managed = False # 자동 migration
         db_table = 'small_theater'
-    

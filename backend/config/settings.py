@@ -64,12 +64,18 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # CORS 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.CommonMiddleware', # 추가
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# 리엑트랑 장고 같이 돌리기 이제부터는 frontend요청을 처리할 웹서버와 backend api요청을 처리할 두 개의 웹서버가 작동돼야한다. 
+# 장고 : project-template/backend$ python3 manage.py runserver
+# 리엑트 : project-template/frontend$ yarn start
+# 리엑트가 받을 때 const response = await fetch('http://127.0.0.1:8000/small-theater');
+# const 변수 = await response.json();
 
 # CORS
 # 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
