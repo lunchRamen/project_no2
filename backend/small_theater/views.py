@@ -2,6 +2,7 @@ from django.http import response, JsonResponse, HttpResponse #안씀
 from django.shortcuts import render #안씀
 from django.views import generic #안씀
 from django.db.models import Q #filter시 | 사용하려고 
+from urllib import parse #한글 인코딩
 from rest_framework.views import APIView #CBV
 from rest_framework import status,generics #200 404 등 , ListAPIView
 from rest_framework.response import Response
@@ -28,10 +29,11 @@ from .serializers import SmallTheaterSerializer
 # 쿼리셋 filter, ordering 일본개발자 블로그 https://freez2385.github.io/posts/Python-Django-django_restframework2/
 # filtering, ordering 블로그2 https://donis-note.medium.com/django-rest-framework-filtering%EA%B3%BC-ordering-4e7d1351205a
 # 딕셔너리 .get, .items() 등등 https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=sw4r&logNo=221504133335
+# 한글인코드 https://dololak.tistory.com/255
 
 
 # 1.
-# class SmallTheaterList(APIView): # 소극장 전체 또는 일부 보기
+# class SmallTheaterList(APIView): # 소극장 전체 보기는 구현완료 
 #     def get(self,request,**kwargs): # http://localhost/small-theater?search_genre1=romance&search_genre2=romance&title=마블
 #         small_theater_list = SmallTheater.objects.all() #쿼리에 따라 DB에 있는 소극장 목록 가져오기
 #         small_theater_serializer = SmallTheaterSerializer(small_theater_list,many=True)
@@ -41,21 +43,26 @@ from .serializers import SmallTheaterSerializer
 class SmallTheaterList(APIView): # 소극장 목록 보기
     # http://localhost/small-theater?search-genre1=drama&search-genre2=romance&title=마블
     def get(self,request,**kwargs):
-        my_request = request.data
-        # search_genre1 = kwargs.get('search-genre1')
-        # search_genre2 = kwargs.get('search-genre2')
-        # search_title = kwargs.get('title')
-        # if (search_genre1==None) & (search_genre2==None) & (search_title==None):
-        #     final_queryset = SmallTheater.objects.all()
-        # else: 
-        #     queryset = SmallTheater.objects.filter(Q(theater_genre1=search_genre1) | Q(theater_genre2=search_genre1) | Q(theater_genre1=search_genre2) | Q(theater_genre1=search_genre2) | Q(title=search_title))
-        #     final_queryset = queryset.order_by('-published_date') #published_date하면 오름차순
-        # target_theater_serializer = SmallTheaterSerializer(final_queryset, many=True)
-        # return Response(target_theater_serializer.data, status=status.HTTP_200_OK)
-        return HttpResponse(my_request)
-
-# sol1 . objects.get()
-
+        search_genre1 = request.GET.get('search-genre1')
+        search_genre2 = request.GET.get('search-genre2')
+        search_title =request.GET.get('title')
+        for key in request.GET.keys():
+            if request.GET.get(key)!=None:
+                parse.unquote(request.GET.get(key)) #None이 아니면 한글로 바꿔라
+        # 1. genre1,genre2,title 셋 다 None인 경우
+        if (search_genre1==None) & (search_genre2==None) & (search_title==None):
+            final_queryset = SmallTheater.objects.all().order_by('-published_date') # /small-theater
+        # 2. title이 있는 경우(__contains오류 떄문에 얘만 따로)
+        elif search_title: 
+            queryset = SmallTheater.objects.filter(Q(theater_genre1=search_genre1) | Q(theater_genre2=search_genre1) | Q(theater_genre1=search_genre2) | Q(theater_genre2=search_genre2) | Q(title__contains=search_title)) #단어포함 title__contains = 어쩌구
+            final_queryset = queryset.order_by('-published_date') #published_date하면 오름차순
+        # 3. genre1,genre2,title 중 하나라도 있는 경우
+        else:
+            queryset = SmallTheater.objects.filter(Q(theater_genre1=search_genre1) | Q(theater_genre2=search_genre1) | Q(theater_genre1=search_genre2) | Q(theater_genre2=search_genre2) | Q(title=search_title)) #단어포함 title__contains = 어쩌구
+            final_queryset = queryset.order_by('-published_date')
+        target_theater_serializer = SmallTheaterSerializer(final_queryset, many=True)
+        return Response(target_theater_serializer.data, status=status.HTTP_200_OK)
+        
 class SmallTheaterDetail(APIView): # 소극장 상세보기
     def get(self,request,**kwargs): #http://localhost:8000/small-theater/{small_theater.id}
         target_theater_id = kwargs.get('id') # 4 (int)
