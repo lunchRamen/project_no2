@@ -41,7 +41,7 @@ from .serializers import SmallTheaterSerializer
 
 # 2.
 class SmallTheaterList(APIView): # 소극장 목록 보기
-    # http://localhost/small-theater?search-genre1=drama&search-genre2=romance&title=마블
+    # http://127.0.0.1:8000/small-theater?search-genre1=드라마&search-genre2=공포&title=마블
     def get(self,request,**kwargs):
         search_genre1 = request.GET.get('search-genre1')
         search_genre2 = request.GET.get('search-genre2')
@@ -58,12 +58,13 @@ class SmallTheaterList(APIView): # 소극장 목록 보기
             final_queryset = queryset.order_by('-published_date') #published_date하면 오름차순
         # 3. genre1,genre2,title 중 하나라도 있는 경우
         else:
-            queryset = SmallTheater.objects.filter(Q(theater_genre1=search_genre1) | Q(theater_genre2=search_genre1) | Q(theater_genre1=search_genre2) | Q(theater_genre2=search_genre2) | Q(title=search_title)) #단어포함 title__contains = 어쩌구
+            queryset = SmallTheater.objects.filter(Q(theater_genre1=search_genre1) | Q(theater_genre2=search_genre1) | Q(theater_genre1=search_genre2) | Q(theater_genre2=search_genre2) | Q(title=search_title)) 
             final_queryset = queryset.order_by('-published_date')
         target_theater_serializer = SmallTheaterSerializer(final_queryset, many=True)
         return Response(target_theater_serializer.data, status=status.HTTP_200_OK)
-        
+
 class SmallTheaterDetail(APIView): # 소극장 상세보기
+    # http://127.0.0.1:8000/small-theater/3
     def get(self,request,**kwargs): #http://localhost:8000/small-theater/{small_theater.id}
         target_theater_id = kwargs.get('id') # 4 (int)
         queryset = SmallTheater.objects.filter(id=target_theater_id) # get은 하나만 가져옴 not iterable이슈 있음
