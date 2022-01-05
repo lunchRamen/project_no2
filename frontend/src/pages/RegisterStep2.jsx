@@ -7,7 +7,7 @@ import Fade from "react-reveal/Fade";
 
 const TEMP_SELECTION_DATA = [
   {
-    id: "userJob",
+    id: "job",
     label: "님이 어떤 일을 하시는 분인지 궁금해요!",
     option_list: [
       { id: 0, value: "학생" },
@@ -20,7 +20,7 @@ const TEMP_SELECTION_DATA = [
     ],
   },
   {
-    id: "userRegion",
+    id: "region",
     label: "어디에 거주하시나요?",
     option_list: [
       { id: 0, value: "주거 1" },
@@ -31,7 +31,7 @@ const TEMP_SELECTION_DATA = [
     ],
   },
   {
-    id: "userTime",
+    id: "watch_time",
     label: "주로 어떤 시간대에 영상을 시청하시나요??",
     option_list: [
       { id: 0, value: "시간대 1" },
@@ -49,7 +49,6 @@ export default function RegisterDetail() {
   const [inputs, setInputs] = useState("");
 
   console.log(inputs);
-
   useEffect(() => {
     setInputs(location.state.inputs);
   }, []);
@@ -65,7 +64,7 @@ export default function RegisterDetail() {
 
         <SelectList data={TEMP_SELECTION_DATA} inputs={inputs} setInputs={setInputs} />
         <Intro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</Intro>
-        <PosterList />
+        <PosterList inputs={inputs} setInputs={setInputs} />
         <Button isMini={false} onClick={() => navigate("/register/done")}>
           식스맨 입장을 위한 준비가 완료되었어요!
         </Button>

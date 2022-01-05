@@ -12,10 +12,10 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
-    userId: "",
-    userPw: "",
+    user_id: "",
+    password1: "",
   });
-  const { userId, userPw } = inputs;
+  const { user_id, password1 } = inputs;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -28,15 +28,15 @@ function Login() {
   const onSubmit = (e) => {
     e.preventDefault();
     let body = {
-      id: userId,
-      password: userPw,
+      id: user_id,
+      password: password1,
     };
-    if (!userId || !userPw) {
+    if (!user_id || !password1) {
       alert("필수 항목을 작성하세요");
     } else {
       dispatch(loginUser(body)).then((data) => {
         if (data.payload.loginSuccess) {
-          window.localStorage.setItem("userId", data.payload.userId);
+          window.localStorage.setItem("user_id", data.payload.user_id);
           navigate("/main");
         }
         if (!data.payload.loginSuccess) {
@@ -52,24 +52,24 @@ function Login() {
         <form onSubmit={onSubmit} style={{ textAlign: "center" }}>
           <LoginInput
             type="text"
-            name="userId"
+            name="user_id"
             placeholder="아이디를 입력해주세요"
             onChange={onChange}
-            value={userId}
+            value={user_id}
           />
           <LoginInput
             type="password"
-            name="userPw"
+            name="password1"
             placeholder="비밀번호를 입력해주세요"
             onChange={onChange}
-            value={userPw}
+            value={password1}
           />
           <LoginButton type="submit" isMini={true}>
             로그인
           </LoginButton>
         </form>
         <StyledDiv>
-          <Link to="/register/name">
+          <Link to="/register/step1">
             <StyledSpan>식스맨 극장에 처음이신가요?</StyledSpan>회원가입
           </Link>
         </StyledDiv>
