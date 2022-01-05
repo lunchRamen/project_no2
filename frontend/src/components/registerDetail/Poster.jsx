@@ -1,11 +1,24 @@
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 import { theme } from "styled-tools";
 
-export default function Poster({ imgSrc }) {
+export default function Poster(props) {
+  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => {
+    setIsClicked(!isClicked);
+  };
+  // const onClickPoster = (e) => {
+  //   const { value, name } = e.target;
+  //   props.setInputs({
+  //     ...props.inputs,
+  //     [name]: value,
+  //   });
+  // };
+  console.log(props.inputs);
   return (
-    <Wrapper>
+    <Wrapper isClicked={isClicked} onClick={handleClick}>
       <Title>PosterList</Title>
-      <StPoster src={imgSrc} alt="poster01" />
+      <StPoster src={props.imgSrc} alt="poster01" name={props.prefer_ott_content_genre} />
     </Wrapper>
   );
 }
@@ -18,15 +31,25 @@ const Wrapper = styled.div`
   height: 33.5rem;
   ${theme("fonts.textP")}
   ${theme("neons.textNeonGold")}
+  ${(props) =>
+    props.isClicked
+      ? css`
+          color: ${theme("colors.mainPoint")};
+          & > img {
+            border-color: ${theme("colors.mainPoint")};
+            ${theme("neons.boxNeonGold")}
+          }
+        `
+      : css`
+          &:hover {
+            color: ${theme("colors.mainPoint")};
 
-  &:hover {
-    color: ${theme("colors.mainPoint")};
-
-    & > img {
-      border-color: ${theme("colors.mainPoint")};
-      ${theme("neons.boxNeonGold")}
-    }
-  }
+            & > img {
+              border-color: ${theme("colors.mainPoint")};
+              ${theme("neons.boxNeonGold")}
+            }
+          }
+        `}
 `;
 
 const Title = styled.span`

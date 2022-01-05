@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import styled from "styled-components";
 import { Poster } from "..";
 import {
@@ -38,11 +39,18 @@ const TEMPPOSTERS = [
   poster16,
 ];
 
-export default function PosterList() {
+export default function PosterList(props) {
+  console.log(props);
   return (
     <Wrapper>
       {TEMPPOSTERS.map((poster, idx) => (
-        <Poster key={`poster-${idx}`} imgSrc={poster} />
+        <Poster 
+        key={`poster-${idx}`} 
+        imgSrc={poster} 
+        value={idx + 1} 
+        inputs={props.inputs} 
+        setInputs={props.setInputs}
+        />
       ))}
     </Wrapper>
   );

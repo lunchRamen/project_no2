@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Table } from "../components";
@@ -14,11 +16,49 @@ const tBodyList = [
 ];
 
 export default function TheaterList() {
+  const [inputValue, setInputValue] = useState("");
+  const [result, setResult] = useState([]);
+  const [genre, setGenre] = useState("");
+
+  const handleClick = (e) => {
+    setGenre(e.target.value);
+    const response = async () => await axios.get(`api/theater_list/${genre}`);
+    const data = response.data;
+    setResult(data);
+    console.log(genre);
+  };
+
+  const handleSubmit = (e) => {
+    if (e.key === "Enter") {
+      const response = async () => await axios.post(`api/theater_list/${inputValue}`);
+      const data = response.data;
+      console.log(result);
+      setResult(data);
+    }
+  };
+
   return (
     <Wrapper>
       <InputWrapper>
         <label>님과 비슷한 취향을 가진 사람들을 찾아볼까요?</label>
-        <SearchInput type="text" placeholder="영화 제목 또는 장르를 입력해보세요!" />
+        <form>
+          <SearchInput
+            type="text"
+            placeholder="영화 제목 또는 장르를 입력해보세요!"
+            name="title"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={handleSubmit}
+          />
+          <Searchbutton type="submit" value="검색" />
+        </form>
+      </InputWrapper>
+      <InputWrapper>
+        <Searchbutton type="button" value="로맨스" onClick={handleClick} />
+        <Searchbutton type="button" value="액션" onClick={handleClick} />
+        <Searchbutton type="button" value="공포" onClick={handleClick} />
+        <Searchbutton type="button" value="스릴러" onClick={handleClick} />
+        <Searchbutton type="button" value="SF" onClick={handleClick} />
       </InputWrapper>
       <TableWrapper>
         <span>전체 소극장 목록</span>
@@ -48,8 +88,19 @@ const InputWrapper = styled.div`
 
 const SearchInput = styled(Input)`
   padding: 1.5rem 2rem;
-  width: 69.5rem;
+  width: 45rem;
   height: 6rem;
+`;
+const Searchbutton = styled.input`
+  padding: 1.5rem 2rem;
+  width: 15rem;
+  height: 6rem;
+  cursor: pointer;
+  border: 0.1rem solid ${theme("colors.mainWhite")};
+  color: white;
+  font-family: NotoSerif;
+  ${theme("fonts.textP")}
+  ${theme("neons.boxNeonGold")}
 `;
 
 const TableWrapper = styled.section`

@@ -15,14 +15,14 @@ import Fade from "react-reveal/Fade";
 
 function Register({ location }) {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [inputs, setInput] = useState({
     user_id: "",
     password1: "",
     password2: "",
     nickname: "",
     birth_day: "",
-    gender: "",
+    gender: "1",
     job: "",
     region: "",
     watch_time: "",
@@ -102,14 +102,13 @@ function Register({ location }) {
   // };
 
   const SignUp = (e) => {
-    const navigate = useNavigate();
     e.preventDefault();
     const body = {
       id: user_id,
       password: password1,
       nickname: nickname,
     };
-    if (checkIdLength || checkPwLength) {
+    if (checkIdLength && checkPwLength) {
       return;
     }
     if (password1 !== password2) {
@@ -124,12 +123,15 @@ function Register({ location }) {
       alert("아이디 중복 확인을 해주세요");
       return;
     }
+    alert("다음 항목으로 이동하겠습니다.");
+    navigate("/register/step2", { state: { inputs: inputs } });
     dispatch(registerUser(body))
       .then(({ data }) => {
         const isSuccess = data.payload.success;
         if (isSuccess) {
+          console.log(body);
           alert("다음 항목으로 이동하겠습니다.");
-          navigate("./register/detail");
+          navigate("./register/step2");
         }
         if (!isSuccess) {
           alert("회원가입에 실패했습니다.");
