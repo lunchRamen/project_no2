@@ -97,7 +97,7 @@ class User(AbstractBaseUser):
 
 class PreferOttContentGenre(models.Model):
     #id=models.AutoField(primary_key=True)
-    user=models.OneToOneField(User,on_delete=models.CASCADE,null=True, blank=True)
+    #user=models.OneToOneField(User,on_delete=models.CASCADE,null=True, blank=True)
 
     title=models.CharField(max_length=100,null=True, blank=True)
 
@@ -114,7 +114,7 @@ class PreferOttContentGenre(models.Model):
     sci_fi=models.IntegerField(null=True, blank=True)
     mystery=models.IntegerField(null=True, blank=True)
     horror=models.IntegerField(null=True, blank=True)
-    document=models.IntegerField(null=True, blank=True)
+    documentary=models.IntegerField(null=True, blank=True)
     biography=models.IntegerField(null=True, blank=True)
     history=models.IntegerField(null=True, blank=True)
     music=models.IntegerField(null=True,blank=True)

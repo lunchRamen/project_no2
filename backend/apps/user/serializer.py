@@ -2,21 +2,45 @@ from rest_framework import serializers
 from .models import User,PreferOttContentGenre
 from django.contrib.auth import authenticate
 
+class PreferOttContentGenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=PreferOttContentGenre
+        fields='__all__'
+
+    def create(self,validated_data):
+        prefer_ott_content_genre=PreferOttContentGenre.objects.create(
+            **validated_data
+            )
+        return prefer_ott_content_genre
+
 #회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
+    
+    #1명의 유저 =1개의 선호장르 row. 나중에 된다면 수정도 구현할거니까 read_only False로 설정.
     class Meta:
         model= User
-        exclude=[
-            'last_login',
-            'is_active',
-            'is_admin',
-            'is_staff',
-            ]
+        # exclude=[
+        #     'last_login',
+        #     'is_active',
+        #     'is_admin',
+        #     'is_staff',
+        #     ]
+        fields=[
+            'username',
+            'password',
+            'nickname',
+            'birthday',
+            'gender',
+            'job',
+            'region',
+            'watch_time',
+        ]
         extra_kwargs={'password':{'write_only':True}}
     
     def create(self,validated_data):
         #username=validated_data['username']
         #password=validated_data['password']
+        #prefer_ott_content_genre=validated_data['prefer_ott_content_genre']
         user=User.objects.create_user(
             #username=username,
             **validated_data
