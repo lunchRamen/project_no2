@@ -25,7 +25,7 @@ export default function TheaterList() {
     const response = async () => await axios.get(`api/theater_list/${genre}`);
     const data = response.data;
     setResult(data);
-    console.log(genre);
+    // console.log(genre);
   };
 
   const handleSubmit = (e) => {

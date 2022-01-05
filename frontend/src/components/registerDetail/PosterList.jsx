@@ -40,7 +40,10 @@ const TEMPPOSTERS = [
 ];
 
 export default function PosterList(props) {
-  console.log(props);
+  console.log(props.genre);
+  const onClickPoster = (e) => {
+    props.setGenre(...props.genre,e.target.value);
+  };
   return (
     <Wrapper>
       {TEMPPOSTERS.map((poster, idx) => (
@@ -48,8 +51,9 @@ export default function PosterList(props) {
         key={`poster-${idx}`} 
         imgSrc={poster} 
         value={idx + 1} 
-        inputs={props.inputs} 
-        setInputs={props.setInputs}
+        genre={props.genre} 
+        setGenre={props.setGenre}
+        onClick={onClickPoster} 
         />
       ))}
     </Wrapper>

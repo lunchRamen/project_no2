@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { theme } from "styled-tools";
@@ -7,18 +8,15 @@ export default function Poster(props) {
   const handleClick = () => {
     setIsClicked(!isClicked);
   };
-  // const onClickPoster = (e) => {
-  //   const { value, name } = e.target;
-  //   props.setInputs({
-  //     ...props.inputs,
-  //     [name]: value,
-  //   });
-  // };
-  console.log(props.inputs);
+ 
+  console.log(props.genre);
   return (
     <Wrapper isClicked={isClicked} onClick={handleClick}>
       <Title>PosterList</Title>
-      <StPoster src={props.imgSrc} alt="poster01" name={props.prefer_ott_content_genre} />
+      <StPoster 
+      src={props.imgSrc} 
+      alt="poster01" 
+      />
     </Wrapper>
   );
 }
