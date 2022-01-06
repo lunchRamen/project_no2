@@ -26,8 +26,12 @@ const StyledButton = styled.button`
   }
 `;
 
-const RegisterButton = function ({ type, children }) {
-  return <StyledButton type={type}>{children}</StyledButton>;
+const RegisterButton = function ({ type, children, onClick }) {
+  return (
+    <StyledButton type={type} onClick={onClick}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default RegisterButton;

@@ -23,7 +23,6 @@ const Header = () => {
   const COMMONNAVS = [
     { id: 0, navText: "나의 콘텐츠 유형 분석 결과", navigate: () => navigate("contents") },
     { id: 1, navText: "소극장 들어가기", navigate: () => navigate("theater_list") },
-    { id: 2, navText: "팀 소개", navigate: () => navigate("/team") },
   ];
 
   const handleLogout = () => {

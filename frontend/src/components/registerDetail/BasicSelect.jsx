@@ -15,11 +15,11 @@ export default function BasicSelect(props) {
     <InputsWrapper>
       <InputWrapper>
         <Label>생년월일</Label>
-        <Input name="userBirth" type="text" placeholder="ex) 0000-00-00" onChange={onChangeHandler} />
+        <Input name="birth_day" type="text" placeholder="ex) 0000-00-00" onChange={onChangeHandler} />
       </InputWrapper>
       <InputWrapper>
         <Label>성별</Label>
-        <Select selectWidth="17.4rem" name="userGender" form="Gender" placeholder="성별" onChange={onChangeHandler}>
+        <Select selectWidth="17.4rem" name="gender" form="Gender" placeholder="성별" onChange={onChangeHandler}>
           <option value="1">남자</option>
           <option value="0">여자</option>
         </Select>
