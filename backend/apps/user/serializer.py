@@ -4,16 +4,11 @@ from .models import User,PreferOttContentGenre
 from django.contrib.auth import authenticate
 from rest_framework_jwt.settings import api_settings
 
-# class PreferOttContentGenreSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model=PreferOttContentGenre
-#         fields='__all__'
+class PreferOttContentGenreSerializer(serializers.ListSerializer):
+    class Meta:
+        model=PreferOttContentGenre
+        fields='__all__'
 
-#     def create(self,validated_data):
-#         prefer_ott_content_genre=PreferOttContentGenre.objects.create(
-#             **validated_data
-#             )
-#         return prefer_ott_content_genre
 
 #회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -38,19 +33,26 @@ class CreateUserSerializer(serializers.ModelSerializer):
             'watch_time',
         ]
         extra_kwargs={'password':{'write_only':True}}
-    
+        
+#    def validate_username(self,data):
+#        #User테이블에서 입력받은 username(id)값과 같은게 있는지 가져와봄.
+#        user=User.objects.filter(username=data['username'])
+
+        #만약 user가 있다면
+
+#        if user:
+#            raise serializers.ValidationError('해당 아이디가 이미 존재합니다.')
+
     def create(self,validated_data):
         #username=validated_data['username']
         #password=validated_data['password']
         #prefer_ott_content_genre=validated_data['prefer_ott_content_genre']
-        check_user=User.objects.get(validated_data['username'])
-        if check_user is not None:
-            raise serializers.ValidationError('해당 아이디는 중복됐습니다. 다시 작성해주세요.')
         
         user=User.objects.create_user(
             #username=username, 
             **validated_data
         )
+
         return user
 
 #접속 유지 확인용
@@ -75,7 +77,7 @@ class LoginUserSerializer(serializers.Serializer):
         user=authenticate(username=username,password=password)
 
         if user is None:
-            raise serializers.ValidationError('해당 아이디는 없는 아이디입니다.')
+           raise serializers.ValidationError('해당 아이디는 없는 아이디입니다.')
 
         try:
             payload=JWT_PAYLOAD_HANDLER(user)

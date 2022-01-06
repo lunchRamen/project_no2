@@ -9,8 +9,9 @@ from rest_framework.views import APIView,View
 from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
-from .serializer import CreateUserSerializer, UserSerializer, LoginUserSerializer
+from .serializer import CreateUserSerializer, LoginUserSerializer,PreferOttContentGenreSerializer
 import csv
+import random
 
 """
 View에도 Model처럼 4계층으로 상속이 진행됨.
@@ -61,6 +62,19 @@ APIView -> GenericView -> Concrete View classes -> Viewsets
 class CreateUserView(CreateAPIView):
     serializer_class=CreateUserSerializer
     permission_classes=(AllowAny,)
+    
+    def get(self,request):
+        #선호 장르들에 선호장르 정보 모두 다 가져오기
+        prefer_ott_content_genres=PreferOttContentGenre.objects.all()
+        contents_set=set([])
+
+        while len(contents_set)!=40:
+            i=random.randrange(0,129)
+            contents_set.add(prefer_ott_content_genres[i])
+        
+        contents_set_serializer=PreferOttContentGenreSerializer(contents_set,many=True)
+        return Response(contents_set_serializer,status=status.HTTP_200_OK)    
+        
 
     #유효성 검사 수행.
     def post(self,request):
@@ -100,6 +114,9 @@ class LoginUserView(GenericAPIView):
 
     def post(self,request):
         #deserialize.
+        username=request.data.get('username')
+        password=request.data.get('password')
+
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         response={
@@ -107,7 +124,8 @@ class LoginUserView(GenericAPIView):
             'error':'null',
             'status_code':status.HTTP_200_OK,
             'message':'유저 로그인 및 jwt 토큰 발급 완료!',
-            'token':serializer.data['token']
+            'token':serializer.data['token'],
+            'data':serializer.errors
         }
         status_code=status.HTTP_200_OK
         return Response(response,status=status_code)
