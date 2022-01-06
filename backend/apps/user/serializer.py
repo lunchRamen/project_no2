@@ -43,6 +43,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         #username=validated_data['username']
         #password=validated_data['password']
         #prefer_ott_content_genre=validated_data['prefer_ott_content_genre']
+        check_user=User.objects.get(validated_data['username'])
+        if check_user is not None:
+            raise serializers.ValidationError('해당 아이디는 중복됐습니다. 다시 작성해주세요.')
+        
         user=User.objects.create_user(
             #username=username, 
             **validated_data
