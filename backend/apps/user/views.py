@@ -6,10 +6,10 @@ from .models import User,PreferOttContentGenre
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView,View
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
-from .serializer import CreateUserSerializer, UserSerializer, LoginUserSerializer,PreferOttContentGenreSerializer
+from .serializer import CreateUserSerializer, UserSerializer, LoginUserSerializer
 import csv
 
 """
@@ -76,22 +76,37 @@ class CreateUserView(CreateAPIView):
         }
         return Response(response,status=status_code)
 
-class CreateContentView(CreateAPIView):
-    serializer_class=PreferOttContentGenreSerializer
+# class CreateContentView(CreateAPIView):
+#     serializer_class=PreferOttContentGenreSerializer
+#     permission_classes=(AllowAny,)
+
+#     def post(self, request):
+#         serializer=self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.user_id=request.user.id
+#         serializer.save()
+#         status_code=status.HTTP_201_CREATED
+#         response={
+#             'success':'true',
+#             'error':'null',
+#             'message':'회원가입 선호장르 입력 성공',
+#             'status_code':status_code
+#         }
+#         return Response(response,status=status_code)
+
+class LoginUserView(GenericAPIView):
+    serializer_class = LoginUserSerializer
     permission_classes=(AllowAny,)
 
-    def post(self, request):
-        serializer=self.serializer_class(data=request.data)
+    def post(self,request):
+        #deserialize.
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.user_id=request.user.id
-        serializer.save()
-        status_code=status.HTTP_201_CREATED
         response={
             'success':'true',
-            'error':'null',
-            'message':'회원가입 선호장르 입력 성공',
-            'status_code':status_code
+            'status_code':status.HTTP_200_OK,
+            'message':'유저 로그인 및 jwt 토큰 발급 완료!',
+            'token':serializer.data['token']
         }
+        status_code=status.HTTP_200_OK
         return Response(response,status=status_code)
-
-
