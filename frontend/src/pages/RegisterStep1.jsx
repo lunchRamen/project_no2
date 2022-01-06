@@ -61,7 +61,6 @@ function Register() {
     }
   };
 
-
   const PwCheck = (e) => {
     e.preventDefault();
     if (checkIdLength && checkPwLength) {
@@ -126,12 +125,12 @@ function Register() {
                 onChange={onChange}
                 value={nickname}
               />
-              </StyledBox>
-              <ButtonWrap>
-              <Button isMini={false} onClick={PwCheck} >
+            </StyledBox>
+            <ButtonWrap>
+              <Button isMini={false} onClick={PwCheck}>
                 다음으로(1/3)
               </Button>
-              </ButtonWrap>
+            </ButtonWrap>
           </div>
         </StyledContainer>
       </Fade>
