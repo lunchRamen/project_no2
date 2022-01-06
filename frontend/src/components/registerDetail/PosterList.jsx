@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import styled from "styled-components";
 import { Poster } from "..";
 import {
@@ -38,11 +39,33 @@ const TEMPPOSTERS = [
   poster16,
 ];
 
-export default function PosterList() {
+export default function PosterList(props) {
+  // const handleClick = (e) => {
+  //   setGenre(e.target.value);
+  //   const response = async () => await axios.get(`api/theater_list/${genre}`);
+  //   const data = response.data;
+  //   setResult(data);
+  //   // console.log(genre);
+  // };
+  // const { prefer_ott_content_genre } = props.inputs;
+  // const onChangeHandler = (e) => {
+  //   const { value, name } = e.target;
+  //   props.setInputs({
+  //     ...props.inputs,
+  //     [name]: value,
+  //   });
+  // };
+  console.log(props.inputs);
+  console.log(props.setInputs);
   return (
     <Wrapper>
       {TEMPPOSTERS.map((poster, idx) => (
-        <Poster key={`poster-${idx}`} imgSrc={poster} />
+        <Poster 
+        key={`poster-${idx}`} 
+        imgSrc={poster} 
+        inputs={props.inputs}
+        setInputs={props.setInputs}
+        />
       ))}
     </Wrapper>
   );
