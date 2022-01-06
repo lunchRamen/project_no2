@@ -10,8 +10,8 @@ export default function RegisterStep3() {
   const location = useLocation();
   const [inputs, setInputs] = useState("");
 
-  //user_id, password1, nickname,
-  // console.log(inputs);
+  //username, password, nickname,
+  //console.log(inputs);
   useEffect(() => {
     setInputs(location.state.inputs);
   }, []);

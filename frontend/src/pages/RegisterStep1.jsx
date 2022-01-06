@@ -15,19 +15,19 @@ import { Button } from "../components";
 function Register() {
   const navigate = useNavigate();
   const [inputs, setInput] = useState({
-    user_id: "",
-    password1: "",
+    username: "",
+    password: "",
     password2: "",
     nickname: "",
-    birth_day: "",
+    birthday: "",
     gender: "1",
     job: "",
     region: "",
-    watch_time: "",
+    watch_time: 1,
     // usableId: true,
     prefer_ott_content_genre: [1],
   });
-  const { user_id, password1, password2, nickname, usableId } = inputs;
+  const { username, password, password2, nickname, usableId } = inputs;
 
   const [checkIdLength, setOverIdLength] = useState(false);
   const [checkPwLength, setOverPwLength] = useState(false);
@@ -46,18 +46,18 @@ function Register() {
       usableId: usableId,
     });
     // console.log(inputs);
-    const isUserIdOverLength = isOverLength(inputs.user_id.length, 8);
+    const isUserIdOverLength = isOverLength(inputs.username.length, 8);
     if (isUserIdOverLength) {
       setOverIdLength(true);
     }
     if (!isUserIdOverLength) {
       setOverIdLength(false);
     }
-    if (isOverLength(inputs.password1.length, 12)) {
+    if (isOverLength(inputs.password.length, 12)) {
       setOverPwLength(true);
       //패스워드와 아이디의 길이제한
     }
-    if (!isOverLength(inputs.password1.length, 12)) {
+    if (!isOverLength(inputs.password.length, 12)) {
       setOverPwLength(false);
     }
   };
@@ -68,7 +68,7 @@ function Register() {
       return;
     }
     // axios
-    //   .post(`/regiser/checkId/${user_id}`, { id: user_id })
+    //   .post(`/regiser/checkId/${username}`, { id: username })
     //   .then((response) => {
     //     if (response.status === 200) {
     //       setInput({
@@ -92,16 +92,16 @@ function Register() {
     if (checkIdLength && checkPwLength) {
       return;
     }
-    if (password1 !== password2) {
+    if (password !== password2) {
       alert("비밀번호를 다시 확인해주세요.");
       return;
     }
-    if (!user_id || !password1 || !nickname) {
+    if (!username || !password || !nickname) {
       alert("필수 항목을 작성해주세요");
       return;
     }
-    if (password1 === password2) {
-      // console.log(password1, password2);
+    if (password === password2) {
+      // console.log(password, password2);
       navigate("/register/step2", { state: { inputs: inputs } });
       return;
     }
@@ -119,21 +119,21 @@ function Register() {
             <StyledBox padding="18px, 16px" lineHeight="20px">
               <RegisterInput
                 labelName="아이디"
-                name="user_id"
+                name="username"
                 type="text"
                 placeholder="아이디"
                 onChange={onChange}
-                value={user_id}
+                value={username}
               />
               {checkIdLength && <LimitOnLength>아이디를 8자 이내로 입력해주세요</LimitOnLength>}
               <CheckIdButton onClick={checkId}>중복체크</CheckIdButton>
               <RegisterInput
                 labelName="비밀번호"
-                name="password1"
+                name="password"
                 type="password"
                 placeholder="비밀번호"
                 onChange={onChange}
-                value={password1}
+                value={password}
               />
               {checkPwLength && <LimitOnLength>비밀번호를 12자 이내로 입력해주세요</LimitOnLength>}
               <RegisterInput
