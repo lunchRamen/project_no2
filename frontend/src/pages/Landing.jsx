@@ -44,14 +44,13 @@ const LandingPage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 33rem;
-  height: 33rem;
+  margin-bottom: 4rem;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12rem;
+  margin-bottom: 10rem;
   width: 87rem;
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};
