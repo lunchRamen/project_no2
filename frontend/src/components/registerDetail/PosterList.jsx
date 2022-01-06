@@ -47,14 +47,7 @@ export default function PosterList(props) {
   //   setResult(data);
   //   // console.log(genre);
   // };
-  // const { prefer_ott_content_genre } = props.inputs;
-  // const onChangeHandler = (e) => {
-  //   const { value, name } = e.target;
-  //   props.setInputs({
-  //     ...props.inputs,
-  //     [name]: value,
-  //   });
-  // };
+
   console.log(props.inputs);
   console.log(props.setInputs);
   return (
