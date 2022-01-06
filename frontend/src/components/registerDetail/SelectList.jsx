@@ -5,7 +5,7 @@ import { theme } from "styled-tools";
 import { BasicSelect, DetailSelect } from "..";
 
 export default function SelectList(props) {
-  console.log(props.inputs);
+  // console.log(props.inputs);
   return (
     <StWrapper>
       <BasicSelect inputs={props.inputs} setInputs={props.setInputs} />

@@ -10,7 +10,6 @@ export default function DetailSelect(props) {
       [name]: value,
     });
   };
-  console.log(props.inputs);
   return (
     <IdWrap>
       {props.data.map((datum) => (
