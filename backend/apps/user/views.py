@@ -104,6 +104,7 @@ class LoginUserView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         response={
             'success':'true',
+            'error':'null',
             'status_code':status.HTTP_200_OK,
             'message':'유저 로그인 및 jwt 토큰 발급 완료!',
             'token':serializer.data['token']
