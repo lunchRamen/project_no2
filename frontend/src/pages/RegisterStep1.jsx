@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 import StyledBox from "../components/Style/styledBox";
 import StyledContainer from "../components/Style/styledContainer";
-import CheckIdButton from "../components/Register/CheckIdButton";
 import RegisterInput from "../components/Register/RegisterInput";
 import LimitOnLength from "../components/Register/LimitOnLength";
 
@@ -61,30 +60,6 @@ function Register() {
       setOverPwLength(false);
     }
   };
-  //아이디 중복확인하는 부분
-  const checkId = (e) => {
-    e.preventDefault();
-    if (checkIdLength) {
-      return;
-    }
-    // axios
-    //   .post(`/regiser/checkId/${username}`, { id: username })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       setInput({
-    //         ...inputs,
-    //         usableId: true,
-    //       });
-    //       alert("사용가능한 아이디입니다.");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert("이미 사용중인 아이디입니다.");
-    //   });
-  };
-
-
 
 
   const PwCheck = (e) => {
@@ -126,7 +101,6 @@ function Register() {
                 value={username}
               />
               {checkIdLength && <LimitOnLength>아이디를 8자 이내로 입력해주세요</LimitOnLength>}
-              <CheckIdButton onClick={checkId}>중복체크</CheckIdButton>
               <RegisterInput
                 labelName="비밀번호"
                 name="password"

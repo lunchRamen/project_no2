@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, SelectList } from "../components";
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../_actions/user_actions";
@@ -77,11 +77,10 @@ export default function RegisterStep() {
     // alert("다음 항목으로 이동하겠습니다.");
     // navigate("/register/step3", { state: { inputs: inputs } });
     dispatch(registerUser(body))
-      .then(({ data }) => {
+      .then((data) => {
         const isSuccess = data.payload.success;
-        console.log(isSuccess);
+        console.log(data);
         if (isSuccess) {
-          // console.log(body);
           alert("다음 항목으로 이동하겠습니다.");
           navigate("./register/step3");
         }

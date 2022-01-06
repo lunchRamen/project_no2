@@ -23,7 +23,6 @@ function Login() {
       ...inputs,
       [name]: value,
     });
-    //name에는 userId, userPw value에는 사용자가 입력한 값
   };
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,11 +34,11 @@ function Login() {
       alert("필수 항목을 작성하세요");
     } else {
       dispatch(loginUser(body)).then((data) => {
-        if (data.payload.loginSuccess) {
+        if (data.payload.success) {
           window.localStorage.setItem("username", data.payload.username);
           navigate("/main");
         }
-        if (!data.payload.loginSuccess) {
+        if (!data.payload.success) {
           alert(data.payload.message);
         }
       });
