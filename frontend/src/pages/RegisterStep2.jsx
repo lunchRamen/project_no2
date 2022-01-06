@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 import { useNavigate, useLocation } from "react-router-dom";
 import Fade from "react-reveal/Fade";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../_actions/user_actions";
+// import { useDispatch } from "react-redux";
+// import { registerUser } from "../_actions/user_actions";
 const TEMP_SELECTION_DATA = [
   {
     id: "job",
@@ -47,11 +47,11 @@ const TEMP_SELECTION_DATA = [
 export default function RegisterStep() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [inputs, setInputs] = useState("");
 
-  const { user_id, password1, nickname, birth_day, gender, job, region, watch_time } = inputs;
-
+  const { birth_day, gender, job, region, watch_time } = inputs;
+  //user_id, password1, nickname,
   // console.log(inputs);
   useEffect(() => {
     setInputs(location.state.inputs);
@@ -59,35 +59,35 @@ export default function RegisterStep() {
 
   const SignUp = (e) => {
     e.preventDefault();
-    const body = {
-      id: user_id,
-      password: password1,
-      nickname: nickname,
-      birth_day: birth_day,
-      gender: gender,
-      job: job,
-      region: region,
-      watch_time: watch_time,
-    };
+    // const body = {
+    //   id: user_id,
+    //   password: password1,
+    //   nickname: nickname,
+    //   birth_day: birth_day,
+    //   gender: gender,
+    //   job: job,
+    //   region: region,
+    //   watch_time: watch_time,
+    // };
     if (!birth_day || !gender || !job || !region || !watch_time) {
       alert("작성되지 않은 항목이 있습니다.");
       return;
     }
     alert("다음 항목으로 이동하겠습니다.");
-    navigate("/register/step2", { state: { inputs: inputs } });
-    dispatch(registerUser(body))
-      .then(({ data }) => {
-        const isSuccess = data.payload.success;
-        if (isSuccess) {
-          // console.log(body);
-          alert("다음 항목으로 이동하겠습니다.");
-          navigate("./register/step3");
-        }
-        if (!isSuccess) {
-          alert("회원가입에 실패했습니다.");
-        }
-      })
-      .catch((error) => console.log(error));
+    navigate("/register/step3", { state: { inputs: inputs } });
+    // dispatch(registerUser(body))
+    //   .then(({ data }) => {
+    //     const isSuccess = data.payload.success;
+    //     if (isSuccess) {
+    //       // console.log(body);
+    //       alert("다음 항목으로 이동하겠습니다.");
+    //       navigate("./register/step3");
+    //     }
+    //     if (!isSuccess) {
+    //       alert("회원가입에 실패했습니다.");
+    //     }
+    //   })
+    //   .catch((error) => console.log(error));
   };
   return (
     <Wrapper>

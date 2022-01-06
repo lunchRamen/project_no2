@@ -25,7 +25,7 @@ function Register() {
     region: "",
     watch_time: "",
     // usableId: true,
-    // prefer_ott_content_genre: [],
+    prefer_ott_content_genre: [1],
   });
   const { user_id, password1, password2, nickname, usableId } = inputs;
 

@@ -40,20 +40,31 @@ const TEMPPOSTERS = [
 ];
 
 export default function PosterList(props) {
-  console.log(props.genre);
-  const onClickPoster = (e) => {
-    props.setGenre(...props.genre,e.target.value);
-  };
+  // const handleClick = (e) => {
+  //   setGenre(e.target.value);
+  //   const response = async () => await axios.get(`api/theater_list/${genre}`);
+  //   const data = response.data;
+  //   setResult(data);
+  //   // console.log(genre);
+  // };
+  // const { prefer_ott_content_genre } = props.inputs;
+  // const onChangeHandler = (e) => {
+  //   const { value, name } = e.target;
+  //   props.setInputs({
+  //     ...props.inputs,
+  //     [name]: value,
+  //   });
+  // };
+  console.log(props.inputs);
+  console.log(props.setInputs);
   return (
     <Wrapper>
       {TEMPPOSTERS.map((poster, idx) => (
         <Poster 
         key={`poster-${idx}`} 
         imgSrc={poster} 
-        value={idx + 1} 
-        genre={props.genre} 
-        setGenre={props.setGenre}
-        onClick={onClickPoster} 
+        inputs={props.inputs}
+        setInputs={props.setInputs}
         />
       ))}
     </Wrapper>

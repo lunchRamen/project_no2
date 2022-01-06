@@ -22,15 +22,15 @@ export default function TheaterList() {
 
   const handleClick = (e) => {
     setGenre(e.target.value);
-    const response = async () => await axios.get(`api/theater_list/${genre}`);
+    const response = async () => await axios.get("api/small-theater/");
     const data = response.data;
     setResult(data);
-    // console.log(genre);
+    console.log(genre);
   };
 
   const handleSubmit = (e) => {
     if (e.key === "Enter") {
-      const response = async () => await axios.post(`api/theater_list/${inputValue}`);
+      const response = async () => await axios.post("api/small-theater", { inputValue });
       const data = response.data;
       console.log(result);
       setResult(data);
