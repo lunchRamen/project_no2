@@ -39,6 +39,7 @@ class SmallTheaterList(APIView): # 소극장 목록 보기
 
 class SmallTheaterDetail(APIView): # 소극장 상세보기
     # http://127.0.0.1:8000/small-theater/3
+    permission_classes=(AllowAny,)
     def get(self,request,**kwargs): #http://localhost:8000/small-theater/{small_theater.id}
         target_theater_id = kwargs.get('id') # 4 (int)
         queryset = SmallTheater.objects.filter(id=target_theater_id) # get은 하나만 가져옴 not iterable이슈 있음
