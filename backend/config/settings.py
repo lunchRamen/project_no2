@@ -60,9 +60,9 @@ JWT_AUTH={
     'JWT_ALLOW_REFRESH':True,#유효기간에 딸느 새로운 토큰 반환
     'JWT_EXPIRATION_DELTA':datetime.timedelta(minutes=30),#access토큰 만료시간
     'JWT_REFRESH_EXPIRATION_DELTA':datetime.timedelta(days=3),#refresh토큰 만료시간.
-    #위에는 로그인이 지속되는 기간. 아래는 자동로그인처럼 자동인증을 해도, 토큰이 만료되는 기간.
-    #'JWT_RESPONSE_PAYLOAD_HANDLER':'api.custom_responses.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER':'api.custom_responses.my_jwt_response_handler',
     #?
+    'JWT_RESPONSE_PAYLOAD_HANDLER':'rest_framework_jwt.utils.jwt_response_payload_handler'
 }
 
 
@@ -70,7 +70,6 @@ JWT_AUTH={
 INSTALLED_APPS = [
     'apps.user',
     'apps.small_theater',
-    'apps.contents_analysis',
     'rest_framework',
     'rest_framework_jwt',
     'corsheaders',
@@ -96,6 +95,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+AUTH_USER_MODEL = 'user.User'
 
 TEMPLATES = [
     {
@@ -132,7 +132,7 @@ DATABASES = {
         'NAME': 'ott_service_database',                  
         'USER': 'root',                          
         'PASSWORD': '2140',                  
-        'HOST': '172.28.93.166',                     
+        'HOST': '172.28.83.142',                     
         'PORT': '3306',                          
     }
 }
@@ -155,8 +155,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-AUTH_USER_MODEL = "user.User"
 
 
 # Internationalization
