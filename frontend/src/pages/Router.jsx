@@ -1,18 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
-  Comments,
   Contents,
-  CreateArticle,
   CreateDone,
   CreateTheater,
   Landing,
   Login,
   Main,
   NotFound,
-  RegisterDetail,
+  RegisterStep2,
   RegisterDone,
-  RegisterId,
-  RegisterName,
+  RegisterStep1,
   TheaterList,
   Theater,
 } from ".";
@@ -24,19 +21,16 @@ const Router = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/Register/name" element={<RegisterName />} />
-        <Route path="/Register/id" element={<RegisterId />} />
-        <Route path="/Register/detail" element={<RegisterDetail />} />
-        <Route path="/Register/done" element={<RegisterDone />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Main" element={<Main />} />
-        <Route path="/Contents" element={<Contents />} />
-        <Route path="/TheaterList" element={<TheaterList />} />
-        <Route path="/Theater/:id" element={<Theater />} />
-        <Route path="/CreateTheater" element={<CreateTheater />} />
-        <Route path="/CreateDone" element={<CreateDone />} />
-        <Route path="/Comments/:id" element={<Comments />} />
-        <Route path="/CreateArticle" element={<CreateArticle />} />
+        <Route path="/register/step1" element={<RegisterStep1 />} />
+        <Route path="/register/step2" element={<RegisterStep2 />} />
+        <Route path="/register/done" element={<RegisterDone />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/contents" element={<Contents />} />
+        <Route path="/theater_list" element={<TheaterList />} />
+        <Route path="/theater/:id" element={<Theater />} />
+        <Route path="/create_theater" element={<CreateTheater />} />
+        <Route path="/create_done" element={<CreateDone />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

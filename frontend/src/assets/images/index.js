@@ -16,3 +16,4 @@ export { default as poster13 } from "./tempPosters/poster13.png";
 export { default as poster14 } from "./tempPosters/poster14.png";
 export { default as poster15 } from "./tempPosters/poster15.png";
 export { default as poster16 } from "./tempPosters/poster16.png";
+export { default as ticket01 } from "./ticket01.png";
