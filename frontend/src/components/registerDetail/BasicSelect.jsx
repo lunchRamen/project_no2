@@ -7,7 +7,7 @@ import { Select } from "./SelectList";
 export default function BasicSelect(props) {
   const onChangeHandler = (e) => {
     const { value, name } = e.target;
-    props.setIn puts({
+    props.setInputs({
       ...props.inputs,
       [name]: value,
     });

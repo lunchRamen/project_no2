@@ -19,9 +19,12 @@ export default function Table({ tHeadList, tBodyList }) {
       {tBodyList.map((body) => (
         <tbody key={`tbody-${body.id}`} onClick={() => navigate(`/theater/${body.id}`)}>
           <tr>
-            {body.contents.map((b, i) => (
-              <td key={`td-${i}`}>{b}</td>
-            ))}
+            <td>{body.published_date}</td>
+            <td>{body.title}</td>
+            <td>{body.theater_owner}</td>
+            <td>
+              {body.theater_genre1} / {body.theater_genre2}
+            </td>
           </tr>
         </tbody>
       ))}
