@@ -13,6 +13,7 @@ from urllib import parse
 from django.db.models import Q
 from rest_framework.permissions import AllowAny
 
+# 여기 삭제하지 말아주세용..
 # class SmallTheaterList(APIView): # 소극장 목록 보기
 #     # http://127.0.0.1:8000/small-theater?search-genre1=드라마&search-genre2=공포&title=마블
 #     permission_classes=(AllowAny,)
@@ -38,7 +39,7 @@ from rest_framework.permissions import AllowAny
 #         return Response(target_theater_serializer.data, status=status.HTTP_200_OK)
 
 class SmallTheaterList(APIView): # 소극장 목록 보기
-    # http://127.0.0.1:8000/small-theater?search-keyword=드라마
+    # http://127.0.0.1:8000/api/small-theater?search-keyword=드라마
     permission_classes=(AllowAny,)
     def get(self,request,**kwargs):
         search_keyword = request.GET.get('search-keyword')
