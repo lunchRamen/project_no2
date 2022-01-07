@@ -6,7 +6,8 @@ from .models import User,PreferOttContentGenre
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView,View
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework import viewsets
+from rest_framework.generics import CreateAPIView, GenericAPIView,ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
 from .serializer import CreateUserSerializer, LoginUserSerializer,PreferOttContentGenreSerializer
@@ -59,28 +60,42 @@ APIView -> GenericView -> Concrete View classes -> Viewsets
 #             )
 #     return HttpResponse('csv변환 완료')
 
+
+class ListContentView(ListAPIView):
+    serializer=PreferOttContentGenreSerializer
+    permission_classes=(AllowAny,)
+
+    def get(self,request):
+        #선호 장르들에 선호장르 정보 모두 다 가져오기
+        queryset=PreferOttContentGenre.objects.all()
+        list_to_set=set([])
+
+        while len(queryset)!=40:
+            i=random.randrange(0,129)
+            temp=queryset[i]
+            list_to_set.add(temp)
+        
+        final_queryset=list(list_to_set)
+        
+        contents_set_serializer=PreferOttContentGenreSerializer(final_queryset,many=True)
+        return Response(contents_set_serializer.data,status=status.HTTP_200_OK)
+
 class CreateUserView(CreateAPIView):
     serializer_class=CreateUserSerializer
     permission_classes=(AllowAny,)
     
-    def get(self,request):
-        #선호 장르들에 선호장르 정보 모두 다 가져오기
-        prefer_ott_content_genres=PreferOttContentGenre.objects.all()
-        contents_set=set([])
-
-        while len(contents_set)!=40:
-            i=random.randrange(0,129)
-            contents_set.add(prefer_ott_content_genres[i])
-        
-        contents_set_serializer=PreferOttContentGenreSerializer(contents_set,many=True)
-        return Response(contents_set_serializer,status=status.HTTP_200_OK)    
-        
-
+    #이 함수를 ListAPIView로 만들어야 return에서 self.list가 나옴. 따로 뺴줘야겠다.
     #유효성 검사 수행.
     def post(self,request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()#이게 db에 저장하는 코드가 맞는지?
+        #여기엔 이제 user와 prefer_ott_content_genre의 연결테이블에 insert하는.
+        # user=User.objects.get(username=request.data['username']).first()
+        # pocg=PreferOttContentGenre.objects.get(title=request.data['title']).first()
+        # user.prefer_ott_content_genres(user_id=user.id,preferottcontentgenre_id=pocg.id)
+        # user.save()
+
         status_code=status.HTTP_201_CREATED
         response={
             'success':'true',

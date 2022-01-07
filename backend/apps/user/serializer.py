@@ -4,7 +4,7 @@ from .models import User,PreferOttContentGenre
 from django.contrib.auth import authenticate
 from rest_framework_jwt.settings import api_settings
 
-class PreferOttContentGenreSerializer(serializers.ListSerializer):
+class PreferOttContentGenreSerializer(serializers.ModelSerializer):
     class Meta:
         model=PreferOttContentGenre
         fields='__all__'
@@ -16,12 +16,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
     #prefer_ott_content_genre_serializer = PreferOttContentGenreSerializer()
     class Meta:
         model= User
-        # exclude=[
-        #     'last_login',
-        #     'is_active',
-        #     'is_admin',
-        #     'is_staff',
-        #     ]
         fields=[
             'username',
             'password',
@@ -52,7 +46,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
             #username=username, 
             **validated_data
         )
-
         return user
 
 #접속 유지 확인용

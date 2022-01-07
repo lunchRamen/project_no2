@@ -132,7 +132,7 @@ DATABASES = {
         'NAME': 'ott_service_database',                  
         'USER': 'root',                          
         'PASSWORD': '2140',                  
-        'HOST': '172.28.83.142',                     
+        'HOST': '172.28.89.51',                     
         'PORT': '3306',                          
     }
 }
