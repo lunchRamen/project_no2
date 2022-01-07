@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Select } from "./SelectList";
+// import Calendar from "react-calendar";
 
 export default function BasicSelect(props) {
   const onChangeHandler = (e) => {
@@ -15,6 +16,7 @@ export default function BasicSelect(props) {
     <InputsWrapper>
       <InputWrapper>
         <Label>생년월일</Label>
+        {/* <Calendar /> */}
         <Input name="birthday" type="text" placeholder="ex) 0000-00-00" onChange={onChangeHandler} />
       </InputWrapper>
       <InputWrapper>

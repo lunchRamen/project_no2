@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Notice } from "..";
 
-export default function NoticeSection({ introData, noticeData }) {
+export default function NoticeSection({ theaterTitle, introData, noticeData }) {
   return (
     <StNoticeWrapper>
-      <Notice title={introData.title}>
-        <StNotice>{introData.context}</StNotice>
+      <Notice title={theaterTitle}>
+        <StNotice>{introData}</StNotice>
       </Notice>
-      <Notice title={noticeData.title}>
-        <StNotice>{noticeData.context}</StNotice>
+      <Notice title={theaterTitle}>
+        <StNotice>{noticeData}</StNotice>
       </Notice>
     </StNoticeWrapper>
   );
