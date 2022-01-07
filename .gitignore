@@ -10,7 +10,7 @@ __pycache__/
 migrations/
 
 # 서윤 backend_1파일무시
-backend_1/
+backend/mysite/
 
 # Distribution / packaging
 .Python

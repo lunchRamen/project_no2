@@ -18,7 +18,7 @@ export default function TheaterList() {
   };
 
   const fetchSearchResult = async (keyword) => {
-    const { data } = await client.get(`small-theater?search-genre1=&title=${keyword}`);
+    const { data } = await client.get(`small-theater?search-keyword=${keyword}`);
     setTableList(data);
   };
 
