@@ -62,23 +62,34 @@ APIView -> GenericView -> Concrete View classes -> Viewsets
 
 
 class ListContentView(ListAPIView):
-    serializer=PreferOttContentGenreSerializer
+    serializer_class=PreferOttContentGenreSerializer
     permission_classes=(AllowAny,)
 
-    def get(self,request):
+#    def get(self,request):
+#        #선호 장르들에 선호장르 정보 모두 다 가져오기
+#        queryset=PreferOttContentGenre.objects.all()
+#        list_to_set=set([])
+#
+#        while len(list_to_set)!=40:
+#            i=random.randrange(0,129)
+#            temp=queryset[i]
+#            list_to_set.add(temp)
+#        
+#        final_queryset=list_to_set.get_queryset()
+#        
+#        contents_set_serializer=PreferOttContentGenreSerializer(final_queryset,many=True)
+#        return Response(contents_set_serializer.data,status=status.HTTP_200_OK)
+    def get_queryset(self):
         #선호 장르들에 선호장르 정보 모두 다 가져오기
         queryset=PreferOttContentGenre.objects.all()
         list_to_set=set([])
 
-        while len(queryset)!=40:
+        while len(list_to_set)!=40:
             i=random.randrange(0,129)
             temp=queryset[i]
             list_to_set.add(temp)
-        
-        final_queryset=list(list_to_set)
-        
-        contents_set_serializer=PreferOttContentGenreSerializer(final_queryset,many=True)
-        return Response(contents_set_serializer.data,status=status.HTTP_200_OK)
+
+        return list_to_set
 
 class CreateUserView(CreateAPIView):
     serializer_class=CreateUserSerializer
@@ -123,7 +134,7 @@ class CreateUserView(CreateAPIView):
 #         }
 #         return Response(response,status=status_code)
 
-class LoginUserView(GenericAPIView):
+class LoginUserView(APIView):
     serializer_class = LoginUserSerializer
     permission_classes=(AllowAny,)
 
