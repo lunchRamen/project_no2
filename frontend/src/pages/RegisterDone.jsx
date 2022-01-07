@@ -1,10 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Button } from "../components";
 
 export default function RegisterDone() {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(`location`, location);
+
   return (
     <Wrap>
       <StIntro>

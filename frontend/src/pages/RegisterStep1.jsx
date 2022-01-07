@@ -20,8 +20,6 @@ function Register() {
     nickname: "",
     birthday: "",
     gender: "1",
-    job: "",
-    region: "",
     watch_time: 1,
     // usableId: true,
     prefer_ott_content_genre: [1],
