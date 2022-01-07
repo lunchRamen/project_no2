@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import axios from "axios";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Table } from "../components";
@@ -10,18 +9,7 @@ const tHeadList = ["극장 개관일", "극장이름", "극장주인", "주요 �
 
 export default function TheaterList() {
   const [inputValue, setInputValue] = useState("");
-  // const [result, setResult] = useState([]);
-  // const [genre, setGenre] = useState("");
-
   const [tableList, setTableList] = useState([]);
-
-  // const handleClick = (e) => {
-  //   setGenre(e.target.value);
-  //   const response = async () => await axios.get("api/small-theater/");
-  //   const data = response.data;
-  //   setResult(data);
-  //   console.log(genre);
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,18 +43,10 @@ export default function TheaterList() {
             name="title"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            // onKeyPress={handleSubmit}
           />
           <SearchButton>검색</SearchButton>
         </form>
       </InputWrapper>
-      {/* <InputWrapper>
-        <SearchButton type="button" value="로맨스" onClick={handleClick} />
-        <SearchButton type="button" value="액션" onClick={handleClick} />
-        <SearchButton type="button" value="공포" onClick={handleClick} />
-        <SearchButton type="button" value="스릴러" onClick={handleClick} />
-        <SearchButton type="button" value="SF" onClick={handleClick} />
-      </InputWrapper> */}
       <TableWrapper>
         <span>전체 소극장 목록</span>
         <Table tHeadList={tHeadList} tBodyList={tableList} />

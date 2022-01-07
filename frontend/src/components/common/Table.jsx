@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "styled-tools";
 
-//
-
 export default function Table({ tHeadList, tBodyList }) {
   const navigate = useNavigate();
 
@@ -17,7 +15,9 @@ export default function Table({ tHeadList, tBodyList }) {
         </tr>
       </thead>
       {tBodyList.map((body) => (
-        <tbody key={`tbody-${body.id}`} onClick={() => navigate(`/theater/${body.id}`)}>
+        <tbody
+          key={`tbody-${body.id}`}
+          onClick={() => navigate(`/theater/${body.id}`, { state: { theaterInfo: body } })}>
           <tr>
             <td>{body.published_date}</td>
             <td>{body.title}</td>
