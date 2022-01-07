@@ -5,25 +5,16 @@ import { client } from "../../libs";
 import styled from "styled-components";
 import { Poster } from "..";
 
-export default function PosterList(props) {
+export default function PosterList({ selectedList, onSelect }) {
   const [posterList, setPosterList] = useState([]);
-  const [selectedList, setSelectedList] = useState([]);
 
   useEffect(() => {
     fetchPoster();
   }, []);
 
-  useEffect(() => {
-    console.log(`selectedList`, selectedList);
-  }, [selectedList]);
-
   const fetchPoster = async () => {
     const { data } = await client.get("/user/contents-list");
     setPosterList(data);
-  };
-
-  const handleSelect = (id) => {
-    setSelectedList((current) => [...current, id]);
   };
 
   return (
@@ -35,7 +26,7 @@ export default function PosterList(props) {
             id={poster.id}
             title={poster.title}
             imgSrc={poster.img_link}
-            onSelect={handleSelect}
+            onSelect={onSelect}
             selected={selectedList}
           />
         ))}
