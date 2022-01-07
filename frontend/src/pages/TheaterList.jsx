@@ -18,7 +18,7 @@ export default function TheaterList() {
   };
 
   const fetchSearchResult = async (keyword) => {
-    const { data } = await client.get(`small-theater?title=${keyword}`);
+    const { data } = await client.get(`small-theater?search-genre1=&title=${keyword}`);
     setTableList(data);
   };
 
@@ -35,7 +35,7 @@ export default function TheaterList() {
   return (
     <Wrapper>
       <InputWrapper>
-        <label>님과 비슷한 취향을 가진 사람들을 찾아볼까요?</label>
+        <label>비슷한 취향을 가진 사람들을 찾아볼까요?</label>
         <form onSubmit={handleSubmit}>
           <SearchInput
             type="text"
@@ -79,6 +79,7 @@ const InputWrapper = styled.div`
 `;
 
 const SearchInput = styled(Input)`
+  margin-right: 2rem;
   padding: 1.5rem 2rem;
   width: 45rem;
   height: 6rem;

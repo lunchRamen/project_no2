@@ -1,28 +1,30 @@
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Button, Notice } from "../components";
+import { Button, NoticeSection } from "../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ticket01, ticket02, ticket03, ticket04, ticket05, ticket06, ticket07 } from "../assets/images";
 
 export default function Theater() {
-  const TICKET_LIST = [
-    { id: 1, ticket: ticket01 },
-    { id: 2, ticket: ticket02 },
-    { id: 3, ticket: ticket03 },
-    { id: 4, ticket: ticket04 },
-    { id: 5, ticket: ticket05 },
-    { id: 6, ticket: ticket06 },
-    { id: 7, ticket: ticket07 },
+  const TICKET_LIST = [ticket01, ticket02, ticket03, ticket04, ticket05, ticket06, ticket07];
+
+  const LINK_LIST = [
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
   ];
 
   const navigate = useNavigate();
   const { state } = useLocation();
   const theaterInfo = state.theaterInfo;
   const theaterId = theaterInfo.id;
-  const ticket = TICKET_LIST[theaterId - 1].ticket;
-  const LINK_PATH = "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template";
+  const ticket = TICKET_LIST[theaterId - 1];
+  const LINK_PATH = LINK_LIST[theaterId - 1];
 
-  const { title, notice } = theaterInfo;
+  const { title, introduce, notice } = theaterInfo;
 
   return (
     <Wrapper>
@@ -34,10 +36,7 @@ export default function Theater() {
       <a href={LINK_PATH}>
         <Image src={ticket} alt="ticket image" />
       </a>
-      {/* <NoticeSection introData={theaterInfo.intro} noticeData={theaterInfo.notice} /> */}
-      <Notice title={title}>
-        <StNotice>{notice}</StNotice>
-      </Notice>
+      <NoticeSection theaterTitle={title} introData={introduce} noticeData={notice} />
       <Button isMini={true} onClick={() => navigate(-1)}>
         소극장 더 둘러보기
       </Button>
@@ -88,16 +87,4 @@ export const Title = styled.span`
     content: '"';
     right: -0.5em;
   }
-`;
-
-const StNotice = styled.div`
-  margin: 1.5rem 0 5rem 0;
-  border: 0.1rem solid ${theme("colors.mainPoint")};
-  padding: 4rem;
-  width: 120rem;
-  height: 35.4rem;
-  color: ${theme("colors.mainWhite")};
-  white-space: pre-wrap;
-  ${theme("neons.boxNeonGold")}
-  ${theme("fonts.textP")}
 `;
