@@ -11,9 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-import datetime
 # drf <-> 리엑트 연동 https://this-programmer.tistory.com/135
-
 env = os.environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,52 +31,21 @@ ALLOWED_HOSTS = [] # ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있�
 # ( * 은 모든 호스트가 접근 가능합니다)
 
 APPEND_SLASH=False
-#react의 경우 SPA라 /가 필요 없는데, 원래 True로 자동 설정이라
-#이렇게 주소 접근하면 페이지를 찾을 수 없기 때문에.
-
-# CORS
-# 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:8000']
-# 2. 개발일 경우
-# CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+# react는 SPA라 /가 필요 없다. 원래 True로 자동설정이라
+# 이렇게 주소 접근하면 페이지를 찾을 수 없어서 False로 준다.
 
 # Application definition
 
-REST_FRAMEWORK={
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
-        #첫번째는 인증된 회원만, 두번째는 모든 사람 접근 허용.
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES':(
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    #api가 실행 됐을때 인증할 클래스를 정의.
-    #jwt로 인증을 할거니까 api가 실행되면 jwt로 인증을 실행.
-    ),
-}
-
-JWT_AUTH={
-    'JWT_SECRET_KEY':SECRET_KEY,#비밀키 설정
-    'JWT_ALGORITHM':'HS256',#암호화 알고리즘
-    'JWT_VERIFY_EXPIRATION':True,#토큰 검증
-    'JWT_ALLOW_REFRESH':True,#유효기간에 딸느 새로운 토큰 반환
-    'JWT_EXPIRATION_DELTA':datetime.timedelta(minutes=30),#access토큰 만료시간
-    'JWT_REFRESH_EXPIRATION_DELTA':datetime.timedelta(days=3),#refresh토큰 만료시간.
-    'JWT_RESPONSE_PAYLOAD_HANDLER':'api.custom_responses.my_jwt_response_handler',
-    #?
-    'JWT_RESPONSE_PAYLOAD_HANDLER':'rest_framework_jwt.utils.jwt_response_payload_handler'
-}
-
-
+# 1. 웹 브라우저의 http://localhost/ (127.0.0.1:8000)를 실행하면 내 앱(user)의 함수들을 호출할 수 있게 위해 settings.py와 urls.py에 앱을 추가해주어야 합니다.
 
 INSTALLED_APPS = [
-    'apps.user',
-    'apps.small_theater',
-    'rest_framework',
-    'rest_framework_jwt',
-    'corsheaders',
-    'drf_yasg',
+    'user',
+    'small_theater', # 추가
+    'contents_analysis', # 추가
+    'rest_framework', # 추가
+    'drf_yasg', # 추가
+    'corsheaders', # CORS 리엑트3000번 장고8000번
+    # Port 번호 다르면 다른 서버로 인식하기때문에 Cross Domain 에러가 발생한다.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -110,9 +77,14 @@ MIDDLEWARE = [
 # 리엑트가 받을 때 const response = await fetch('http://127.0.0.1:8000/small-theater');
 # const 변수 = await response.json();
 
+# CORS
+# 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:8000']
+# 2. 개발일 경우
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'config.urls'
-AUTH_USER_MODEL = 'user.User'
 
 TEMPLATES = [
     {
@@ -148,20 +120,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'ott_service_database',  # DB이름                
         'USER': 'seoyoon1', # DB로그인 유저명                          
         'PASSWORD': 'seoyoon1234',  #DB로그인 비밀번호    
-        'HOST': 'localhost',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
+        'HOST': '172.18.127.201',  # 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
         'PORT': '3306',                          
     }
 }
@@ -190,10 +155,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'ko-kr'
-#영어에서 바꿈
 
 TIME_ZONE = 'Asia/Seoul'
-#시간 기준을 서울로 맞춤.
 
 USE_I18N = True
 

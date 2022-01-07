@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# 프로젝트 시작 전 꼭 주석해제!! migrations파일 gitignore
+migrations/
+
+# 서윤 backend_1파일무시
+backend_1/
+
 # Distribution / packaging
 .Python
 build/
