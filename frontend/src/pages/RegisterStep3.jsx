@@ -15,7 +15,7 @@ export default function RegisterStep3() {
   useEffect(() => {
     setInputs(location.state.inputs);
   }, []);
-  console.log(inputs);
+  // console.log(inputs);
   return (
     <Wrapper>
       <Fade>
