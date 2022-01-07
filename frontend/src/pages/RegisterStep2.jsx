@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Button, SelectList } from "../components";
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Fade from "react-reveal/Fade";
-// import { useDispatch } from "react-redux";
-// import { registerUser } from "../_actions/user_actions";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../_actions/user_actions";
 const TEMP_SELECTION_DATA = [
   {
     id: "job",
@@ -35,11 +35,11 @@ const TEMP_SELECTION_DATA = [
     id: "watch_time",
     label: "주로 어떤 시간대에 영상을 시청하시나요??",
     option_list: [
-      { id: 0, value: "시간대 1" },
-      { id: 1, value: "시간대 2" },
-      { id: 2, value: "시간대 3" },
-      { id: 3, value: "시간대 3" },
-      { id: 4, value: "시간대 4" },
+      { id: 0, value: 1 },
+      { id: 1, value: 2 },
+      { id: 2, value: 3 },
+      { id: 3, value: 4 },
+      { id: 4, value: 4 },
     ],
   },
 ];
@@ -47,11 +47,11 @@ const TEMP_SELECTION_DATA = [
 export default function RegisterStep() {
   const navigate = useNavigate();
   const location = useLocation();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [inputs, setInputs] = useState("");
 
-  const { birth_day, gender, job, region, watch_time } = inputs;
-  //user_id, password1, nickname,
+  const { username, password, nickname, birthday, gender, job, region, watch_time } = inputs;
+  //
   // console.log(inputs);
   useEffect(() => {
     setInputs(location.state.inputs);
@@ -59,35 +59,36 @@ export default function RegisterStep() {
 
   const SignUp = (e) => {
     e.preventDefault();
-    // const body = {
-    //   id: user_id,
-    //   password: password1,
-    //   nickname: nickname,
-    //   birth_day: birth_day,
-    //   gender: gender,
-    //   job: job,
-    //   region: region,
-    //   watch_time: watch_time,
-    // };
-    if (!birth_day || !gender || !job || !region || !watch_time) {
+    const body = {
+      username: username,
+      password: password,
+      nickname: nickname,
+      birthday: birthday,
+      gender: gender,
+      job: job,
+      region: region,
+      watch_time: watch_time,
+    };
+    console.log(body);
+    if (!birthday || !gender || !job || !region || !watch_time) {
       alert("작성되지 않은 항목이 있습니다.");
       return;
     }
-    alert("다음 항목으로 이동하겠습니다.");
-    navigate("/register/step3", { state: { inputs: inputs } });
-    // dispatch(registerUser(body))
-    //   .then(({ data }) => {
-    //     const isSuccess = data.payload.success;
-    //     if (isSuccess) {
-    //       // console.log(body);
-    //       alert("다음 항목으로 이동하겠습니다.");
-    //       navigate("./register/step3");
-    //     }
-    //     if (!isSuccess) {
-    //       alert("회원가입에 실패했습니다.");
-    //     }
-    //   })
-    //   .catch((error) => console.log(error));
+    // alert("다음 항목으로 이동하겠습니다.");
+    // navigate("/register/step3", { state: { inputs: inputs } });
+    dispatch(registerUser(body))
+      .then((data) => {
+        const isSuccess = data.payload.success;
+        console.log(data);
+        if (isSuccess) {
+          alert("다음 항목으로 이동하겠습니다.");
+          navigate("./register/step3");
+        }
+        if (!isSuccess) {
+          alert("회원가입에 실패했습니다.");
+        }
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <Wrapper>

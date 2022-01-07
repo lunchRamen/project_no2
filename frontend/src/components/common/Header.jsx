@@ -28,7 +28,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logoutUser()).then((response) => {
       if (response.payload.logoutSuccess) {
-        window.localStorage.removeItem("user_id");
+        window.localStorage.removeItem("username");
         navigate("/");
       }
       if (!response.payload.logoutSuccess) {

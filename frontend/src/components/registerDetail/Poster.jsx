@@ -2,20 +2,50 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { theme } from "styled-tools";
+const VALUE = [
+  [1, 0, 0 ,1 ,1, 1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1],
+  [1, 0, 0 ,1 ,1 ,1]
+];
 
 export default function Poster(props) {
   const [isClicked, setIsClicked] = useState(false);
+
+  const { prefer_ott_content_genre } = props.inputs;
+  const onChangeHandler = (e) => {
+    const { value, name } = e.target;
+    props.setInputs({
+      ...props.inputs,
+      [name]: value,
+    });
+  };
   const handleClick = () => {
     setIsClicked(!isClicked);
   };
  
-  console.log(props.genre);
+  console.log(props.inputs);
   return (
     <Wrapper isClicked={isClicked} onClick={handleClick}>
       <Title>PosterList</Title>
       <StPoster 
       src={props.imgSrc} 
       alt="poster01" 
+      value={VALUE}
+      name={prefer_ott_content_genre}
+      onClick={onChangeHandler}
       />
     </Wrapper>
   );
