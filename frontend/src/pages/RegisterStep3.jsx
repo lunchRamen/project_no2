@@ -19,7 +19,7 @@ export default function RegisterStep3() {
   return (
     <Wrapper>
       <Fade>
-        <Intro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 6가지를 선택해주세요!</Intro>
+        <Intro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 8가지를 선택해주세요!</Intro>
         <PosterList inputs={inputs} setInputs={setInputs} />
         <Button isMini={false} onClick={() => navigate("/register/done")}>
           로그인
