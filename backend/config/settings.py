@@ -38,7 +38,7 @@ APPEND_SLASH=False
 
 # CORS
 # 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:8000']
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:8000','http://localhost:8000']
 # 2. 개발일 경우
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -160,9 +160,9 @@ DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'ott_service_database',  # DB이름                
-        'USER': 'seoyoon1', # DB로그인 유저명                          
-        'PASSWORD': 'seoyoon1234',  #DB로그인 비밀번호    
-        'HOST': 'localhost',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
+        'USER': 'root', # DB로그인 유저명                          
+        'PASSWORD': '2140',  #DB로그인 비밀번호    
+        'HOST': '172.24.52.72',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
         'PORT': '3306',                          
     }
 }
