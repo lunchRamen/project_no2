@@ -3,14 +3,16 @@ from django.http import HttpResponse,JsonResponse
 # Create your views here.
 #from .models import User,Prefer_ott_content_genre
 import csv # csv 읽기 
+from datetime import date # birthday
+import datetime # '1999-04-27' https://freedata.tistory.com/59 https://stackoverflow.com/questions/51725557/how-to-get-year-from-datefield-at-django
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from .models import ReviewScore, ReviewScoreT
 from apps.user.models import User
-from django.db.models import Q
-from rest_framework.permissions import IsAuthenticated, AllowAny #로그인했는지 확인 
+from django.db.models import Q # objects.filter할 때 여러 객체일 경우
+from rest_framework.permissions import IsAuthenticated, AllowAny #토큰 있는지 확인 
 from .serializer import ThirdReviewScoreSerializer ,FifthReviewScoreSerializer
 
 # # 3,5,6,7번 csv DB에 넣기
@@ -68,13 +70,13 @@ from .serializer import ThirdReviewScoreSerializer ,FifthReviewScoreSerializer
 #     return HttpResponse('csv 다운받기 성공')
 
 # 1번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
-# class FirstAnalysisView(APIView):
-#     permission_classes=(AllowAny,)
-#     # permission_classes=(IsAuthenticated, )
-#     def get(self,request):
-#         current_user=request.get['username']  # 현재토큰있는애
-#         user=User.objects.get(username=current_user) # 등록된애
-#         # return JsonResponse('return success 1st analysis',status=200)
+class FirstAnalysisView(APIView):
+    # permission_classes=(AllowAny,)
+    permission_classes=(IsAuthenticated, )
+    def get(self,request):
+        current_user=request.get('username')  # 현재토큰있는애
+        user=User.objects.get(username=current_user) # 등록된애
+        # return JsonResponse('return success 1st analysis',status=200)
 
 #         target_analysis_serializer = ReviewScoreSerializer(final_queryset, many=True)
 #         return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
@@ -92,10 +94,24 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
     permission_classes=(AllowAny,)
     # permission_classes=(IsAuthenticated, )
     def get(self,request):
-        # current_user=request.GET.get('username')  # 현재토큰있는애
-        # user=User.objects.get(username=current_user) # 등록된애
-        search_gender = request.GET.get('search-gender')
-        search_age = request.GET.get('search-age')
+        # 토큰 current_user=request.GET.get('username')  # 현재토큰있는애
+        # 토큰 user=User.objects.get(username=current_user) # 등록된애
+        # search_gender_ver1= request.get('gender') #'1' 토큰 아직 안될 때
+        # search_gender_ver2 = user.gender 토큰 성공 후
+
+        search_gender = request.GET.get('search-gender') # 이건 URL검색으로 할 때
+        search_age = request.GET.get('search-age') #'1999-04-27'
+
+        # search_age_ver2 = request['birthday'] # 이건 훈님이 보내주시는 request로 할 때
+        
+        # birthday 로직 #############################################################
+        today = date.today()
+        search_age = datetime.datetime.strptime(search_age,'%Y-%m-%d')
+        search_age = today.year - search_age.year # 23
+        if search_age<20:
+            search_age='average_10s'
+
+        #############################################################################
         if (search_gender==None) & (search_age==None):
             queryset = ReviewScoreT.objects.all()
         else:
@@ -118,18 +134,22 @@ class FifthAnalysisView(APIView):
     permission_classes=(AllowAny,)
     # permission_classes=(IsAuthenticated, ) #로그인 한 사람만 하게끔(small-theater는 AlloAny였다.)
     def get(self,request):
-        # current_user=request.get['username']  # 현재토큰있는애
+        # current_user=request.GET.get('username')  # 현재토큰있는애
         # user=User.objects.get(username=current_user) # 등록된애
-        # return JsonResponse('return success 5th analysis',status=200)
-        queryset = ReviewScore.objects.filter()
-        target_analysis_serializer = FifthReviewScoreSerializer(queryset, many=True)
+        search_genre1 = request.GET.get('search-genre1')
+        search_genre2 = request.GET.get('search-genre2')
+        search_genre3 = request.GET.get('search-genre3')
+        if (search_genre1==None) & (search_genre2==None) & (search_genre3==None):
+            queryset = ReviewScore.objects.all()
+        else:
+            queryset = ReviewScore.objects.filter(Q(review_genre=search_genre1)|Q(review_genre=search_genre2)|Q(review_genre=search_genre3))
+        target_analysis_serializer = ThirdReviewScoreSerializer(queryset, many=True)
         return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
 
 
 
-# 6번 ReviewScore
+# 6번 ReviewScore -> 5번으로 해결
 
-
-# 7번 ReviewScore
+# 7번 ReviewScore -> 5번으로 해결
 
 
