@@ -10,46 +10,46 @@ import { ResponsiveBar } from "@nivo/bar";
 // you'll often use just a few of them.
 const data = [
   {
-    country: "AD",
-    burger: 35,
+    genre: "로맨스",
+    rating: 2,
     // burgerColor: "hsl(42, 70%, 50%)",
   },
   {
-    country: "AE",
-    burger: 47,
+    genre: "액션",
+    rating: 2,
     // burgerColor: "hsl(252, 100%, 100%)",
   },
   {
-    country: "AF",
-    burger: 22,
+    genre: "공포",
+    rating: 2,
     // burgerColor: "hsl(13, 100%, 100%)",
   },
   {
-    country: "AG",
-    burger: 0,
+    genre: "스릴러",
+    rating: 2,
     // burgerColor: "hsl(63, 100%, 100%)",
   },
   {
-    country: "AI",
-    burger: 125,
+    genre: "빨리",
+    rating: 2,
     // burgerColor: "hsl(87, 100%, 100%)",
   },
   {
-    country: "AL",
-    burger: 181,
+    genre: "끝내줘",
+    rating: 2,
     // burgerColor: "hsl(131, 100%, 100%)",
   },
   {
-    country: "AM",
-    burger: 4,
+    genre: "제발",
+    rating: 2,
     // burgerColor: "hsl(269, 100%, 100%)",
   },
 ];
 const Chart = () => (
     <ResponsiveBar
       data={data}
-      keys={["burger"]}
-      indexBy="country"
+      keys={["rating"]}
+      indexBy="genre"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
@@ -61,7 +61,7 @@ const Chart = () => (
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "country",
+        legend: "genre",
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -69,7 +69,7 @@ const Chart = () => (
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "food",
+        legend: "평점",
         legendPosition: "middle",
         legendOffset: -40,
       }}
