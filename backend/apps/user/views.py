@@ -120,7 +120,7 @@ class CreateUserView(CreateAPIView):
     serializer_class=CreateUserSerializer
     queryset=User.objects.all()
     permission_classes=(AllowAny,)
-
+    
 
 
 
