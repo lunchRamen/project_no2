@@ -13,7 +13,6 @@ export default function Contents() {
   //     const res = await client.post("user/register", { ...inputs, prefer_ott_content_genres: selectedList });
   //     console.log(`res`, res);
   //     navigate("/register/done");
-    
   // };
 
   // const CheckAge = (age) => {
