@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Table } from "../components";
+import { Table, Button } from "../components";
 import { Input } from "../components/registerDetail/BasicSelect";
 import { client } from "../libs";
 
@@ -51,6 +51,7 @@ export default function TheaterList() {
         <span>전체 소극장 목록</span>
         <Table tHeadList={tHeadList} tBodyList={tableList} />
       </TableWrapper>
+      <Button isMini={true}>소극장 생성하기</Button>
     </Wrapper>
   );
 }

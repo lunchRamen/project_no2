@@ -1,9 +1,13 @@
 from django.urls import path
 
-from .views import IndexView
-
-#app_name='user'
+from .views import ThirdAnalysisView,FifthAnalysisView # SixthAnalysisView, SeventhAnalysisView # csv다운 시 주석하기
+# from apps.contents_analysis.views import csvToModel # -> csv다운할 때 주석해제
 
 urlpatterns=[
-    path('index',IndexView.as_view()),
+    # path('first-analysis',FirstAnalysisView.as_view()),
+    path('third-analysis',ThirdAnalysisView.as_view()),
+    path('fifth-analysis',FifthAnalysisView.as_view()),
+    # path('sixth-analysis',SixthAnalysisView.as_view()),
+    # path('seventh-analysis',SeventhAnalysisView.as_view())
+    #path('',csvToModel) # -> 주석해제하고 나머지 path들 주석처리 , views에서 CBV들 주석처리
 ]

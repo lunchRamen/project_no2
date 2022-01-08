@@ -1,65 +1,35 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
+import React, { useState, useEffect } from "react";
+import { client } from "../../libs";
 import styled from "styled-components";
 import { Poster } from "..";
-import {
-  poster01,
-  poster02,
-  poster03,
-  poster04,
-  poster05,
-  poster06,
-  poster07,
-  poster08,
-  poster09,
-  poster10,
-  poster11,
-  poster12,
-  poster13,
-  poster14,
-  poster15,
-  poster16,
-} from "../../assets/images";
 
-const TEMPPOSTERS = [
-  poster01,
-  poster02,
-  poster03,
-  poster04,
-  poster05,
-  poster06,
-  poster07,
-  poster08,
-  poster09,
-  poster10,
-  poster11,
-  poster12,
-  poster13,
-  poster14,
-  poster15,
-  poster16,
-];
+export default function PosterList({ selectedList, onSelect }) {
+  const [posterList, setPosterList] = useState([]);
 
-export default function PosterList(props) {
-  // const handleClick = (e) => {
-  //   setGenre(e.target.value);
-  //   const response = async () => await axios.get(`api/theater_list/${genre}`);
-  //   const data = response.data;
-  //   setResult(data);
-  //   // console.log(genre);
-  // };
+  useEffect(() => {
+    fetchPoster();
+  }, []);
 
-  console.log(props.inputs);
-  console.log(props.setInputs);
+  const fetchPoster = async () => {
+    const { data } = await client.get("/user/contents-list");
+    setPosterList(data);
+  };
+
   return (
     <Wrapper>
-      {TEMPPOSTERS.map((poster, idx) => (
-        <Poster 
-        key={`poster-${idx}`} 
-        imgSrc={poster} 
-        inputs={props.inputs}
-        setInputs={props.setInputs}
-        />
-      ))}
+      {posterList &&
+        posterList.map((poster) => (
+          <Poster
+            key={`poster-${poster.id}`}
+            id={poster.id}
+            title={poster.title}
+            imgSrc={poster.img_link}
+            onSelect={onSelect}
+            selected={selectedList}
+          />
+        ))}
     </Wrapper>
   );
 }

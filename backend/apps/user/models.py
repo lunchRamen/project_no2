@@ -89,8 +89,6 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     birthday=models.DateField(null=True, blank=True)
     gender=models.CharField(max_length=50,null=True, blank=True)
-    job=models.CharField(max_length=50,null=True, blank=True)
-    region=models.CharField(max_length=50,null=True, blank=True)
     watch_time=models.IntegerField(null=True, blank=True)
 
     is_active=models.BooleanField(default=True)
