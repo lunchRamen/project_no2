@@ -1,13 +1,5 @@
 /* eslint-disable prettier/prettier */
-// install (please make sure versions match peerDependencies)
-// yarn add @nivo/core @nivo/bar
 import { ResponsiveBar } from "@nivo/bar";
-
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
 
 const Chart = ({ data, genreName }) => {
   return (
@@ -19,7 +11,7 @@ const Chart = ({ data, genreName }) => {
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      // colors={{ datum: "white" }}
+      // colors={{ datum: "red" }}
       axisTop={null}
       axisRight={null}
       axisBottom={{

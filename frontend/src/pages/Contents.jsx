@@ -1,58 +1,30 @@
 /* eslint-disable prettier/prettier */
 import styled from "styled-components";
 import { theme } from "styled-tools";
-import { Chart } from "../components";
 import * as images from "../assets/images";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../components";
 
 export default function Contents() {
+  const navigate = useNavigate();
   const [userData1, setUserData1] = useState([]);
-  const [userData3, setUserData3] = useState([]);
-  const [userData5, setUserData5] = useState([]);
   const [age, setAge] = useState("");
 
-  const fetchData1 = async (token) => {
-    axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+  const fetchData1 = async () => {
     axios.post("http://127.0.0.1:8000/api/contents-analysis/1").then((res) => setUserData1(res.data.data));
-  };
-
-  const fetchData3 = async (token) => {
-    axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
-    axios
-      .post("http://127.0.0.1:8000/api/contents-analysis/3", {
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-      })
-      .then((res) => setUserData3(res.data));
-  };
-
-  const fetchData5 = async (token) => {
-    axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
-    axios
-      .post("http://127.0.0.1:8000/api/contents-analysis/5", {
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-      })
-      .then((res) => setUserData5(res.data));
   };
 
   useEffect(() => {
     const userToken = window.localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = `JWT ${userToken}`;
     fetchData1(userToken);
-    fetchData3(userToken);
-    fetchData5(userToken);
   }, []);
 
   useEffect(() => {
     setAge(userData1?.age?.split("_")[1].split("s")[0]);
   }, [userData1]);
-
-  useEffect(() => {
-    console.log(`userData3`, userData3);
-  }, [userData3]);
 
   return (
     <Wrap>
@@ -80,36 +52,9 @@ export default function Contents() {
       <WrapNetflix>
         <Image src={images.netflix} alt="netflix image" />
       </WrapNetflix>
-
-      {userData1 && userData3 && userData5 && (
-        <ChartWrap>
-          {userData3.map((chartData, idx) => {
-            const mention = chartData.people.split("_")[1];
-            const isGender = mention.includes("male") ? true : false;
-            return (
-              <>
-                <LandingPage>
-                  {userData1.username}과 같은 {isGender ? "성별" : "나이대"}의 사람들
-                </LandingPage>
-                <Chart key={idx} data={chartData.data} genreName={chartData.review_genre} />
-              </>
-            );
-          })}
-        </ChartWrap>
-      )}
-
-      {userData1 && userData5 && (
-        <ChartWrap>
-          {userData5.map((chartData, idx) => (
-            <>
-              <LandingPage>
-                {userData1.username}님이 좋아하는 {chartData.review_genre}를 좋아하는 사람들
-              </LandingPage>
-              <Chart key={idx} data={chartData.data} genreName={chartData.review_genre} />
-            </>
-          ))}
-        </ChartWrap>
-      )}
+      <Button isMini={false} onClick={() => navigate("/contents2")}>
+        다음 차트
+      </Button>
     </Wrap>
   );
 }
@@ -119,7 +64,7 @@ const Wrap = styled.main`
   flex-direction: column;
   align-items: center;
   gap: 10rem;
-  padding-top: 15rem;
+  padding: 15rem 0;
 
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};
@@ -130,17 +75,18 @@ const Wrap = styled.main`
   }
 `;
 
-const ChartWrap = styled.div`
+export const ChartWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  margin: 10rem auto;
 
   width: 50vw;
   height: 40vh;
   ${theme("fonts.textH2")}
-  ${theme("neons.textNeonGold")};
+  /* ${theme("neons.textNeonGold")}; */
+  color: ${theme("colors.mainPoint")};
 
   & > img {
     width: 38rem;
