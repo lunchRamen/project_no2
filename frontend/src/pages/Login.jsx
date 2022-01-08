@@ -37,6 +37,7 @@ function Login() {
       dispatch(loginUser(body)).then((data) => {
         if (data.payload.success) {
           window.localStorage.setItem("username", data.payload.username);
+          window.localStorage.setItem("token", data.payload.token);
           navigate("/main");
         }
         if (!data.payload.success) {

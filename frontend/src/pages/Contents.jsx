@@ -1,19 +1,30 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+// import React, { useState } from 'react';
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Chart } from "../components";
 import * as images from "../assets/images";
+import { useEffect } from "react";
+import { client } from "../libs";
 
 export default function Contents() {
-  // const [age, setAge] = useState("");
+  // const [userData, setUserDate] = useState([]);
+  const fetchData = async (token) => {
+    const res = client.post("api/contents-analysis/1", token);
+    console.log(`res`, res);
+  };
+  useEffect(() => {
+    const userToken = window.localStorage.getItem("token");
+    fetchData(userToken);
+  }, []);
 
+  // const [age, setAge] = useState("");
 
   //  const fetchAgeGraph = async () => {
   //     const res = await client.post("user/register", { ...inputs, prefer_ott_content_genres: selectedList });
   //     console.log(`res`, res);
   //     navigate("/register/done");
-    
+
   // };
 
   // const CheckAge = (age) => {
@@ -21,34 +32,38 @@ export default function Contents() {
   //   if(age==="20s") setAge("20대사진 링크");
   //   if(age==="30s") setAge("30대사진 링크");
   //   if(age==="40s") setAge("40대사진 링크");
-  //   if(age==="50s") setAge("50대사진 링크"); 
+  //   if(age==="50s") setAge("50대사진 링크");
   // }
   return (
-      <Wrap>
-        <LandingPage>하늘 님은 20대 남성 회사원이시고,  19시~23시 서울에서 비대면 극장에 접속하십니다.<br/>
-          주로 스릴러, 액션, 로맨스 콘텐츠를 좋아하시는군요!</LandingPage>
-        <LandingPage>사용자님과 같은 나이대 분들이 시청하는 시간대입니다.</LandingPage>
-        <WrapImg>
-          <Image src={images.age10_2019} alt="age image" />
-          <Image src={images.age10_2020} alt="age image" /><br/>
-        </WrapImg>
+    <Wrap>
+      <LandingPage>
+        하늘 님은 20대 남성 회사원이시고, 19시~23시 서울에서 비대면 극장에 접속하십니다.
+        <br />
+        주로 스릴러, 액션, 로맨스 콘텐츠를 좋아하시는군요!
+      </LandingPage>
+      <LandingPage>사용자님과 같은 나이대 분들이 시청하는 시간대입니다.</LandingPage>
+      <WrapImg>
+        <Image src={images.age10_2019} alt="age image" />
+        <Image src={images.age10_2020} alt="age image" />
+        <br />
+      </WrapImg>
 
-        <LandingPage>넷플릭스에서 서비스 중인 장르들</LandingPage>
-        <WrapWord>
+      <LandingPage>넷플릭스에서 서비스 중인 장르들</LandingPage>
+      <WrapWord>
         <Image src={images.word} alt="word image" />
-        </WrapWord>
+      </WrapWord>
 
-        <LandingPage>한국 넷플릭스의 장르변화 2019-2020</LandingPage>
-        <WrapNetflix>
+      <LandingPage>한국 넷플릭스의 장르변화 2019-2020</LandingPage>
+      <WrapNetflix>
         <Image src={images.netflix} alt="netflix image" />
-        </WrapNetflix>
-        
+      </WrapNetflix>
+
       <ChartWrap>
         <Chart></Chart>
         <Chart></Chart>
         <Chart></Chart>
       </ChartWrap>
-      </Wrap>
+    </Wrap>
   );
 }
 // background-image: url(${footer});
@@ -74,7 +89,7 @@ const ChartWrap = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  
+
   width: 50vw;
   height: 40vh;
   ${theme("fonts.textH2")}
@@ -104,7 +119,7 @@ const WrapImg = styled.div`
   align-items: center;
   justify-content: center;
   margin: 10rem auto;
-  
+
   width: 50vw;
   height: 40vh;
 
@@ -120,7 +135,7 @@ const WrapWord = styled.div`
   align-items: center;
   justify-content: center;
   margin: 1rem auto;
-  
+
   width: 50vw;
   height: 40vh;
   ${theme("fonts.textH2")}
@@ -138,7 +153,7 @@ const WrapNetflix = styled.div`
   align-items: center;
   justify-content: center;
   margin: 10rem auto;
-  
+
   width: 50vw;
   height: 40vh;
   ${theme("fonts.textH2")}
