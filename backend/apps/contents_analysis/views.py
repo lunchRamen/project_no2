@@ -85,10 +85,11 @@ def find_age(birthday):
             search_age='average_20s'
         elif 31<=search_age<40:
             search_age='average_30s'
-        elif 21<=search_age<30:
+        elif 41<=search_age<50:
             search_age='average_40s'
         else:
             search_age='average_50_up'
+    return search_age
 
 def find_watch_time(watch_time):
     if watch_time==0:
@@ -260,20 +261,20 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
         # search_age_ver2 = request['birthday'] # 이건 훈님이 보내주시는 request로 할 때
         
         # birthday 로직 #############################################################
-        today = date.today()
-        if search_age:
-            # search_age = datetime.datetime(search_age,'%Y-%m-%d')
-            search_age = today.year - search_age.year # 23
-            if search_age<20:
-                search_age='average_10s'
-            elif 21<=search_age<30:
-                search_age='average_20s'
-            elif 31<=search_age<40:
-                search_age='average_30s'
-            elif 21<=search_age<30:
-                search_age='average_40s'
-            else:
-                search_age='average_50_up'
+        # today = date.today()
+        # if search_age:
+        #     # search_age = datetime.datetime(search_age,'%Y-%m-%d')
+        #     search_age = today.year - search_age.year # 23
+        #     if search_age<20:
+        #         search_age='average_10s'
+        #     elif 21<=search_age<30:
+        #         search_age='average_20s'
+        #     elif 31<=search_age<40:
+        #         search_age='average_30s'
+        #     elif 21<=search_age<30:
+        #         search_age='average_40s'
+        #     else:
+        #         search_age='average_50_up'
         #############################################################################
         if (search_gender==None) & (search_age==None):
             queryset = ReviewScoreT.objects.all()
