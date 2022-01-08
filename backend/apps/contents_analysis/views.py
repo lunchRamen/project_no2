@@ -77,7 +77,7 @@ def find_age(birthday):
     today = date.today()
     search_age=birthday
     if search_age:
-        search_age = datetime.datetime(search_age,'%Y-%m-%d')
+        # search_age = datetime.datetime(search_age,'%Y-%m-%d')
         search_age = today.year - search_age.year # 23
         if search_age<20:
             search_age='average_10s'
@@ -85,10 +85,11 @@ def find_age(birthday):
             search_age='average_20s'
         elif 31<=search_age<40:
             search_age='average_30s'
-        elif 21<=search_age<30:
+        elif 41<=search_age<50:
             search_age='average_40s'
         else:
             search_age='average_50_up'
+    return search_age
 
 def find_watch_time(watch_time):
     if watch_time==0:
@@ -194,14 +195,14 @@ def find_genre(user_prefer_genres):
 #1번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
 class FirstAnalysisView(APIView):#figma의 유저설명.
     serializer_class=FifthReviewScoreSerializer
-    permission_classes=(IsAuthenticated,)
+    permission_classes=(AllowAny,)
 
-    def get(self,request):
-        token=request.data.get('token')
-        token_str=token.decode('utf-8')
-        payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
+    def post(self,request):
+        # token=request.data.get('token')
+        # token_str=token.decode('utf-8')
+        # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
         #payload에 담겨있는 정보: user_id,username
-        user=User.objects.get(id=payload['user_id'])
+        user=User.objects.get(id=request.user.id)
         user_username=user.username
         user_age=find_age(user.birthday)
         user_watch_time=find_watch_time(user.watch_time)
@@ -236,17 +237,17 @@ class FirstAnalysisView(APIView):#figma의 유저설명.
 
 # 3번 ReviewScoreT
 class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/third-analysis?search-gender=average_female&search-age=1999-04-27
-    #permission_classes=(AllowAny,)
-    permission_classes=(IsAuthenticated, )
-    def get(self,request):
+    permission_classes=(AllowAny,)
+    # permission_classes=(IsAuthenticated, )
+    def post(self,request):
         # 토큰 current_user=request.GET.get('username')  # 현재토큰있는애
         # 토큰 user=User.objects.get(username=current_user) # 등록된애
         # search_gender_ver1= request.get('gender') #'1' 토큰 아직 안될 때
         # search_gender_ver2 = user.gender 토큰 성공 후
-        token=request.data.get('token')
-        token_str=token.decode('utf-8')
-        payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
-        user=User.objects.get(id=payload['user_id'])
+        # token=request.data.get('token')
+        # token_str=token.decode('utf-8')
+        # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
+        user=User.objects.get(id=request.user.id)
 
         #search_gender = request.GET.get('search-gender') # 이건 URL검색으로 할 때
         if user.gender=='male':
@@ -255,32 +256,129 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
             search_gender='average_female'
 
         #search_age = request.GET.get('search-age') #'1999-04-27'
-        search_age=user.birthday
+        search_age=find_age(user.birthday)
 
         # search_age_ver2 = request['birthday'] # 이건 훈님이 보내주시는 request로 할 때
         
         # birthday 로직 #############################################################
-        today = date.today()
-        if search_age:
-            search_age = datetime.datetime.strptime(search_age,'%Y-%m-%d')
-            search_age = today.year - search_age.year # 23
-            if search_age<20:
-                search_age='average_10s'
-            elif 21<=search_age<30:
-                search_age='average_20s'
-            elif 31<=search_age<40:
-                search_age='average_30s'
-            elif 21<=search_age<30:
-                search_age='average_40s'
-            else:
-                search_age='average_50_up'
+        # today = date.today()
+        # if search_age:
+        #     # search_age = datetime.datetime(search_age,'%Y-%m-%d')
+        #     search_age = today.year - search_age.year # 23
+        #     if search_age<20:
+        #         search_age='average_10s'
+        #     elif 21<=search_age<30:
+        #         search_age='average_20s'
+        #     elif 31<=search_age<40:
+        #         search_age='average_30s'
+        #     elif 21<=search_age<30:
+        #         search_age='average_40s'
+        #     else:
+        #         search_age='average_50_up'
         #############################################################################
         if (search_gender==None) & (search_age==None):
             queryset = ReviewScoreT.objects.all()
         else:
             queryset = ReviewScoreT.objects.filter(Q(people=search_gender)|Q(people=search_age))
         target_analysis_serializer = ThirdReviewScoreSerializer(queryset, many=True)
-        return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
+        response = []
+        for i in target_analysis_serializer.data:
+            response.append({
+                'id':i['id'],
+                "people":i['people'],
+                "data": [
+                    {
+                        'genre':'드라마',
+                        'rating':i['drama']
+                    },
+                    {
+                        'genre':'코미디',
+                        'rating':i['comedy']
+                    },
+                    {
+                        'genre':'액션',
+                        'rating':i['action']
+                    },
+                    {
+                        'genre':'스릴러',
+                        'rating':i['thriller']
+                    },
+                    {
+                        'genre':'로맨스',
+                        'rating':i['romance']
+                    },
+                    {
+                        'genre':'범죄',
+                        'rating':i['crime']
+                    },
+                    {
+                        'genre':'모험',
+                        'rating':i['adventure']
+                    },
+                    {
+                        'genre':'애니메이션',
+                        'rating':i['animation']
+                    },
+                    {
+                        'genre':'판타지',
+                        'rating':i['fantasy']
+                    },
+                    {
+                        'genre':'가족',
+                        'rating':i['family']
+                    },
+                    {
+                        'genre':'SF',
+                        'rating':i['sci_fi']
+                    },
+                    {
+                        'genre':'미스터리',
+                        'rating':i['mystery']
+                    },
+                    {
+                        'genre':'공포',
+                        'rating':i['horror']
+                    },
+                    {
+                        'genre':'다큐멘터리',
+                        'rating':i['documentary']
+                    },
+                    {
+                        'genre':'전기',
+                        'rating':i['biography']
+                    },
+                    {
+                        'genre':'역사',
+                        'rating':i['history']
+                    },
+                    {
+                        'genre':'음악',
+                        'rating':i['music']
+                    },
+                    {
+                        'genre':'단편',
+                        'rating':i['short']
+                    },
+                    {
+                        'genre':'스포츠',
+                        'rating':i['sport']
+                    },
+                    {
+                        'genre':'전쟁',
+                        'rating':i['war']
+                    },
+                    {
+                        'genre':'뮤지컬',
+                        'rating':i['musical']
+                    },
+                    {
+                        'genre':'서부',
+                        'rating':i['western']
+                    }
+                ]
+            })
+        # return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
+        return Response(response, status=status.HTTP_200_OK)
 
 # # 4번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
 # class FourthAnalysisView(APIView):
@@ -294,15 +392,15 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
 
 # 5번 ReviewScore
 class FifthAnalysisView(APIView):
-    #permission_classes=(AllowAny,)
-    permission_classes=(IsAuthenticated, ) #로그인 한 사람만 하게끔(small-theater는 AlloAny였다.)
-    def get(self,request):
+    permission_classes=(AllowAny,)
+    # permission_classes=(IsAuthenticated, ) #로그인 한 사람만 하게끔(small-theater는 AlloAny였다.)
+    def post(self,request):
         # current_user=request.GET.get('username')  # 현재토큰있는애
         # user=User.objects.get(username=current_user) # 등록된애
-        token=request.data.get('token')
-        token_str=token.decode('utf-8')
-        payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
-        user=User.objects.get(id=payload['user_id'])
+        # token=request.data.get('token')
+        # token_str=token.decode('utf-8')
+        # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
+        user=User.objects.get(id=request.user.id)
         user_prefer_genres=user.prefer_ott_content_genres.all()
         user_genres=find_genre(user_prefer_genres)
 
@@ -318,7 +416,43 @@ class FifthAnalysisView(APIView):
         else:
             queryset = ReviewScore.objects.filter(Q(review_genre=search_genre1)|Q(review_genre=search_genre2)|Q(review_genre=search_genre3))
         target_analysis_serializer = FifthReviewScoreSerializer(queryset, many=True)
-        return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
+        response = []
+        for i in target_analysis_serializer.data:
+            response.append({
+                'id':i['id'],
+                "review_genre":i['review_genre'],
+                "data": [
+                    {
+                        'genre':'남',
+                        'rating':i['average_male']
+                    },
+                    {
+                        'genre':'여',
+                        'rating':i['average_female']
+                    },
+                    {
+                        'genre':'10s',
+                        'rating':i['average_10s']
+                    },
+                    {
+                        'genre':'20s',
+                        'rating':i['average_20s']
+                    },
+                    {
+                        'genre':'30s',
+                        'rating':i['average_30s']
+                    },
+                    {
+                        'genre':'40s',
+                        'rating':i['average_40s']
+                    },
+                    {
+                        'genre':'50이상',
+                        'rating':i['average_50_up']
+                    },
+                ]
+            })
+        return Response(response, status=status.HTTP_200_OK)
 
 
 
