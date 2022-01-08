@@ -90,7 +90,7 @@ class FirstAnalysisView(APIView):
 #         return JsonResponse('return success 2nd analysis',status=200)
 
 # 3번 ReviewScoreT
-class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/third-analysis?search-gender=average_male&search-age=average_20s
+class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/third-analysis?search-gender=average_female&search-age=1999-04-27
     permission_classes=(AllowAny,)
     # permission_classes=(IsAuthenticated, )
     def get(self,request):
@@ -106,11 +106,19 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
         
         # birthday 로직 #############################################################
         today = date.today()
-        search_age = datetime.datetime.strptime(search_age,'%Y-%m-%d')
-        search_age = today.year - search_age.year # 23
-        if search_age<20:
-            search_age='average_10s'
-
+        if search_age:
+            search_age = datetime.datetime.strptime(search_age,'%Y-%m-%d')
+            search_age = today.year - search_age.year # 23
+            if search_age<20:
+                search_age='average_10s'
+            elif 21<=search_age<30:
+                search_age='average_20s'
+            elif 31<=search_age<40:
+                search_age='average_30s'
+            elif 21<=search_age<30:
+                search_age='average_40s'
+            else:
+                search_age='average_50_up'
         #############################################################################
         if (search_gender==None) & (search_age==None):
             queryset = ReviewScoreT.objects.all()
@@ -143,7 +151,7 @@ class FifthAnalysisView(APIView):
             queryset = ReviewScore.objects.all()
         else:
             queryset = ReviewScore.objects.filter(Q(review_genre=search_genre1)|Q(review_genre=search_genre2)|Q(review_genre=search_genre3))
-        target_analysis_serializer = ThirdReviewScoreSerializer(queryset, many=True)
+        target_analysis_serializer = FifthReviewScoreSerializer(queryset, many=True)
         return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
 
 
