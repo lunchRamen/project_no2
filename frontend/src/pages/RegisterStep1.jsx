@@ -34,7 +34,7 @@ function Register() {
   };
   const onChangePass = (e) => {
     setPassword1(e.target.value);
-  }
+  };
   const onChange = (e) => {
     const { value, name } = e.target;
     setInput({
@@ -123,7 +123,7 @@ function Register() {
               />
             </StyledBox>
             <ButtonWrap>
-              <Button isMini={false} onClick={PwCheck}>
+              <Button isMini={true} onClick={PwCheck}>
                 다음으로(1/3)
               </Button>
             </ButtonWrap>
@@ -133,6 +133,9 @@ function Register() {
     </>
   );
 }
+
+export default Register;
+
 const Wrap = styled.main`
   display: flex;
   flex-direction: column;
@@ -151,5 +154,3 @@ const ButtonWrap = styled.div`
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};
 `;
-
-export default Register;

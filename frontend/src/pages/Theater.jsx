@@ -8,13 +8,13 @@ export default function Theater() {
   const TICKET_LIST = [ticket01, ticket02, ticket03, ticket04, ticket05, ticket06, ticket07];
 
   const LINK_LIST = [
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
-    "https://kdt-gitlab.elice.io/003-part3-ottservice/team6/project-template",
+    "https://open.kakao.com/o/gwEshgTd",
+    "https://open.kakao.com/o/glH9hgTd",
+    "https://open.kakao.com/o/greFigTd",
+    "https://open.kakao.com/o/gifbjgTd",
+    "https://open.kakao.com/o/gvltjgTd",
+    "https://open.kakao.com/o/gPxwpgTd",
+    "https://open.kakao.com/o/gexQpgTd",
   ];
 
   const navigate = useNavigate();

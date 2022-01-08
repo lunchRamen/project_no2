@@ -100,6 +100,7 @@ const SearchButton = styled.button`
 `;
 
 const TableWrapper = styled.section`
+  margin-bottom: 10rem;
   ${theme("neons.textNeonGold")}
   ${theme("fonts.textH2")}
 `;

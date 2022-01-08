@@ -5,10 +5,10 @@ import { Notice } from "..";
 export default function NoticeSection({ theaterTitle, introData, noticeData }) {
   return (
     <StNoticeWrapper>
-      <Notice title={theaterTitle}>
+      <Notice title={theaterTitle} isNotice={false}>
         <StNotice>{introData}</StNotice>
       </Notice>
-      <Notice title={theaterTitle}>
+      <Notice title={theaterTitle} isNotice={true}>
         <StNotice>{noticeData}</StNotice>
       </Notice>
     </StNoticeWrapper>
