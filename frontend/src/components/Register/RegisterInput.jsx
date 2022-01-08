@@ -23,7 +23,8 @@ const StyledInput = styled.input`
   height: 4rem;
   /* margin: 0.4rem 1rem 1.5rem 1rem; */
   margin-bottom: 5rem;
-  ${theme("fonts.textH4")} ${theme("neons.boxNeonGold")};
+  ${theme("fonts.textH4")}
+  ${theme("neons.boxNeonGold")}
 `;
 
 const RegisterInput = function ({ labelName, name, type, placeholder, onChange, value }) {

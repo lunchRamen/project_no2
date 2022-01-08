@@ -34,7 +34,7 @@ function Register() {
   };
   const onChangePass = (e) => {
     setPassword1(e.target.value);
-  }
+  };
   const onChange = (e) => {
     const { value, name } = e.target;
     setInput({
