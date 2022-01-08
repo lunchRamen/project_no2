@@ -1,59 +1,76 @@
 /* eslint-disable prettier/prettier */
-// import React, { useState } from 'react';
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { Chart } from "../components";
 import * as images from "../assets/images";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Contents() {
-  // const [userData, setUserDate] = useState([]);
-  const fetchData = async (token) => {
+  const [userData1, setUserData1] = useState([]);
+  const [userData3, setUserData3] = useState([]);
+  const [userData5, setUserData5] = useState([]);
+  const [age, setAge] = useState("");
+
+  const fetchData1 = async (token) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+    axios.post("http://127.0.0.1:8000/api/contents-analysis/1").then((res) => setUserData1(res.data.data));
+  };
+
+  const fetchData3 = async (token) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
     axios
       .post("http://127.0.0.1:8000/api/contents-analysis/3", {
         headers: {
           Authorization: `JWT ${token}`,
         },
       })
-      .then((res) => console.log(`res`, res))
-      .catch((e) => console.log(`e`, e));
+      .then((res) => setUserData3(res.data));
   };
+
+  const fetchData5 = async (token) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+    axios
+      .post("http://127.0.0.1:8000/api/contents-analysis/5", {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+      .then((res) => setUserData5(res.data));
+  };
+
   useEffect(() => {
     const userToken = window.localStorage.getItem("token");
-    console.log(`userToken`, userToken);
-    fetchData(userToken);
+    fetchData1(userToken);
+    fetchData3(userToken);
+    fetchData5(userToken);
   }, []);
 
-  // const [age, setAge] = useState("");
+  useEffect(() => {
+    setAge(userData1?.age?.split("_")[1].split("s")[0]);
+  }, [userData1]);
 
-  //  const fetchAgeGraph = async () => {
-  //     const res = await client.post("user/register", { ...inputs, prefer_ott_content_genres: selectedList });
-  //     console.log(`res`, res);
-  //     navigate("/register/done");
-  // };
+  useEffect(() => {
+    console.log(`userData3`, userData3);
+  }, [userData3]);
 
-  // const CheckAge = (age) => {
-  //   if(age==="10s") setAge("10대사진 링크");
-  //   if(age==="20s") setAge("20대사진 링크");
-  //   if(age==="30s") setAge("30대사진 링크");
-  //   if(age==="40s") setAge("40대사진 링크");
-  //   if(age==="50s") setAge("50대사진 링크");
-  // }
   return (
     <Wrap>
-      <LandingPage>
-        하늘 님은 20대 남성 회사원이시고, 19시~23시 서울에서 비대면 극장에 접속하십니다.
-        <br />
-        주로 스릴러, 액션, 로맨스 콘텐츠를 좋아하시는군요!
-      </LandingPage>
+      {age && userData1 && (
+        <LandingPage>
+          {userData1.username}님은 {age}대 {userData1.gender}이시고, {userData1.watch_time}대에 주로 콘텐츠를
+          시청하시는군요!
+          <br />
+          주로 {userData1.user_genres?.join(", ")} 콘텐츠를 좋아하시는군요!
+        </LandingPage>
+      )}
+
       <LandingPage>사용자님과 같은 나이대 분들이 시청하는 시간대입니다.</LandingPage>
       <WrapImg>
-        <Image src={images.age10_2019} alt="age image" />
-        <Image src={images.age10_2020} alt="age image" />
+        <Image src={images[`age${age}_2019`]} alt="age image" />
+        <Image src={images[`age${age}_2020`]} alt="age image" />
         <br />
       </WrapImg>
-
       <LandingPage>넷플릭스에서 서비스 중인 장르들</LandingPage>
       <WrapWord>
         <Image src={images.word} alt="word image" />
@@ -64,22 +81,46 @@ export default function Contents() {
         <Image src={images.netflix} alt="netflix image" />
       </WrapNetflix>
 
-      <ChartWrap>
-        <Chart></Chart>
-        <Chart></Chart>
-        <Chart></Chart>
-      </ChartWrap>
+      {userData1 && userData3 && userData5 && (
+        <ChartWrap>
+          {userData3.map((chartData, idx) => {
+            const mention = chartData.people.split("_")[1];
+            const isGender = mention.includes("male") ? true : false;
+            return (
+              <>
+                <LandingPage>
+                  {userData1.username}과 같은 {isGender ? "성별" : "나이대"}의 사람들
+                </LandingPage>
+                <Chart key={idx} data={chartData.data} genreName={chartData.review_genre} />
+              </>
+            );
+          })}
+        </ChartWrap>
+      )}
+
+      {userData1 && userData5 && (
+        <ChartWrap>
+          {userData5.map((chartData, idx) => (
+            <>
+              <LandingPage>
+                {userData1.username}님이 좋아하는 {chartData.review_genre}를 좋아하는 사람들
+              </LandingPage>
+              <Chart key={idx} data={chartData.data} genreName={chartData.review_genre} />
+            </>
+          ))}
+        </ChartWrap>
+      )}
     </Wrap>
   );
 }
 // background-image: url(${footer});
 const Wrap = styled.main`
-  // display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vw;
+  gap: 10rem;
+  padding-top: 15rem;
+
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};
 
@@ -90,8 +131,8 @@ const Wrap = styled.main`
 `;
 
 const ChartWrap = styled.div`
-  // display: flex;
-  // flex-direction: column;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
@@ -107,7 +148,7 @@ const ChartWrap = styled.div`
   }
 `;
 
-const LandingPage = styled.div`
+export const LandingPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,6 +160,7 @@ const Image = styled.img`
   border: 0.1rem solid ${theme("colors.mainBlack")};
   border-radius: 2rem;
 `;
+
 const WrapImg = styled.div`
   display: flex;
   // flex-direction: column;
@@ -170,24 +212,3 @@ const WrapNetflix = styled.div`
     height: 60rem;
   }
 `;
-// const ButtonWrapper = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   margin-bottom: 10rem;
-//   width: 87rem;
-//   ${theme("fonts.textH2")}
-//   ${theme("neons.textNeonGold")};
-// `;
-
-// const LandingButton = styled.span`
-//   cursor: pointer;
-//   border-bottom: 0.1rem solid ${theme("colors.mainBlack")};
-//   padding: 2rem 3.5rem;
-//   color: ${theme("colors.mainWhite")};
-//   ${theme("neons.textNeonGold")}
-
-//   &:hover {
-//     color: ${theme("colors.mainPoint")};
-//     border-color: ${theme("colors.mainPoint")};
-//   }
-// `;

@@ -8,44 +8,9 @@ import { ResponsiveBar } from "@nivo/bar";
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
-const data = [
-  {
-    genre: "로맨스",
-    rating: 2,
-    // burgerColor: "hsl(42, 70%, 50%)",
-  },
-  {
-    genre: "액션",
-    rating: 2,
-    // burgerColor: "hsl(252, 100%, 100%)",
-  },
-  {
-    genre: "공포",
-    rating: 2,
-    // burgerColor: "hsl(13, 100%, 100%)",
-  },
-  {
-    genre: "스릴러",
-    rating: 2,
-    // burgerColor: "hsl(63, 100%, 100%)",
-  },
-  {
-    genre: "빨리",
-    rating: 2,
-    // burgerColor: "hsl(87, 100%, 100%)",
-  },
-  {
-    genre: "끝내줘",
-    rating: 2,
-    // burgerColor: "hsl(131, 100%, 100%)",
-  },
-  {
-    genre: "제발",
-    rating: 2,
-    // burgerColor: "hsl(269, 100%, 100%)",
-  },
-];
-const Chart = () => (
+
+const Chart = ({ data, genreName }) => {
+  return (
     <ResponsiveBar
       data={data}
       keys={["rating"]}
@@ -60,8 +25,8 @@ const Chart = () => (
       axisBottom={{
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 0,
-        legend: "genre",
+        tickRotation: 50,
+        legend: `${genreName}`,
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -74,32 +39,30 @@ const Chart = () => (
         legendOffset: -40,
       }}
       theme={{
-        background: "#222222",
+        background: "transparent",
         axis: {
           fontSize: "14px",
           tickColor: "#eee",
           ticks: {
             line: {
-              stroke: "#555555"
+              stroke: "#555555",
             },
             text: {
-              fill: "#ffffff"
-            }
+              fill: "#ffffff",
+            },
           },
           legend: {
             text: {
-              fill: "#aaaaaa"
-            }
-          }
+              fill: "#aaaaaa",
+            },
+          },
         },
         grid: {
           line: {
-            stroke: "#555555"
-          }
-        }
+            stroke: "#555555",
+          },
+        },
       }}
-      
-
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
@@ -134,5 +97,6 @@ const Chart = () => (
         return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
       }}
     />
-);
+  );
+};
 export default Chart;

@@ -202,7 +202,7 @@ class FirstAnalysisView(APIView):#figma의 유저설명.
         # token_str=token.decode('utf-8')
         # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
         #payload에 담겨있는 정보: user_id,username
-        user=User.objects.get(id=6)
+        user=User.objects.get(id=request.user.id)
         user_username=user.username
         user_age=find_age(user.birthday)
         user_watch_time=find_watch_time(user.watch_time)
@@ -247,7 +247,7 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
         # token=request.data.get('token')
         # token_str=token.decode('utf-8')
         # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
-        user=User.objects.get(id=6)
+        user=User.objects.get(id=request.user.id)
 
         #search_gender = request.GET.get('search-gender') # 이건 URL검색으로 할 때
         if user.gender=='male':
@@ -281,7 +281,104 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
         else:
             queryset = ReviewScoreT.objects.filter(Q(people=search_gender)|Q(people=search_age))
         target_analysis_serializer = ThirdReviewScoreSerializer(queryset, many=True)
-        return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
+        response = []
+        for i in target_analysis_serializer.data:
+            response.append({
+                'id':i['id'],
+                "people":i['people'],
+                "data": [
+                    {
+                        'genre':'드라마',
+                        'rating':i['drama']
+                    },
+                    {
+                        'genre':'코미디',
+                        'rating':i['comedy']
+                    },
+                    {
+                        'genre':'액션',
+                        'rating':i['action']
+                    },
+                    {
+                        'genre':'스릴러',
+                        'rating':i['thriller']
+                    },
+                    {
+                        'genre':'로맨스',
+                        'rating':i['romance']
+                    },
+                    {
+                        'genre':'범죄',
+                        'rating':i['crime']
+                    },
+                    {
+                        'genre':'모험',
+                        'rating':i['adventure']
+                    },
+                    {
+                        'genre':'애니메이션',
+                        'rating':i['animation']
+                    },
+                    {
+                        'genre':'판타지',
+                        'rating':i['fantasy']
+                    },
+                    {
+                        'genre':'가족',
+                        'rating':i['family']
+                    },
+                    {
+                        'genre':'SF',
+                        'rating':i['sci_fi']
+                    },
+                    {
+                        'genre':'미스터리',
+                        'rating':i['mystery']
+                    },
+                    {
+                        'genre':'공포',
+                        'rating':i['horror']
+                    },
+                    {
+                        'genre':'다큐멘터리',
+                        'rating':i['documentary']
+                    },
+                    {
+                        'genre':'전기',
+                        'rating':i['biography']
+                    },
+                    {
+                        'genre':'역사',
+                        'rating':i['history']
+                    },
+                    {
+                        'genre':'음악',
+                        'rating':i['music']
+                    },
+                    {
+                        'genre':'단편',
+                        'rating':i['short']
+                    },
+                    {
+                        'genre':'스포츠',
+                        'rating':i['sport']
+                    },
+                    {
+                        'genre':'전쟁',
+                        'rating':i['war']
+                    },
+                    {
+                        'genre':'뮤지컬',
+                        'rating':i['musical']
+                    },
+                    {
+                        'genre':'서부',
+                        'rating':i['western']
+                    }
+                ]
+            })
+        # return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
+        return Response(response, status=status.HTTP_200_OK)
 
 # # 4번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
 # class FourthAnalysisView(APIView):
@@ -303,7 +400,7 @@ class FifthAnalysisView(APIView):
         # token=request.data.get('token')
         # token_str=token.decode('utf-8')
         # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
-        user=User.objects.get(id=6)
+        user=User.objects.get(id=request.user.id)
         user_prefer_genres=user.prefer_ott_content_genres.all()
         user_genres=find_genre(user_prefer_genres)
 
@@ -319,7 +416,43 @@ class FifthAnalysisView(APIView):
         else:
             queryset = ReviewScore.objects.filter(Q(review_genre=search_genre1)|Q(review_genre=search_genre2)|Q(review_genre=search_genre3))
         target_analysis_serializer = FifthReviewScoreSerializer(queryset, many=True)
-        return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
+        response = []
+        for i in target_analysis_serializer.data:
+            response.append({
+                'id':i['id'],
+                "review_genre":i['review_genre'],
+                "data": [
+                    {
+                        'genre':'남',
+                        'rating':i['average_male']
+                    },
+                    {
+                        'genre':'여',
+                        'rating':i['average_female']
+                    },
+                    {
+                        'genre':'10s',
+                        'rating':i['average_10s']
+                    },
+                    {
+                        'genre':'20s',
+                        'rating':i['average_20s']
+                    },
+                    {
+                        'genre':'30s',
+                        'rating':i['average_30s']
+                    },
+                    {
+                        'genre':'40s',
+                        'rating':i['average_40s']
+                    },
+                    {
+                        'genre':'50이상',
+                        'rating':i['average_50_up']
+                    },
+                ]
+            })
+        return Response(response, status=status.HTTP_200_OK)
 
 
 
