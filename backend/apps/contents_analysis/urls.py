@@ -2,11 +2,13 @@ from django.urls import path
 
 #from .views import ThirdAnalysisView,FifthAnalysisView # SixthAnalysisView, SeventhAnalysisView # csv다운 시 주석하기
 #from apps.contents_analysis.views import csvToModel # -> csv다운할 때 주석해제
-from .views import FirstAnalysisView
+from .views import FirstAnalysisView,ThirdAnalysisView,FifthAnalysisView
 
 
 urlpatterns=[
-    path('1',FirstAnalysisView.as_view())
+    path('1',FirstAnalysisView.as_view()),
+    path('3',ThirdAnalysisView.as_view()),
+    path('5',FifthAnalysisView.as_view()),
     #path('',csvToModel)
     #path('first-analysis',FirstAnalysisView.as_view()),
     #path('third-analysis',ThirdAnalysisView.as_view()),

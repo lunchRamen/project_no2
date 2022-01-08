@@ -35,6 +35,7 @@ function Login() {
       alert("필수 항목을 작성하세요");
     } else {
       dispatch(loginUser(body)).then((data) => {
+        console.log(data);
         if (data.payload.success) {
           window.localStorage.setItem("username", data.payload.username);
           window.localStorage.setItem("token", data.payload.token);
