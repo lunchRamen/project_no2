@@ -65,11 +65,12 @@ export default function RegisterStep() {
     //   })
     //   .catch((error) => console.log(error));
   };
+
   return (
     <Wrapper>
       <Fade>
         <Intro>
-          님에게 꼭 맞는 비대면 극장을 추천해드릴게요!
+          {nickname}님에게 꼭 맞는 비대면 극장을 추천해드릴게요!
           <br />
           기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
         </Intro>
