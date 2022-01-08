@@ -1,7 +1,7 @@
+import { client } from "../libs";
 export const LOGIN_USER = "LOGIN_USER";
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
-import { client } from "../libs";
 export function registerUser(dataToSubmit) {
   const request = client.post("/user/register", dataToSubmit).then((response) => response.data);
   return {

@@ -10,3 +10,4 @@ export { default as DetailSelect } from "./registerDetail/DetailSelect";
 export { default as Calendar } from "./registerDetail/Calendar";
 export { default as NoticeSection } from "./theater/NoticeSection";
 export { default as Notice } from "./theater/Notice";
+export { default as Chart } from "./Chart";

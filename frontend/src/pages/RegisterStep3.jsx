@@ -12,12 +12,9 @@ export default function RegisterStep3() {
   const [inputs, setInputs] = useState("");
   const [selectedList, setSelectedList] = useState([]);
 
-  //username, password, nickname,
-  //console.log(inputs);
   useEffect(() => {
     setInputs(location.state.inputs);
   }, []);
-  // console.log(inputs);
 
   useEffect(() => {
     console.log(`inputs`, inputs);
@@ -26,13 +23,12 @@ export default function RegisterStep3() {
   const handleSelect = (id) => {
     setSelectedList((current) => [...current, id]);
   };
-
   const handleSubmit = async () => {
     // 서버로 포스터 데이터 보내주기
     if (selectedList.length !== 8) {
       alert("콘텐츠는 8개를 선택해주세요!");
     } else {
-      const res = await client.post("user/register", { ...inputs, prefer_ott_content_genre: selectedList });
+      const res = await client.post("user/register", { ...inputs, prefer_ott_content_genres: selectedList });
       console.log(`res`, res);
       navigate("/register/done");
     }
@@ -44,7 +40,7 @@ export default function RegisterStep3() {
         <Intro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 8가지를 선택해주세요!</Intro>
         <PosterList selectedList={selectedList} onSelect={handleSelect} inputs={inputs} setInputs={setInputs} />
         <Button isMini={false} onClick={handleSubmit}>
-          로그인
+          회원가입
         </Button>
       </Fade>
     </Wrapper>
