@@ -16,16 +16,14 @@ function Register() {
   const [inputs, setInput] = useState({
     username: "",
     password: "",
-    password2: "",
     nickname: "",
     birthday: "",
     gender: "1",
     watch_time: 1,
-    // usableId: true,
     prefer_ott_content_genres: [],
   });
-  const { username, password, password2, nickname } = inputs;
-
+  const { username, password, nickname } = inputs;
+  const [password2, setPassword1] = useState("");
   const [checkIdLength, setOverIdLength] = useState(false);
   const [checkPwLength, setOverPwLength] = useState(false);
 
@@ -34,7 +32,9 @@ function Register() {
       return true;
     }
   };
-
+  const onChangePass = (e) => {
+    setPassword1(e.target.value);
+  }
   const onChange = (e) => {
     const { value, name } = e.target;
     setInput({
@@ -110,7 +110,7 @@ function Register() {
                 name="password2"
                 type="password"
                 placeholder="비밀번호 확인"
-                onChange={onChange}
+                onChange={onChangePass}
                 value={password2}
               />
               <RegisterInput

@@ -10,10 +10,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from .models import ReviewScore, ReviewScoreT
-from apps.user.models import User
+from apps.user.models import User,PreferOttContentGenre
 from django.db.models import Q # objects.filter할 때 여러 객체일 경우
 from rest_framework.permissions import IsAuthenticated, AllowAny #토큰 있는지 확인 
 from .serializer import ThirdReviewScoreSerializer ,FifthReviewScoreSerializer
+from config.settings import JWT_AUTH
+import jwt
+
+SECRET_KEY=JWT_AUTH['JWT_SECRET_KEY']
+ALGORITHM=JWT_AUTH['JWT_ALGORITHM']
 
 # # 3,5,6,7번 csv DB에 넣기
 # 삭제하지 마세용!! 최초 1회 실행하기
@@ -23,7 +28,7 @@ from .serializer import ThirdReviewScoreSerializer ,FifthReviewScoreSerializer
 #         data=f.readline()
 #         rows=csv.reader(f,delimiter = ',')
 #         for row in rows:
-#             ReviewScoreT.objects.create(
+#             ReviewScore.objects.create(
 #                 review_genre = row[0], 
 #                 average_male = row[1], 
 #                 average_female = row[2], 
@@ -68,16 +73,156 @@ from .serializer import ThirdReviewScoreSerializer ,FifthReviewScoreSerializer
 #                 western= row[22]
 #                 )
 #     return HttpResponse('csv 다운받기 성공')
+def find_age(birthday):
+    today = date.today()
+    search_age=birthday
+    if search_age:
+        search_age = datetime.datetime(search_age,'%Y-%m-%d')
+        search_age = today.year - search_age.year # 23
+        if search_age<20:
+            search_age='average_10s'
+        elif 21<=search_age<30:
+            search_age='average_20s'
+        elif 31<=search_age<40:
+            search_age='average_30s'
+        elif 21<=search_age<30:
+            search_age='average_40s'
+        else:
+            search_age='average_50_up'
 
-# 1번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
-class FirstAnalysisView(APIView):
-    # permission_classes=(AllowAny,)
-    permission_classes=(IsAuthenticated, )
+def find_watch_time(watch_time):
+    if watch_time==0:
+        return '이용하지 않음.'
+    elif watch_time==1:
+        return '6시 ~ 9시'
+    elif watch_time==2:
+        return '9시 ~ 12시'
+    elif watch_time==3:
+        return '12시 ~ 15시'
+    elif watch_time==4:
+        return '15시 ~ 18시'
+    elif watch_time==5:
+        return '18시 ~ 21시'
+    elif watch_time==6:
+        return '21시 ~ 0시'
+    elif watch_time==7:
+        return '0시 ~ 6시'
+
+def find_genre(user_prefer_genres):
+    genre_dict={
+        'drama':0,
+        'comedy':0,
+        'action':0,
+        'thriller':0,
+        'romance':0,
+        'crime':0,
+        'adventure':0,
+        'animation':0,
+        'fantasy':0,
+        'family':0,
+        'sci_fi':0,
+        'mystery':0,
+        'horror':0,
+        'documentary':0,
+        'biography':0,
+        'history':0,
+        'music':0,
+        'short':0,
+        'sport':0,
+        'war':0,
+        'musical':0,
+        'reality_tv':0,
+        'western':0,
+        'game_show':0,
+        'talk_show':0,
+    }
+    for obj in user_prefer_genres:
+        if obj.drama==1:
+            genre_dict['drama']+=1
+        if obj.comedy==1:
+            genre_dict['comedy']+=1
+        if obj.action==1:
+            genre_dict['action']+=1
+        if obj.thriller==1:
+            genre_dict['thriller']+=1
+        if obj.romance==1:
+            genre_dict['romance']+=1
+        if obj.crime==1:
+            genre_dict['crime']+=1
+        if obj.adventure==1:
+            genre_dict['adventure']+=1
+        if obj.animation==1:
+            genre_dict['animation']+=1
+        if obj.fantasy==1:
+            genre_dict['fantasy']+=1
+        if obj.family==1:
+            genre_dict['family']+=1
+        if obj.sci_fi==1:
+            genre_dict['sci_fi']+=1
+        if obj.mystery==1:
+            genre_dict['mystery']+=1
+        if obj.horror==1:
+            genre_dict['horror']+=1
+        if obj.documentary==1:
+            genre_dict['documentary']+=1
+        if obj.biography==1:
+            genre_dict['biography']+=1
+        if obj.history==1:
+            genre_dict['history']+=1
+        if obj.music==1:
+            genre_dict['music']+=1
+        if obj.short==1:
+            genre_dict['short']+=1
+        if obj.sport==1:
+            genre_dict['sport']+=1
+        if obj.war==1:
+            genre_dict['war']+=1
+        if obj.musical==1:
+            genre_dict['musical']+=1
+        if obj.reality_tv==1:
+            genre_dict['reality_tv']+=1
+        if obj.western==1:
+            genre_dict['western']+=1
+        if obj.game_show==1:
+            genre_dict['game_show']+=1
+        if obj.talk_show==1:
+            genre_dict['talk_show']+=1
+    sorted_dict=sorted(genre_dict.items(),key=lambda item: item[1], reverse=True)
+    return [sorted_dict[0][0],sorted_dict[1][0],sorted_dict[2][0]]
+
+
+#1번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
+class FirstAnalysisView(APIView):#figma의 유저설명.
+    serializer_class=FifthReviewScoreSerializer
+    permission_classes=(IsAuthenticated,)
+
     def get(self,request):
-        current_user=request.get('username')  # 현재토큰있는애
-        user=User.objects.get(username=current_user) # 등록된애
-        # return JsonResponse('return success 1st analysis',status=200)
+        token=request.data.get('token')
+        token_str=token.decode('utf-8')
+        payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
+        #payload에 담겨있는 정보: user_id,username
+        user=User.objects.get(id=payload['user_id'])
+        user_username=user.username
+        user_age=find_age(user.birthday)
+        user_watch_time=find_watch_time(user.watch_time)
+        user_prefer_genres=user.prefer_ott_content_genres.all()#PreferOttContentGenre의 id(preferottcontentgenre_id)가 들어있음.
+        
+        #고른 8개의 포스터 중 장르가 가장 많이 겹치는 장르 3개를 영어 형태로 가져옴.
+        user_genres=find_genre(user_prefer_genres)
 
+        response={
+            'success':'true',
+            'message':'맨 위 텍스트를 위한 데이터',
+            'data':{
+                'username':user_username,
+                'age':user_age,
+                'watch_time':user_watch_time,
+                'user_genres':user_genres,
+            }
+        }
+        return Response(response,status=status.HTTP_200_OK)
+
+    
 #         target_analysis_serializer = ReviewScoreSerializer(final_queryset, many=True)
 #         return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
 # # 2번 -> 프론트분이 png 띄울 것 로그인된 유저가 맞는지만 확인해줬다.
@@ -90,7 +235,7 @@ class FirstAnalysisView(APIView):
 #         return JsonResponse('return success 2nd analysis',status=200)
 
 # 3번 ReviewScoreT
-class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/third-analysis?search-gender=average_male&search-age=average_20s
+class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/third-analysis?search-gender=average_female&search-age=1999-04-27
     permission_classes=(AllowAny,)
     # permission_classes=(IsAuthenticated, )
     def get(self,request):
@@ -106,11 +251,19 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
         
         # birthday 로직 #############################################################
         today = date.today()
-        search_age = datetime.datetime.strptime(search_age,'%Y-%m-%d')
-        search_age = today.year - search_age.year # 23
-        if search_age<20:
-            search_age='average_10s'
-
+        if search_age:
+            search_age = datetime.datetime.strptime(search_age,'%Y-%m-%d')
+            search_age = today.year - search_age.year # 23
+            if search_age<20:
+                search_age='average_10s'
+            elif 21<=search_age<30:
+                search_age='average_20s'
+            elif 31<=search_age<40:
+                search_age='average_30s'
+            elif 21<=search_age<30:
+                search_age='average_40s'
+            else:
+                search_age='average_50_up'
         #############################################################################
         if (search_gender==None) & (search_age==None):
             queryset = ReviewScoreT.objects.all()
@@ -143,7 +296,7 @@ class FifthAnalysisView(APIView):
             queryset = ReviewScore.objects.all()
         else:
             queryset = ReviewScore.objects.filter(Q(review_genre=search_genre1)|Q(review_genre=search_genre2)|Q(review_genre=search_genre3))
-        target_analysis_serializer = ThirdReviewScoreSerializer(queryset, many=True)
+        target_analysis_serializer = FifthReviewScoreSerializer(queryset, many=True)
         return Response(target_analysis_serializer.data, status=status.HTTP_200_OK)
 
 
