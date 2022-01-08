@@ -75,6 +75,7 @@ JWT_AUTH={
 INSTALLED_APPS = [
     'apps.user',
     'apps.small_theater',
+    'apps.contents_analysis',
     'rest_framework',
     'rest_framework_jwt',
     'corsheaders',
@@ -161,7 +162,7 @@ DATABASES = {
         'NAME': 'ott_service_database',  # DB이름                
         'USER': 'root', # DB로그인 유저명                          
         'PASSWORD': '2140',  #DB로그인 비밀번호    
-        'HOST': '172.24.52.72',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
+        'HOST': 'localhost',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
         'PORT': '3306',                          
     }
 }
