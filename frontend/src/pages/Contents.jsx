@@ -5,16 +5,23 @@ import { theme } from "styled-tools";
 import { Chart } from "../components";
 import * as images from "../assets/images";
 import { useEffect } from "react";
-import { client } from "../libs";
+import axios from "axios";
 
 export default function Contents() {
   // const [userData, setUserDate] = useState([]);
   const fetchData = async (token) => {
-    const res = client.post("api/contents-analysis/1", token);
-    console.log(`res`, res);
+    axios
+      .post("http://127.0.0.1:8000/api/contents-analysis/3", {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+      .then((res) => console.log(`res`, res))
+      .catch((e) => console.log(`e`, e));
   };
   useEffect(() => {
     const userToken = window.localStorage.getItem("token");
+    console.log(`userToken`, userToken);
     fetchData(userToken);
   }, []);
 
