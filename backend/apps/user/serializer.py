@@ -13,7 +13,7 @@ class PreferOttContentGenreSerializer(serializers.ModelSerializer):
 #회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
 
-    #prefer_ott_content_genre_serializer = PreferOttContentGenreSerializer()
+    #prefer_ott_content_genres=serializers.PrimaryKeyRelatedField(many=True,allow_empty=False)
     class Meta:
         model= User
         fields=[
@@ -22,28 +22,17 @@ class CreateUserSerializer(serializers.ModelSerializer):
             'nickname',
             'birthday',
             'gender',
-            'job',
-            'region',
             'watch_time',
-            #m2m field
+            'prefer_ott_content_genres',
         ]
         extra_kwargs={'password':{'write_only':True}}
         #serializer relations. FK나 m2m field가 바뀜. -> pk related table 생성됨.
         
-#    def validate_username(self,data):
-#        #User테이블에서 입력받은 username(id)값과 같은게 있는지 가져와봄.
-#        user=User.objects.filter(username=data['username'])
-
-        #만약 user가 있다면
-
-#        if user:
-#            raise serializers.ValidationError('해당 아이디가 이미 존재합니다.')
 
     def create(self,validated_data):
-        #username=validated_data['username']
-        #password=validated_data['password']
-        #prefer_ott_content_genre=validated_data['prefer_ott_content_genre']
-        
+        #고른 선호장르 8개의 id가 list형태로 담겨져서 옴.
+        #prefer_ott_content_genres=validated_data['prefer_ott_content_genres']
+
         #validated_data['prefer_ott_content_genres'] -> pk로 보내면 m2m이 어떻게 저장되는지 먼저 확인.
         #오는 값이 pk로 오는지, 아니면 id에 해당하는 object를 가져 오는지 확인. 유효하면, 가져올때 object로 오는지 id로 오는지 확인.
         #m2m으로 매핑되어있어서 동시에 생성이 된다(에러 안남)

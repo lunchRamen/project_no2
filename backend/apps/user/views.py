@@ -64,7 +64,17 @@ APIView -> GenericView -> Concrete View classes -> Viewsets
 class ListContentView(ListAPIView):
     serializer_class=PreferOttContentGenreSerializer
     permission_classes=(AllowAny,)
+    def get_queryset(self):
+        #선호 장르들에 선호장르 정보 모두 다 가져오기
+        queryset=PreferOttContentGenre.objects.all()
+        list_to_set=set([])
 
+        while len(list_to_set)!=40:
+            i=random.randrange(0,129)
+            temp=queryset[i]
+            list_to_set.add(temp)
+
+        return list_to_set
 #    def get(self,request):
 #        #선호 장르들에 선호장르 정보 모두 다 가져오기
 #        queryset=PreferOttContentGenre.objects.all()
@@ -79,60 +89,40 @@ class ListContentView(ListAPIView):
 #        
 #        contents_set_serializer=PreferOttContentGenreSerializer(final_queryset,many=True)
 #        return Response(contents_set_serializer.data,status=status.HTTP_200_OK)
-    def get_queryset(self):
-        #선호 장르들에 선호장르 정보 모두 다 가져오기
-        queryset=PreferOttContentGenre.objects.all()
-        list_to_set=set([])
 
-        while len(list_to_set)!=40:
-            i=random.randrange(0,129)
-            temp=queryset[i]
-            list_to_set.add(temp)
 
-        return list_to_set
-
-class CreateUserView(CreateAPIView):
-    serializer_class=CreateUserSerializer
-    permission_classes=(AllowAny,)
-    
-    #이 함수를 ListAPIView로 만들어야 return에서 self.list가 나옴. 따로 뺴줘야겠다.
-    #유효성 검사 수행.
-    def post(self,request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()#이게 db에 저장하는 코드가 맞는지?
-        #여기엔 이제 user와 prefer_ott_content_genre의 연결테이블에 insert하는.
-        # user=User.objects.get(username=request.data['username']).first()
-        # pocg=PreferOttContentGenre.objects.get(title=request.data['title']).first()
-        # user.prefer_ott_content_genres(user_id=user.id,preferottcontentgenre_id=pocg.id)
-        # user.save()
-
-        status_code=status.HTTP_201_CREATED
-        response={
-            'success':'true',
-            'error':'null',
-            'message':'회원가입 성공',
-            'status_code':status_code
-        }
-        return Response(response,status=status_code)
-
-# class CreateContentView(CreateAPIView):
-#     serializer_class=PreferOttContentGenreSerializer
+# class CreateUserView(CreateAPIView):
+#     serializer_class=CreateUserSerializer
 #     permission_classes=(AllowAny,)
-
-#     def post(self, request):
-#         serializer=self.serializer_class(data=request.data)
+    
+#     #이 함수를 ListAPIView로 만들어야 return에서 self.list가 나옴. 따로 뺴줘야겠다.
+#     #유효성 검사 수행.
+#     def post(self,request):
+#         serializer = self.serializer_class(data=request.data)
 #         serializer.is_valid(raise_exception=True)
-#         serializer.user_id=request.user.id
-#         serializer.save()
+#         serializer.save()#이게 db에 저장하는 코드가 맞는지?
+#         #여기엔 이제 user와 prefer_ott_content_genre의 연결테이블에 insert하는.
+#         # user=User.objects.get(username=request.data['username']).first()
+#         # pocg=PreferOttContentGenre.objects.get(title=request.data['title']).first()
+#         # user.prefer_ott_content_genres(user_id=user.id,preferottcontentgenre_id=pocg.id)
+#         # user.save()
+
 #         status_code=status.HTTP_201_CREATED
 #         response={
 #             'success':'true',
 #             'error':'null',
-#             'message':'회원가입 선호장르 입력 성공',
+#             'message':'회원가입 성공',
 #             'status_code':status_code
 #         }
 #         return Response(response,status=status_code)
+
+class CreateUserView(CreateAPIView):
+    serializer_class=CreateUserSerializer
+    queryset=User.objects.all()
+    permission_classes=(AllowAny,)
+
+
+
 
 class LoginUserView(APIView):
     serializer_class = LoginUserSerializer
