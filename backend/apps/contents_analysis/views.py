@@ -201,7 +201,7 @@ class FirstAnalysisView(APIView):#figma의 유저설명.
         # token_str=token.decode('utf-8')
         # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
         #payload에 담겨있는 정보: user_id,username
-        user=User.objects.get(id=3)
+        user=User.objects.get(id=6)
         user_username=user.username
         user_age=find_age(user.birthday)
         user_watch_time=find_watch_time(user.watch_time)
@@ -246,7 +246,7 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
         # token=request.data.get('token')
         # token_str=token.decode('utf-8')
         # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
-        user=User.objects.get(id=3)
+        user=User.objects.get(id=6)
 
         #search_gender = request.GET.get('search-gender') # 이건 URL검색으로 할 때
         if user.gender=='male':
@@ -302,7 +302,7 @@ class FifthAnalysisView(APIView):
         # token=request.data.get('token')
         # token_str=token.decode('utf-8')
         # payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
-        user=User.objects.get(id=3)
+        user=User.objects.get(id=6)
         user_prefer_genres=user.prefer_ott_content_genres.all()
         user_genres=find_genre(user_prefer_genres)
 
