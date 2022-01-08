@@ -75,6 +75,7 @@ JWT_AUTH={
 INSTALLED_APPS = [
     'apps.user',
     'apps.small_theater',
+    'apps.contents_analysis',
     'rest_framework',
     'rest_framework_jwt',
     'corsheaders',
