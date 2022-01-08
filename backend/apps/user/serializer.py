@@ -38,10 +38,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
 
 
-
-
-
-
 #접속 유지 확인용
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
