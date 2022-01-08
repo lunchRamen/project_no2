@@ -24,6 +24,7 @@ function Login() {
       [name]: value,
     });
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     let body = {
@@ -47,7 +48,7 @@ function Login() {
 
   return (
     <StyledContainer>
-      <div>
+      <div style={{ padding: "40rem 0" }}>
         <form onSubmit={onSubmit} style={{ textAlign: "center" }}>
           <LoginInput
             type="text"
@@ -69,13 +70,16 @@ function Login() {
         </form>
         <StyledDiv>
           <Link to="/register/step1">
-            <StyledSpan>식스맨 극장에 처음이신가요?</StyledSpan>회원가입
+            <StyledSpan>식스맨 극장에 처음이신가요? 회원가입</StyledSpan>
           </Link>
         </StyledDiv>
       </div>
     </StyledContainer>
   );
 }
+
+export default Login;
+
 const StyledDiv = styled.div`
   text-align: center;
   margin-top: 2rem;
@@ -83,11 +87,11 @@ const StyledDiv = styled.div`
   font-size: 1.6rem;
   ${theme("neons.textNeonGold")};
 `;
+
 const StyledSpan = styled.span`
   color: white;
   font-weight: 300;
   margin-right: 1rem;
   letter-spacing: -0.05rem;
+  ${theme("fonts.textP")}
 `;
-
-export default Login;

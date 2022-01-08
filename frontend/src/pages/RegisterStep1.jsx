@@ -22,9 +22,9 @@ function Register() {
     gender: "1",
     watch_time: 1,
     // usableId: true,
-    prefer_ott_content_genre: [1],
+    prefer_ott_content_genres: [],
   });
-  const { username, password, password2, nickname, usableId } = inputs;
+  const { username, password, password2, nickname } = inputs;
 
   const [checkIdLength, setOverIdLength] = useState(false);
   const [checkPwLength, setOverPwLength] = useState(false);
@@ -40,7 +40,6 @@ function Register() {
     setInput({
       ...inputs,
       [name]: value,
-      usableId: usableId,
     });
     // console.log(inputs);
     const isUserIdOverLength = isOverLength(inputs.username.length, 8);
@@ -73,7 +72,6 @@ function Register() {
       return;
     }
     if (password === password2) {
-      // console.log(password, password2);
       navigate("/register/step2", { state: { inputs: inputs } });
       return;
     }
@@ -125,7 +123,7 @@ function Register() {
               />
             </StyledBox>
             <ButtonWrap>
-              <Button isMini={false} onClick={PwCheck}>
+              <Button isMini={true} onClick={PwCheck}>
                 다음으로(1/3)
               </Button>
             </ButtonWrap>
@@ -135,6 +133,9 @@ function Register() {
     </>
   );
 }
+
+export default Register;
+
 const Wrap = styled.main`
   display: flex;
   flex-direction: column;
@@ -153,5 +154,3 @@ const ButtonWrap = styled.div`
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};
 `;
-
-export default Register;

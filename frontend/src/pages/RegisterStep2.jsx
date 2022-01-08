@@ -75,7 +75,7 @@ export default function RegisterStep() {
           기본적인 정보만을 수집하고, 분석 이외의 목적으로는 절대 사용되지 않습니다.
         </Intro>
         <SelectList data={TEMP_SELECTION_DATA} inputs={inputs} setInputs={setInputs} />
-        <Button isMini={false} onClick={SignUp}>
+        <Button isMini={true} onClick={SignUp}>
           다음으로(2/3)
         </Button>
       </Fade>

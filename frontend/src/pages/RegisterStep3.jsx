@@ -4,7 +4,7 @@ import { theme } from "styled-tools";
 import { useNavigate, useLocation } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Button, PosterList } from "../components";
-import { client } from "../libs";
+// import { client } from "../libs";
 
 export default function RegisterStep3() {
   const navigate = useNavigate();
@@ -32,8 +32,10 @@ export default function RegisterStep3() {
     if (selectedList.length !== 8) {
       alert("콘텐츠는 8개를 선택해주세요!");
     } else {
-      const res = await client.post("user/register", { ...inputs, prefer_ott_content_genre: selectedList });
-      console.log(`res`, res);
+      const postData = { ...inputs, prefer_ott_content_genres: selectedList };
+      delete postData.password2;
+      console.log(`postData`, postData);
+      // await client.post("user/register", postData);
       navigate("/register/done");
     }
   };
@@ -43,7 +45,7 @@ export default function RegisterStep3() {
       <Fade>
         <Intro>다음 중 가장 좋아하는 또는 재밌을 것 같은 영화 8가지를 선택해주세요!</Intro>
         <PosterList selectedList={selectedList} onSelect={handleSelect} inputs={inputs} setInputs={setInputs} />
-        <Button isMini={false} onClick={handleSubmit}>
+        <Button isMini={true} onClick={handleSubmit}>
           로그인
         </Button>
       </Fade>

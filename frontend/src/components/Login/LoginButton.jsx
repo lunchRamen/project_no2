@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { ifProp, theme } from "styled-tools";
 
-export default function Button({ isMini, onClick, children }) {
-  return (
-    <StWrapper isMini={isMini} onClick={onClick}>
-      {children}
-    </StWrapper>
-  );
+export default function Button({ isMini, children }) {
+  return <StWrapper isMini={isMini}>{children}</StWrapper>;
 }
 
 const StWrapper = styled.button`
