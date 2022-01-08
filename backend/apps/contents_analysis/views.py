@@ -236,16 +236,26 @@ class FirstAnalysisView(APIView):#figma의 유저설명.
 
 # 3번 ReviewScoreT
 class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/third-analysis?search-gender=average_female&search-age=1999-04-27
-    permission_classes=(AllowAny,)
-    # permission_classes=(IsAuthenticated, )
+    #permission_classes=(AllowAny,)
+    permission_classes=(IsAuthenticated, )
     def get(self,request):
         # 토큰 current_user=request.GET.get('username')  # 현재토큰있는애
         # 토큰 user=User.objects.get(username=current_user) # 등록된애
         # search_gender_ver1= request.get('gender') #'1' 토큰 아직 안될 때
         # search_gender_ver2 = user.gender 토큰 성공 후
+        token=request.data.get('token')
+        token_str=token.decode('utf-8')
+        payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
+        user=User.objects.get(id=payload['user_id'])
 
-        search_gender = request.GET.get('search-gender') # 이건 URL검색으로 할 때
-        search_age = request.GET.get('search-age') #'1999-04-27'
+        #search_gender = request.GET.get('search-gender') # 이건 URL검색으로 할 때
+        if user.gender=='male':
+            search_gender='average_male'
+        elif user.gender=='female':
+            search_gender='average_female'
+
+        #search_age = request.GET.get('search-age') #'1999-04-27'
+        search_age=user.birthday
 
         # search_age_ver2 = request['birthday'] # 이건 훈님이 보내주시는 request로 할 때
         
@@ -284,14 +294,25 @@ class ThirdAnalysisView(APIView): # http://127.0.0.1:8000/api/contents-analysis/
 
 # 5번 ReviewScore
 class FifthAnalysisView(APIView):
-    permission_classes=(AllowAny,)
-    # permission_classes=(IsAuthenticated, ) #로그인 한 사람만 하게끔(small-theater는 AlloAny였다.)
+    #permission_classes=(AllowAny,)
+    permission_classes=(IsAuthenticated, ) #로그인 한 사람만 하게끔(small-theater는 AlloAny였다.)
     def get(self,request):
         # current_user=request.GET.get('username')  # 현재토큰있는애
         # user=User.objects.get(username=current_user) # 등록된애
-        search_genre1 = request.GET.get('search-genre1')
-        search_genre2 = request.GET.get('search-genre2')
-        search_genre3 = request.GET.get('search-genre3')
+        token=request.data.get('token')
+        token_str=token.decode('utf-8')
+        payload=jwt.decode(token_str,SECRET_KEY,ALGORITHM)
+        user=User.objects.get(id=payload['user_id'])
+        user_prefer_genres=user.prefer_ott_content_genres.all()
+        user_genres=find_genre(user_prefer_genres)
+
+        #search_genre1 = request.GET.get('search-genre1')
+        #search_genre2 = request.GET.get('search-genre2')
+        #search_genre3 = request.GET.get('search-genre3')
+        search_genre1=user_genres[0]
+        search_genre2=user_genres[1]
+        search_genre3=user_genres[2]
+
         if (search_genre1==None) & (search_genre2==None) & (search_genre3==None):
             queryset = ReviewScore.objects.all()
         else:
