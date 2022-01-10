@@ -40,6 +40,7 @@ APPEND_SLASH = False
 
 # CORS
 # 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
+
 CORS_ORIGIN_WHITELIST = env.get(
     "CORS_WHITELIST", default="http://localhost:8000"
 ).split(",")
@@ -214,7 +215,6 @@ USE_TZ = False
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
