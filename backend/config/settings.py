@@ -29,7 +29,7 @@ SECRET_KEY = env.get("DJANGO_SECRET_KEY", default="secret key here")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [env.get("ALLOWED_HOSTS",default="*").split(",")] # ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있도록 설정
+ALLOWED_HOSTS = env.get("ALLOWED_HOSTS",default="*").split(",") # ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있도록 설정
 # ( * 은 모든 호스트가 접근 가능합니다)
 
 APPEND_SLASH=False
