@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 import datetime
+# drf <-> 리엑트 연동 https://this-programmer.tistory.com/135
 
 env = os.environ
 
@@ -24,19 +25,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret! 
 SECRET_KEY = env.get("DJANGO_SECRET_KEY", default="secret key here") 
-#print(SECRET_KEY)
+# print(SECRET_KEY) 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] # ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있도록 설정
+# ( * 은 모든 호스트가 접근 가능합니다)
 
 APPEND_SLASH=False
 #react의 경우 SPA라 /가 필요 없는데, 원래 True로 자동 설정이라
 #이렇게 주소 접근하면 페이지를 찾을 수 없기 때문에.
 
-CORS_ORIGIN_WHITELIST=['http://localhost:3000']
-#corsheaders로 django와 react(3000번포트) 연결.
-
+# CORS
+# 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:8000','http://localhost:8000']
+# 2. 개발일 경우
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -70,6 +75,7 @@ JWT_AUTH={
 INSTALLED_APPS = [
     'apps.user',
     'apps.small_theater',
+    'apps.contents_analysis',
     'rest_framework',
     'rest_framework_jwt',
     'corsheaders',
@@ -82,17 +88,29 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# REST_FRAMEWORK ={ # 블로그 보고 추가한 부분
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.AllowAny',
+#     ]
+# }
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # CORS 추가
+    'django.middleware.common.CommonMiddleware', # 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# 리엑트랑 장고 같이 돌리기 이제부터는 frontend요청을 처리할 웹서버와 backend api요청을 처리할 두 개의 웹서버가 작동돼야한다. 
+# 장고 : project-template/backend$ python3 manage.py runserver
+# 리엑트 : project-template/frontend$ yarn start
+# 리엑트가 받을 때 const response = await fetch('http://127.0.0.1:8000/small-theater');
+# const 변수 = await response.json();
+
 
 ROOT_URLCONF = 'config.urls'
 AUTH_USER_MODEL = 'user.User'
@@ -100,7 +118,13 @@ AUTH_USER_MODEL = 'user.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS' : [],
+        # 'DIRS': [
+        #     os.path.join(BASE_DIR / 'templates'),
+        # ], #templates안에 app에 관한 html들
+        # 'DIRS' : [
+        #     os.path.join(BASE_DIR, 'frontend','build'), #장고템플릿X 리엑트템플릿O 경로변경
+        # ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,6 +136,12 @@ TEMPLATES = [
         },
     },
 ]
+
+#리엑트템플릿 경로추가
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+# ]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -128,15 +158,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default' : {
-        'ENGINE': 'django.db.backends.mysql',    
-        'NAME': 'ott_service_database',                  
-        'USER': 'root',                          
-        'PASSWORD': '2140',                  
-        'HOST': '172.28.83.142',                     
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'ott_service_database',  # DB이름                
+        'USER': 'soryeongk', # DB로그인 유저명                          
+        'PASSWORD': 'soryeongk1234',  #DB로그인 비밀번호    
+        'HOST': 'localhost',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
         'PORT': '3306',                          
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -156,6 +185,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AUTH_USER_MODEL = 'user.User' # 속성은 User가 가지고 있는게 아니라 User가 상속받는 AbstractUser가 다 가지고 있다. 즉, User는 기능이 없는 깡통 수준이고, 장고 내부에 세팅된 값이라 변경도 불가능하다.
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -171,8 +201,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-#이걸 False로 해야 우리나라 시간을 가져온다고 함.
-
+# 이걸 False로 해야 우리나라 시간을 가져온다
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

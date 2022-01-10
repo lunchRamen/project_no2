@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "styled-tools";
 import { logo, footer } from "../assets/images";
-
+import { Link } from "react-router-dom";
 export default function Landing() {
   return (
     <Wrap>
@@ -10,8 +10,12 @@ export default function Landing() {
         <p>코로나로 지친 당신을 위한 비대면 극장 식스맨입니다.</p>
       </LandingPage>
       <ButtonWrapper>
-        <LandingButton>로그인</LandingButton>
-        <LandingButton>회원가입</LandingButton>
+        <Link to="/login">
+          <LandingButton>로그인</LandingButton>
+        </Link>
+        <Link to="/register/step1">
+          <LandingButton>회원가입</LandingButton>
+        </Link>
       </ButtonWrapper>
     </Wrap>
   );
@@ -41,13 +45,12 @@ const LandingPage = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 4rem;
-  height: 33rem;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12rem;
+  margin-bottom: 10rem;
   width: 87rem;
   ${theme("fonts.textH2")}
   ${theme("neons.textNeonGold")};

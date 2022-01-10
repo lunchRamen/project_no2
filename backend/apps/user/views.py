@@ -6,11 +6,13 @@ from .models import User,PreferOttContentGenre
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView,View
-from rest_framework.generics import CreateAPIView
+from rest_framework import viewsets
+from rest_framework.generics import CreateAPIView, GenericAPIView,ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
-from .serializer import CreateUserSerializer, UserSerializer, LoginUserSerializer,PreferOttContentGenreSerializer
+from .serializer import CreateUserSerializer, LoginUserSerializer,PreferOttContentGenreSerializer
 import csv
+import random
 
 """
 View에도 Model처럼 4계층으로 상속이 진행됨.
@@ -58,40 +60,50 @@ APIView -> GenericView -> Concrete View classes -> Viewsets
 #             )
 #     return HttpResponse('csv변환 완료')
 
-class CreateUserView(CreateAPIView):
-    serializer_class=CreateUserSerializer
-    permission_classes=(AllowAny,)
 
-    #유효성 검사 수행.
-    def post(self,request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()#이게 db에 저장하는 코드가 맞는지?
-        status_code=status.HTTP_201_CREATED
-        response={
-            'success':'true',
-            'error':'null',
-            'message':'회원가입 성공',
-            'status_code':status_code
-        }
-        return Response(response,status=status_code)
-
-class CreateContentView(CreateAPIView):
+class ListContentView(ListAPIView):
     serializer_class=PreferOttContentGenreSerializer
     permission_classes=(AllowAny,)
+    def get_queryset(self):
+        #선호 장르들에 선호장르 정보 모두 다 가져오기
+        queryset=PreferOttContentGenre.objects.all()
+        list_to_set=set([])
 
-    def post(self, request):
-        serializer=self.serializer_class(data=request.data)
+        while len(list_to_set)!=40:
+            i=random.randrange(0,129)
+            temp=queryset[i]
+            list_to_set.add(temp)
+
+        return list_to_set
+
+
+
+class CreateUserView(CreateAPIView):
+    serializer_class=CreateUserSerializer
+    queryset=User.objects.all()
+    permission_classes=(AllowAny,)
+    
+
+
+
+class LoginUserView(APIView):
+    serializer_class = LoginUserSerializer
+    permission_classes=(AllowAny,)
+
+    def post(self,request):
+        #deserialize.
+        username=request.data.get('username')
+        password=request.data.get('password')
+
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.user_id=request.user.id
-        serializer.save()
-        status_code=status.HTTP_201_CREATED
         response={
             'success':'true',
             'error':'null',
-            'message':'회원가입 선호장르 입력 성공',
-            'status_code':status_code
+            'status_code':status.HTTP_200_OK,
+            'message':'유저 로그인 및 jwt 토큰 발급 완료!',
+            'token':serializer.data['token'],
+            'data':serializer.errors
         }
+        status_code=status.HTTP_200_OK
         return Response(response,status=status_code)
-
-

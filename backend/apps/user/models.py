@@ -37,41 +37,7 @@ class UserManager(BaseUserManager):
         #user.is_superuser=True
         #user.save(self._db)
         return user
-        
 
-
-class User(AbstractBaseUser):
-    class Meta:
-        db_table='user'
-
-    #id=models.AutoField(primary_key=True)
-    username=models.CharField(max_length=50,unique=True)
-    
-    nickname_validator=NickNameValidator()
-    nickname=models.CharField(
-        max_length=50,
-        validators=[nickname_validator]
-    )
-
-    birthday=models.DateField(null=True, blank=True)
-    gender=models.CharField(max_length=50,null=True, blank=True)
-    job=models.CharField(max_length=50,null=True, blank=True)
-    region=models.CharField(max_length=50,null=True, blank=True)
-    watch_time=models.IntegerField(null=True, blank=True)
-
-    #user_prefer_ott_content_genre_1=models.OneToOneField()
-
-    is_active=models.BooleanField(default=True)
-    is_admin=models.BooleanField(default=False)
-    is_staff=models.BooleanField(default=False)
-
-    objects=UserManager()
-
-    USERNAME_FIELD='username'
-    REQUIRED_FIELDS=[]
-
-    def __str__(self):
-        return self.nickname
 
 class PreferOttContentGenre(models.Model):
     #id=models.AutoField(primary_key=True)
@@ -105,7 +71,41 @@ class PreferOttContentGenre(models.Model):
     game_show=models.IntegerField(null=True, blank=True)
     talk_show=models.IntegerField(null=True, blank=True)
 
-    img_link=models.CharField(max_length=256,null=True, blank=True)
+    img_link=models.CharField(max_length=256,null=True, blank=True)    
+
+
+class User(AbstractBaseUser,PermissionsMixin):
+    class Meta:
+        db_table='user'
+
+    #id=models.AutoField(primary_key=True)
+    username=models.CharField(max_length=50,unique=True)
+    
+    nickname_validator=NickNameValidator()
+    nickname=models.CharField(
+        max_length=50,
+        validators=[nickname_validator]
+    )
+
+    birthday=models.DateField(null=True, blank=True)
+    gender=models.CharField(max_length=50,null=True, blank=True)
+    watch_time=models.IntegerField(null=True, blank=True)
+
+    is_active=models.BooleanField(default=True)
+    is_admin=models.BooleanField(default=False)
+    is_staff=models.BooleanField(default=False)
+
+    prefer_ott_content_genres=models.ManyToManyField(PreferOttContentGenre)
+
+    objects=UserManager()
+
+    USERNAME_FIELD='username'
+    REQUIRED_FIELDS=[]
+
+    def __str__(self):
+        return self.nickname
+
+
 
 
 
