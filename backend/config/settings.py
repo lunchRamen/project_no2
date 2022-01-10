@@ -159,11 +159,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'ott_service_database',  # DB이름                
-        'USER': 'soryeongk', # DB로그인 유저명                          
-        'PASSWORD': 'soryeongk1234',  #DB로그인 비밀번호    
-        'HOST': 'localhost',  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
-        'PORT': '3306',                          
+        'NAME': env.get("MYSQL_DATABASE"),  # DB이름                
+        'USER': env.get("MYSQL_USER"), # DB로그인 유저명                          
+        'PASSWORD': env.get("MYSQL_PASSWORD"),  #DB로그인 비밀번호    
+        'HOST': env.get("MYSQL_HOST"),  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜                   
+        'PORT': env.get("MYSQL_PORT",default="3306"),                          
     }
 }
 
