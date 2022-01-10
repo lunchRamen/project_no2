@@ -30,7 +30,8 @@ SECRET_KEY = env.get("DJANGO_SECRET_KEY", default="secret key here")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []  # ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있도록 설정
+ALLOWED_HOSTS = env.get("ALLOWED_HOSTS", default="*").split(",")
+# ALLOWED_HOSTS 는 원하는 호스트가 접근할 수 있도록 설정
 # ( * 은 모든 호스트가 접근 가능합니다)
 
 APPEND_SLASH = False
@@ -39,12 +40,9 @@ APPEND_SLASH = False
 
 # CORS
 # 1. 배포용일 경우 'google.com' , 'hostname.example.com' 등
-CORS_ORIGIN_WHITELIST = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-]
+CORS_ORIGIN_WHITELIST = env.get(
+    "CORS_WHITELIST", default="http://localhost:8000"
+).split(",")
 # 2. 개발일 경우
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -107,6 +105,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 # 리엑트랑 장고 같이 돌리기 이제부터는 frontend요청을 처리할 웹서버와 backend api요청을 처리할 두 개의 웹서버가 작동돼야한다.
@@ -163,11 +162,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "ott_service_database",  # DB이름
-        "USER": "soryeongk",  # DB로그인 유저명
-        "PASSWORD": "soryeongk1234",  # DB로그인 비밀번호
-        "HOST": "localhost",  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜
-        "PORT": "3306",
+        "NAME": env.get("MYSQL_DATABASE"),  # DB이름
+        "USER": env.get("MYSQL_USER"),  # DB로그인 유저명
+        "PASSWORD": env.get("MYSQL_PASSWORD"),  # DB로그인 비밀번호
+        "HOST": env.get("MYSQL_HOST"),  # 172.30.106.202 얘는 내 윈도우데스크탑 켜고끌때마다 바뀜
+        "PORT": env.get("MYSQL_PORT", default="3306"),
     }
 }
 
@@ -213,6 +212,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
